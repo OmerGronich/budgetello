@@ -14,7 +14,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@budgetello/ui/kanban-board": ["libs/ui/kanban-board/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

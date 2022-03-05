@@ -1,0 +1,28 @@
+{
+  "root": "apps/ui-kanban-board-e2e",
+  "sourceRoot": "apps/ui-kanban-board-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/ui-kanban-board-e2e/cypress.json",
+        "devServerTarget": "ui-kanban-board:storybook"
+      },
+      "configurations": {
+        "ci": {
+          "devServerTarget": "ui-kanban-board:storybook:ci"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/ui-kanban-board-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["ui-kanban-board"]
+}

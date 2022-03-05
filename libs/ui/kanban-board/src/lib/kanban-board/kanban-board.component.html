@@ -1,0 +1,32 @@
+<div
+  class="board"
+  cdkDropList
+  cdkDropListOrientation="horizontal"
+  cdkDropListGroup
+  (cdkDropListDropped)="dropList($event)"
+>
+  <div
+    class="list"
+    cdkDrag
+    *ngFor="let list of lists"
+  >
+    <p class="list-title">
+      {{list.title}}
+    </p>
+    <div
+      class="cards"
+      cdkDropList
+      [cdkDropListData]="list.cards"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <div
+        class="card"
+        cdkDrag
+        *ngFor="let card of list.cards"
+      >
+        <p>{{card.title}}</p>
+      </div>
+    </div>
+  </div>
+
+</div>

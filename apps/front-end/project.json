@@ -18,7 +18,7 @@
           "apps/front-end/src/favicon.ico",
           "apps/front-end/src/assets"
         ],
-        "styles": ["apps/front-end/src/styles.scss"],
+        "styles": ["apps/front-end/src/styles.scss", "libs/ui/reset/index.scss"],
         "scripts": []
       },
       "configurations": {
