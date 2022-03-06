@@ -6,7 +6,9 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/front-end",
         "index": "apps/front-end/src/index.html",
@@ -18,7 +20,12 @@
           "apps/front-end/src/favicon.ico",
           "apps/front-end/src/assets"
         ],
-        "styles": ["apps/front-end/src/styles.scss", "libs/ui/reset/index.scss"],
+        "styles": [
+          "node_modules/primeicons/primeicons.css",
+          "node_modules/primeng/resources/themes/bootstrap4-dark-blue/theme.css",
+          "node_modules/primeng/resources/primeng.min.css",
+          "apps/front-end/src/styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {
@@ -83,7 +90,9 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/front-end"],
+      "outputs": [
+        "coverage/apps/front-end"
+      ],
       "options": {
         "jestConfig": "apps/front-end/jest.config.js",
         "passWithNoTests": true

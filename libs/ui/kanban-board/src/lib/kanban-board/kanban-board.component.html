@@ -24,7 +24,7 @@
         cdkDrag
         *ngFor="let card of list.cards"
       >
-        <p>{{card.title}}</p>
+        <ng-container *ngTemplateOutlet="cardTemplate; context: { $implicit: card }"></ng-container>
       </div>
     </div>
   </div>
