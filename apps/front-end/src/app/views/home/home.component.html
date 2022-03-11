@@ -1,0 +1,15 @@
+<!--Temporary ! create a dynamic board associated to a user => one user > many boards-->
+<budgetello-kanban-board
+  class="kanban-board"
+  [lists]="lists"
+>
+  <ng-template kanbanTemplate="card" let-card>
+    <div class="card-layout">
+      <div class="card-header">
+        <div class="card-title">
+          <p>{{card | json}}</p>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</budgetello-kanban-board>

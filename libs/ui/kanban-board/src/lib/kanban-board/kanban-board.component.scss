@@ -1,4 +1,10 @@
 
+@mixin card {
+  background: var(--surface-overlay);
+  border-radius: 4px;
+  padding: 8px;
+}
+
 :host {
   height: 100%;
   width: 100%;
@@ -9,13 +15,12 @@
   height: 100%;
   display: flex;
   flex-direction: row;
-  border-radius: 4px;
   overflow: hidden;
   gap: 20px;
+  align-items: flex-start;
 }
 
 .list {
-  padding: 20px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,6 +29,18 @@
   cursor: move;
   flex-grow: 1;
   flex-basis: 0;
+  background: var(--surface-card);
+  border-radius: 4px;
+  padding: 16px;
+  max-width: 250px;
+
+  .card {
+    @include card;
+  }
+}
+
+.cards:empty {
+  padding-bottom: 50px;
 }
 
 .cards {
@@ -32,13 +49,6 @@
   flex-direction: column;
   gap: 10px;
   flex: 1;
-}
-
-.cdk-drag-preview {
-  box-sizing: border-box;
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-  0 8px 10px 1px rgba(0, 0, 0, 0.14),
-  0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
 .cdk-drag-animating {
@@ -50,14 +60,21 @@
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.cdk-drag-placeholder{
-  background: rgba(0, 0, 0, 0.5);
+.card.cdk-drag-preview {
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+  0 8px 10px 1px rgba(0, 0, 0, 0.14),
+  0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  @include card;
 }
 
-::ng-deep {
-  .cdk-drag-placeholder * {
-    opacity: 0;
-    color: transparent;
-  }
+:host ::ng-deep .cdk-drag-placeholder * {
+  opacity: 0;
+  color: transparent;
+}
 
+.list.add {
+  opacity: 0.3;
+  border: 1px dashed var(--gray-700);
+  align-items: flex-start;
+  cursor: pointer;
 }

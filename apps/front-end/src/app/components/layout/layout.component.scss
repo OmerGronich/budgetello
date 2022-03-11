@@ -1,0 +1,6 @@
+@use 'apps/front-end/src/assets/styles/mixins.scss';
+
+.content {
+  @include mixins.flex-column;
+  flex: 1;
+}

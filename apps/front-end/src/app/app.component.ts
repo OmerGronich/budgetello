@@ -8,10 +8,4 @@ import {IKanbanBoardList} from "@budgetello/ui/kanban-board";
 })
 export class AppComponent {
 
-  lists: IKanbanBoardList[] = [
-    {title: 'To Do', cards: [{title: 'Write app'}, {title: 'Write docs'}]},
-    {title: 'In Progress', cards: [{title: 'Code app'}]},
-    {title: 'Done', cards: [{title: 'Test app'}]}
-  ];
-
 }
