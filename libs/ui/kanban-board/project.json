@@ -6,7 +6,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/ui/kanban-board"],
+      "outputs": [
+        "coverage/libs/ui/kanban-board"
+      ],
       "options": {
         "jestConfig": "libs/ui/kanban-board/jest.config.js",
         "passWithNoTests": true
@@ -39,7 +41,9 @@
     },
     "build-storybook": {
       "executor": "@nrwl/storybook:build",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "uiFramework": "@storybook/angular",
         "outputPath": "dist/storybook/ui-kanban-board",

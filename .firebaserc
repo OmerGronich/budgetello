@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "budgetello": {
+      "hosting": {
+        "front-end": [
+          "budgetello"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "budgetello"
+  }
+}

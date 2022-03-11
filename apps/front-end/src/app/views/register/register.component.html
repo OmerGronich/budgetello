@@ -9,7 +9,6 @@
     [formGroup]="form"
     (submit)="onSubmit($event)"
   >
-
     <!-- EMAIL -->
     <div class="p-float-label p-input-icon-right mb-20">
       <input
@@ -32,41 +31,20 @@
           'error': form.controls['password'].invalid && form.controls['password'].dirty
         }"
       >
-        <ng-template pTemplate="header"></ng-template>
+        <ng-template pTemplate="header">
+        </ng-template>
         <ng-template pTemplate="footer">
-          <ul class="password-suggestions my-20">
-            <li>
-              <ng-container *ngIf="hasLowerCase$ | async; else invalid">
-                <ng-container *ngTemplateOutlet="valid"></ng-container>
-              </ng-container>
-              At least one lowercase
-            </li>
-            <li>
-              <ng-container *ngIf="hasUpperCase$ | async; else invalid">
-                <ng-container *ngTemplateOutlet="valid"></ng-container>
-              </ng-container>
-              At least one uppercase
-            </li>
-            <li>
-              <ng-container *ngIf="hasNumber$ | async; else invalid">
-                <ng-container *ngTemplateOutlet="valid"></ng-container>
-              </ng-container>
-              At least one numeric
-            </li>
-            <li>
-              <ng-container *ngIf="hasMinimum$ | async; else invalid">
-                <ng-container *ngTemplateOutlet="valid"></ng-container>
-              </ng-container>
-              Minimum 8 characters
-            </li>
-          </ul>
+          <p-divider></p-divider>
+          <budgetello-password-suggestions
+            [suggestions]="passwordSuggestions"
+          ></budgetello-password-suggestions>
         </ng-template>
       </p-password>
       <label for="password">Password</label>
     </div>
 
 
-    <!-- PASSWORD -->
+    <!-- VERIFY PASSWORD -->
     <div class="p-float-label mb-20">
       <p-password
         [feedback]="false"
@@ -81,16 +59,10 @@
       <label for="verify">Verify password</label>
     </div>
 
-    <p-button type="submit" label="Sign up" ></p-button>
+    <p-button type="submit" label="Sign up"></p-button>
   </form>
+
   <p-divider align="center">
     <b>OR</b>
   </p-divider>
 </div>
-
-
-
-<ng-template #valid>✅</ng-template>
-<ng-template #invalid>🙅</ng-template>
-
-

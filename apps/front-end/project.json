@@ -97,6 +97,16 @@
         "jestConfig": "apps/front-end/jest.config.js",
         "passWithNoTests": true
       }
+    },
+    "deploy": {
+      "executor": "@angular/fire:deploy",
+      "options": {
+        "prerender": false,
+        "ssr": false,
+        "browserTarget": "front-end:build:production",
+        "firebaseProject": "budgetello",
+        "firebaseHostingSite": "budgetello"
+      }
     }
   },
   "tags": []
