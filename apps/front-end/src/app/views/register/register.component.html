@@ -60,16 +60,9 @@
   </p-divider>
 
   <div class="authentication-providers">
-    <div class="google">
-      <button
-        pButton
-        class="center"
-        label="Sign in with google"
-        (click)="signInWithGoogle($event)"
-      >
-        <img src="/assets/images/google.png" alt="google" />
-      </button>
-    </div>
+    <budgetello-sign-in-with-google
+      (clicked)="signInWithGoogle($event)"
+    ></budgetello-sign-in-with-google>
   </div>
 
   <p class="mt-20 fs-12 text-center">

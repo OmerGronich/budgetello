@@ -14,6 +14,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageModule } from 'primeng/message';
 import { RouterModule } from '@angular/router';
 import { TitleModule } from '../../components/title/title.module';
+import { SignInWithGoogleModule } from '../../components/buttons/sign-in-with-google/sign-in-with-google.module';
 
 @NgModule({
   declarations: [RegisterComponent],
@@ -32,6 +33,7 @@ import { TitleModule } from '../../components/title/title.module';
     MessageModule,
     RouterModule,
     TitleModule,
+    SignInWithGoogleModule,
   ],
 })
 export class RegisterModule {}

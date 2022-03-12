@@ -9,6 +9,7 @@ import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
 import { RouterModule } from '@angular/router';
 import { TitleModule } from '../../components/title/title.module';
+import { SignInWithGoogleModule } from '../../components/buttons/sign-in-with-google/sign-in-with-google.module';
 
 @NgModule({
   declarations: [LoginComponent],
@@ -22,6 +23,7 @@ import { TitleModule } from '../../components/title/title.module';
     ButtonModule,
     RouterModule,
     TitleModule,
+    SignInWithGoogleModule,
   ],
 })
 export class LoginModule {}

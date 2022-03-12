@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { BaseReactiveFormDirective } from '../../directives/base-reactive-form.directive';
 import { ToastService } from '../../services/toast.service';
 import FirebaseError = firebase.FirebaseError;
+import { STRONG_PASSWORD_PATTERN } from '../../constants';
 
 @Component({
   selector: 'budgetello-register',
@@ -88,9 +89,7 @@ export class RegisterComponent
         email: new FormControl('', [Validators.required, Validators.email]),
         password: new FormControl('', [
           Validators.required,
-          Validators.pattern(
-            /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})./
-          ),
+          Validators.pattern(STRONG_PASSWORD_PATTERN),
         ]),
         verify: new FormControl('', [Validators.required]),
       },
@@ -132,11 +131,7 @@ export class RegisterComponent
   async onRegister($event: SubmitEvent) {
     $event.preventDefault();
 
-    const invalidControls = this.getInvalidFormControls(this.form);
-
-    for (const invalidControl of invalidControls) {
-      invalidControl.markAsDirty();
-    }
+    this.markInvalidControlsAsDirty(this.form);
 
     this.handlePasswordsDoNotMatchError();
     this.handleEmailAlreadyInUseError();
@@ -180,6 +175,7 @@ export class RegisterComponent
       this.router.navigateByUrl('/');
     } catch (error) {
       console.log({ error });
+      this.toastService.somethingWentWrongErrorMessage();
     } finally {
       this.signInWithGoogleLoading = false;
     }
