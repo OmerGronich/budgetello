@@ -6,12 +6,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { BaseReactiveFormDirective } from '../../directives/base-reactive-form.directive';
 import firebase from 'firebase/compat';
+import { ToastService } from '../../services/toast/toast.service';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
 import FirebaseError = firebase.FirebaseError;
-import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'budgetello-login',
@@ -23,8 +23,6 @@ export class LoginComponent
   implements OnInit
 {
   form: FormGroup;
-  usernamePasswordLoading = false;
-  signInWithGoogleLoading = false;
 
   get emailFormControl() {
     return this.form.get('email');
@@ -38,7 +36,8 @@ export class LoginComponent
     private fb: FormBuilder,
     private auth: AngularFireAuth,
     private toastService: ToastService,
-    private router: Router
+    private router: Router,
+    public authenticationService: AuthenticationService
   ) {
     super();
   }
@@ -48,10 +47,6 @@ export class LoginComponent
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
     });
-  }
-
-  signInWithGoogle($event: MouseEvent) {
-    throw new Error('not implemented');
   }
 
   async onSignIn($event: SubmitEvent) {
@@ -79,18 +74,17 @@ export class LoginComponent
       return;
     }
 
-    try {
-      this.usernamePasswordLoading = true;
-      await this.auth.signInWithEmailAndPassword(
+    const { error } =
+      await this.authenticationService.signInWithEmailAndPassword(
         this.emailFormControl?.value,
         this.passwordFormControl?.value
       );
+
+    if (error) {
+      this.handleFirebaseError(error);
+    } else {
+      this.form.reset();
       this.router.navigateByUrl('/');
-    } catch (error) {
-      console.log({ e: error });
-      this.handleFirebaseError(<FirebaseError>error);
-    } finally {
-      this.usernamePasswordLoading = false;
     }
   }
 

@@ -9,13 +9,11 @@ import { map, Observable, shareReplay } from 'rxjs';
 import { mustMatchValidator } from '../../validators/must-match.validator';
 import { PasswordSuggestion } from '../../components/password-suggestions/password-suggestions.component';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import firebase from 'firebase/compat';
-import { GoogleAuthProvider } from 'firebase/auth';
 import { Router } from '@angular/router';
 import { BaseReactiveFormDirective } from '../../directives/base-reactive-form.directive';
-import { ToastService } from '../../services/toast.service';
-import FirebaseError = firebase.FirebaseError;
+import { ToastService } from '../../services/toast/toast.service';
 import { STRONG_PASSWORD_PATTERN } from '../../constants';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
 
 @Component({
   selector: 'budgetello-register',
@@ -31,8 +29,6 @@ export class RegisterComponent
   hasUpperCase$: Observable<boolean>;
   hasNumber$: Observable<boolean>;
   hasMinimum$: Observable<boolean>;
-  usernamePasswordLoading: boolean;
-  signInWithGoogleLoading: boolean;
 
   get passwordSuggestions(): PasswordSuggestion[] {
     return [
@@ -78,7 +74,8 @@ export class RegisterComponent
     private fb: FormBuilder,
     private auth: AngularFireAuth,
     private toastService: ToastService,
-    private router: Router
+    private router: Router,
+    public authenticationService: AuthenticationService
   ) {
     super();
   }
@@ -140,19 +137,21 @@ export class RegisterComponent
       return;
     }
 
-    try {
-      this.usernamePasswordLoading = true;
-      await this.auth.createUserWithEmailAndPassword(this.email, this.password);
-      this.form.reset();
-      this.router.navigateByUrl('/');
-    } catch (error) {
+    const { error } =
+      await this.authenticationService.signInWithEmailAndPassword(
+        this.email,
+        this.password,
+        'register'
+      );
+
+    if (error) {
       this.form.controls['email'].setErrors({
-        emailAlreadyInUse:
-          (<FirebaseError>error).code === 'auth/email-already-in-use',
+        emailAlreadyInUse: error.code === 'auth/email-already-in-use',
       });
       this.handleEmailAlreadyInUseError();
-    } finally {
-      this.usernamePasswordLoading = false;
+    } else {
+      this.form.reset();
+      this.router.navigateByUrl('/');
     }
   }
 
@@ -165,19 +164,6 @@ export class RegisterComponent
   handlePasswordsDoNotMatchError() {
     if (this.passwordsDoNotMatchError) {
       this.toastService.passwordsDoNotMatchMessage();
-    }
-  }
-
-  async signInWithGoogle(_: MouseEvent) {
-    try {
-      this.signInWithGoogleLoading = true;
-      await this.auth.signInWithPopup(new GoogleAuthProvider());
-      this.router.navigateByUrl('/');
-    } catch (error) {
-      console.log({ error });
-      this.toastService.somethingWentWrongErrorMessage();
-    } finally {
-      this.signInWithGoogleLoading = false;
     }
   }
 }
