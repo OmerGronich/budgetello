@@ -10,8 +10,9 @@ img {
   max-width: 100%;
 }
 
-
-html, body, budgetello-root {
+html,
+body,
+budgetello-root {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -39,14 +40,26 @@ body {
   place-content: center;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-
-.title {
-  display: flex;
+.pointer {
+  cursor: pointer;
 }
 
+.text-center {
+  text-align: center;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.flex {
+  display: flex;
+}
 
 @for $i from 1 through 40 {
   .my-#{$i} {
@@ -69,5 +82,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   .mb-#{$i} {
     margin-bottom: #{$i}px;
   }
+}
 
+@for $i from 1 through 40 {
+  .fs-#{$i} {
+    font-size: #{$i}px;
+  }
 }

@@ -1,22 +1,9 @@
-<h1 class="title mb-20">
-  <i class="pi pi-dollar"></i>
-  Budgetello
-</h1>
-
+<budgetello-title></budgetello-title>
 <div class="container">
-  <form
-    autocomplete="off"
-    [formGroup]="form"
-    (submit)="onSubmit($event)"
-  >
+  <form autocomplete="off" [formGroup]="form" (submit)="onRegister($event)">
     <!-- EMAIL -->
     <div class="p-float-label p-input-icon-right mb-20">
-      <input
-        pInputText
-        formControlName="email"
-        id="email"
-        type="email"
-      >
+      <input pInputText formControlName="email" id="email" type="email" />
       <label for="email">Email</label>
     </div>
 
@@ -28,11 +15,11 @@
         id="password"
         styleClass="p-password p-component p-inputwrapper p-input-icon-right"
         [ngClass]="{
-          'error': form.controls['password'].invalid && form.controls['password'].dirty
+          error:
+            form.controls['password'].invalid && form.controls['password'].dirty
         }"
       >
-        <ng-template pTemplate="header">
-        </ng-template>
+        <ng-template pTemplate="header"></ng-template>
         <ng-template pTemplate="footer">
           <p-divider></p-divider>
           <budgetello-password-suggestions
@@ -43,7 +30,6 @@
       <label for="password">Password</label>
     </div>
 
-
     <!-- VERIFY PASSWORD -->
     <div class="p-float-label mb-20">
       <p-password
@@ -53,16 +39,43 @@
         id="verify"
         styleClass="p-password p-component p-inputwrapper p-input-icon-right"
         [ngClass]="{
-          'error': form.controls['verify'].dirty && (form.controls['verify'].errors !== null || passwordsDoNotMatchError)
+          error:
+            form.controls['verify'].dirty &&
+            (form.controls['verify'].errors !== null ||
+              passwordsDoNotMatchError)
         }"
       ></p-password>
       <label for="verify">Verify password</label>
     </div>
 
-    <p-button type="submit" label="Sign up"></p-button>
+    <p-button
+      type="submit"
+      label="Sign up"
+      [loading]="usernamePasswordLoading"
+    ></p-button>
   </form>
 
   <p-divider align="center">
     <b>OR</b>
   </p-divider>
+
+  <div class="authentication-providers">
+    <div class="google">
+      <button
+        pButton
+        class="center"
+        label="Sign in with google"
+        (click)="signInWithGoogle($event)"
+      >
+        <img src="/assets/images/google.png" alt="google" />
+      </button>
+    </div>
+  </div>
+
+  <p class="mt-20 fs-12 text-center">
+    Already have an Budgetello account? Log in
+    <a routerLink="/login" class="p-text-secondary pointer">here</a>.
+  </p>
 </div>
+
+<p-toast position="bottom-right"></p-toast>

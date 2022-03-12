@@ -10,7 +10,10 @@ import { RippleModule } from 'primeng/ripple';
 import { DividerModule } from 'primeng/divider';
 import { PasswordSuggestionsModule } from '../../components/password-suggestions/password-suggestions.module';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-import { environment } from '../../../environments/environment';
+import { ToastModule } from 'primeng/toast';
+import { MessageModule } from 'primeng/message';
+import { RouterModule } from '@angular/router';
+import { TitleModule } from '../../components/title/title.module';
 
 @NgModule({
   declarations: [RegisterComponent],
@@ -25,6 +28,10 @@ import { environment } from '../../../environments/environment';
     DividerModule,
     PasswordSuggestionsModule,
     AngularFireAuthModule,
+    ToastModule,
+    MessageModule,
+    RouterModule,
+    TitleModule,
   ],
 })
 export class RegisterModule {}

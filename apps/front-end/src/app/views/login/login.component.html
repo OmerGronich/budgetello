@@ -1,1 +1,57 @@
-<p>login works!</p>
+<budgetello-title></budgetello-title>
+<div class="container">
+  <form autocomplete="off" [formGroup]="form" (submit)="onSignIn($event)">
+    <!-- EMAIL -->
+    <div class="p-float-label p-input-icon-right mb-20">
+      <input formControlName="email" id="email" pInputText type="email" />
+      <label for="email">Email</label>
+    </div>
+
+    <!-- PASSWORD -->
+    <div class="p-float-label mb-20">
+      <p-password
+        [feedback]="false"
+        [toggleMask]="true"
+        formControlName="password"
+        id="password"
+        styleClass="p-password p-component p-inputwrapper p-input-icon-right"
+        [ngClass]="{
+          error:
+            form.controls['password'].dirty &&
+            form.controls['password'].errors !== null
+        }"
+      ></p-password>
+      <label for="password">Password</label>
+    </div>
+
+    <p-button
+      type="submit"
+      label="Sign in"
+      [loading]="usernamePasswordLoading"
+    ></p-button>
+  </form>
+
+  <p-divider align="center">
+    <b>OR</b>
+  </p-divider>
+
+  <div class="authentication-providers">
+    <div class="google">
+      <button
+        pButton
+        class="center"
+        label="Sign in with google"
+        (click)="signInWithGoogle($event)"
+      >
+        <img src="/assets/images/google.png" alt="google" />
+      </button>
+    </div>
+  </div>
+
+  <p class="mt-20 fs-12 text-center">
+    Need an Budgetello account? Sign up
+    <a routerLink="/register" class="p-text-secondary pointer">here</a>.
+  </p>
+</div>
+
+<p-toast position="bottom-right"></p-toast>

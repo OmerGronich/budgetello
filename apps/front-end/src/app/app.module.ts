@@ -19,9 +19,11 @@ import { RegisterModule } from './views/register/register.module';
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { BaseReactiveFormDirective } from './directives/base-reactive-form.directive';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, BaseReactiveFormDirective],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -36,6 +38,7 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
     AngularFireStorageModule,
   ],
   providers: [
+    MessageService,
     {
       provide: USE_AUTH_EMULATOR,
       useValue: environment.useEmulators

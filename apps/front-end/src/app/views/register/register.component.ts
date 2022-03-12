@@ -9,18 +9,29 @@ import { map, Observable, shareReplay } from 'rxjs';
 import { mustMatchValidator } from '../../validators/must-match.validator';
 import { PasswordSuggestion } from '../../components/password-suggestions/password-suggestions.component';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import firebase from 'firebase/compat';
+import { GoogleAuthProvider } from 'firebase/auth';
+import { Router } from '@angular/router';
+import { BaseReactiveFormDirective } from '../../directives/base-reactive-form.directive';
+import { ToastService } from '../../services/toast.service';
+import FirebaseError = firebase.FirebaseError;
 
 @Component({
   selector: 'budgetello-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent
+  extends BaseReactiveFormDirective
+  implements OnInit
+{
   form: FormGroup;
   hasLowerCase$: Observable<boolean>;
   hasUpperCase$: Observable<boolean>;
   hasNumber$: Observable<boolean>;
   hasMinimum$: Observable<boolean>;
+  usernamePasswordLoading: boolean;
+  signInWithGoogleLoading: boolean;
 
   get passwordSuggestions(): PasswordSuggestion[] {
     return [
@@ -55,7 +66,21 @@ export class RegisterComponent implements OnInit {
     return this.form.get('password')?.value || '';
   }
 
-  constructor(private fb: FormBuilder, private auth: AngularFireAuth) {}
+  get isEmailAlreadyInUse() {
+    return (
+      this.form.get('email')?.errors &&
+      this.form.get('email')?.getError('emailAlreadyInUse')
+    );
+  }
+
+  constructor(
+    private fb: FormBuilder,
+    private auth: AngularFireAuth,
+    private toastService: ToastService,
+    private router: Router
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.form = this.fb.group(
@@ -89,7 +114,7 @@ export class RegisterComponent implements OnInit {
     );
   }
 
-  checkLowercase({ password }: { password: string }) {
+  private checkLowercase({ password }: { password: string }) {
     return password.toUpperCase() !== password;
   }
 
@@ -104,28 +129,59 @@ export class RegisterComponent implements OnInit {
   private hasMinimum(minimum: number) {
     return ({ password }: { password: string }) => password.length >= minimum;
   }
-
-  markInvalidFormControlsDirty() {
-    Object.entries(this.form.controls).forEach(([, value]) => {
-      if (value.invalid) {
-        value.markAsDirty();
-      }
-    });
-  }
-
-  async onSubmit($event: SubmitEvent) {
+  async onRegister($event: SubmitEvent) {
     $event.preventDefault();
-    this.markInvalidFormControlsDirty();
+
+    const invalidControls = this.getInvalidFormControls(this.form);
+
+    for (const invalidControl of invalidControls) {
+      invalidControl.markAsDirty();
+    }
+
+    this.handlePasswordsDoNotMatchError();
+    this.handleEmailAlreadyInUseError();
+
     if (!this.form.valid) {
       return;
     }
 
     try {
+      this.usernamePasswordLoading = true;
       await this.auth.createUserWithEmailAndPassword(this.email, this.password);
-    } catch (e) {
-      console.log({ e });
-    } finally {
       this.form.reset();
+      this.router.navigateByUrl('/');
+    } catch (error) {
+      this.form.controls['email'].setErrors({
+        emailAlreadyInUse:
+          (<FirebaseError>error).code === 'auth/email-already-in-use',
+      });
+      this.handleEmailAlreadyInUseError();
+    } finally {
+      this.usernamePasswordLoading = false;
+    }
+  }
+
+  handleEmailAlreadyInUseError() {
+    if (this.isEmailAlreadyInUse) {
+      this.toastService.emailAlreadyInUseMessage();
+    }
+  }
+
+  handlePasswordsDoNotMatchError() {
+    if (this.passwordsDoNotMatchError) {
+      this.toastService.passwordsDoNotMatchMessage();
+    }
+  }
+
+  async signInWithGoogle(_: MouseEvent) {
+    try {
+      this.signInWithGoogleLoading = true;
+      await this.auth.signInWithPopup(new GoogleAuthProvider());
+      this.router.navigateByUrl('/');
+    } catch (error) {
+      console.log({ error });
+    } finally {
+      this.signInWithGoogleLoading = false;
     }
   }
 }
