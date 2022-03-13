@@ -30,9 +30,6 @@ body {
   color: var(--text-color);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  //  todo temporary
-  padding: 20px;
 }
 
 .center {
@@ -82,9 +79,27 @@ body {
   .mb-#{$i} {
     margin-bottom: #{$i}px;
   }
-}
 
-@for $i from 1 through 40 {
+  .pt-#{$i} {
+    padding-top: #{$i}px;
+  }
+
+  .pb-#{$i} {
+    padding-bottom: #{$i}px;
+  }
+
+  .pl-#{$i} {
+    padding-left: #{$i}px;
+  }
+
+  .pr-#{$i} {
+    padding-right: #{$i}px;
+  }
+
+  .p-#{$i} {
+    padding: #{$i}px;
+  }
+
   .fs-#{$i} {
     font-size: #{$i}px;
   }

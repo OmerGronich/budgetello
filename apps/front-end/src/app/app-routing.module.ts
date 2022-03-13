@@ -8,6 +8,7 @@ import {
   redirectLoggedInTo,
   redirectUnauthorizedTo,
 } from '@angular/fire/compat/auth-guard';
+import { LayoutComponent } from './components/layout/layout.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 const redirectLoggedInToHome = () => redirectLoggedInTo(['']);
@@ -27,7 +28,8 @@ const routes: Routes = [
   },
   {
     path: '',
-    component: HomeComponent,
+    component: LayoutComponent,
+    children: [{ path: '', component: HomeComponent }],
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin },
   },

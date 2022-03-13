@@ -89,6 +89,7 @@ export class RegisterComponent
           Validators.pattern(STRONG_PASSWORD_PATTERN),
         ]),
         verify: new FormControl('', [Validators.required]),
+        name: new FormControl(''),
       },
       { validators: mustMatchValidator }
     );
@@ -138,10 +139,10 @@ export class RegisterComponent
     }
 
     const { error } =
-      await this.authenticationService.signInWithEmailAndPassword(
+      await this.authenticationService.createUserWithEmailAndPassword(
         this.email,
         this.password,
-        'register'
+        { displayName: this.form.get('name')?.value || '' }
       );
 
     if (error) {

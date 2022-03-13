@@ -13,6 +13,10 @@ import { LoggerService } from '../logger/logger.service';
 export class AuthenticationService {
   usernamePasswordLoading = false;
 
+  get user$() {
+    return this.auth.user;
+  }
+
   constructor(
     private auth: AngularFireAuth,
     private toastService: ToastService,
@@ -29,19 +33,11 @@ export class AuthenticationService {
     }
   }
 
-  async signInWithEmailAndPassword(
-    email: string,
-    password: string,
-    type: 'register' | 'login' = 'login'
-  ) {
+  async signInWithEmailAndPassword(email: string, password: string) {
     let error: FirebaseError | null = null;
     try {
       this.usernamePasswordLoading = true;
-      await this.auth[
-        type === 'login'
-          ? 'signInWithEmailAndPassword'
-          : 'createUserWithEmailAndPassword'
-      ](email, password);
+      await this.auth.signInWithEmailAndPassword(email, password);
     } catch (_error) {
       this.logger.log({ error: _error });
       error = _error as FirebaseError;
@@ -50,5 +46,34 @@ export class AuthenticationService {
     }
 
     return { error };
+  }
+
+  async createUserWithEmailAndPassword(
+    email: string,
+    password: string,
+    { displayName = '' }: { displayName: string }
+  ) {
+    let error: FirebaseError | null = null;
+    try {
+      this.usernamePasswordLoading = true;
+      const { user } = await this.auth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
+      if (displayName) {
+        user?.updateProfile({ displayName });
+      }
+    } catch (_error) {
+      this.logger.log({ error: _error });
+      error = _error as FirebaseError;
+    } finally {
+      this.usernamePasswordLoading = false;
+    }
+
+    return { error };
+  }
+
+  signOut() {
+    this.auth.signOut();
   }
 }

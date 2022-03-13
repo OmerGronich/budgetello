@@ -1,4 +1,8 @@
 <h1 class="title mb-10">
   <i class="pi pi-dollar"></i>
-  Budgetello
+  <a *ngIf="link; else text" [routerLink]="link">
+    {{ title }}
+  </a>
 </h1>
+
+<ng-template #text>{{ title }}</ng-template>

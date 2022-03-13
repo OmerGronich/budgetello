@@ -1,4 +1,3 @@
-
 @mixin card {
   background: var(--surface-overlay);
   border-radius: 4px;
@@ -18,6 +17,7 @@
   overflow: hidden;
   gap: 20px;
   align-items: flex-start;
+  overflow-x: auto;
 }
 
 .list {
@@ -32,7 +32,10 @@
   background: var(--surface-card);
   border-radius: 4px;
   padding: 16px;
+  min-width: 250px;
   max-width: 250px;
+  min-height: 120px;
+  row-gap: 10px;
 
   .card {
     @include card;
@@ -55,15 +58,13 @@
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-
 .board.cdk-drop-list-dragging :not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
 .card.cdk-drag-preview {
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-  0 8px 10px 1px rgba(0, 0, 0, 0.14),
-  0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
   @include card;
 }
 
@@ -77,4 +78,5 @@
   border: 1px dashed var(--gray-700);
   align-items: flex-start;
   cursor: pointer;
+  min-height: unset;
 }

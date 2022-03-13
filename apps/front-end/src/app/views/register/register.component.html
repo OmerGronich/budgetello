@@ -1,6 +1,12 @@
 <budgetello-title></budgetello-title>
 <div class="container">
   <form autocomplete="off" [formGroup]="form" (submit)="onRegister($event)">
+    <!-- Name -->
+    <div class="p-float-label p-input-icon-right mb-20">
+      <input pInputText formControlName="name" id="name" type="text" />
+      <label for="name">Name</label>
+    </div>
+
     <!-- EMAIL -->
     <div class="p-float-label p-input-icon-right mb-20">
       <input pInputText formControlName="email" id="email" type="email" />

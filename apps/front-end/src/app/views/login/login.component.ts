@@ -55,18 +55,16 @@ export class LoginComponent
     const invalidControls = this.getInvalidFormControls(this.form);
 
     for (const control of invalidControls) {
-      if (control.getError('required')) {
+      if (control.errors) {
         control.markAsDirty();
-      }
 
-      if (control.getError('email')) {
-        control.markAsDirty();
-        this.toastService.invalidEmailErrorMessage();
-      }
+        if (control.getError('email')) {
+          this.toastService.invalidEmailErrorMessage();
+        }
 
-      if (control.getError('wrongPassword')) {
-        control.markAsDirty();
-        this.toastService.wrongPasswordErrorMessage();
+        if (control.getError('wrongPassword')) {
+          this.toastService.wrongPasswordErrorMessage();
+        }
       }
     }
 

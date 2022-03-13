@@ -5,13 +5,9 @@
   cdkDropListGroup
   (cdkDropListDropped)="dropList($event)"
 >
-  <div
-    class="list"
-    cdkDrag
-    *ngFor="let list of lists"
-  >
+  <div class="list" cdkDrag *ngFor="let list of lists">
     <p class="list-title">
-      {{list.title}}
+      {{ list.title }}
     </p>
     <div
       class="cards"
@@ -19,16 +15,12 @@
       [cdkDropListData]="list.cards"
       (cdkDropListDropped)="drop($event)"
     >
-      <div
-        class="card"
-        cdkDrag
-        *ngFor="let card of list.cards"
-      >
-        <ng-container *ngTemplateOutlet="cardTemplate; context: { $implicit: card }"></ng-container>
+      <div class="card" cdkDrag *ngFor="let card of list.cards">
+        <ng-container
+          *ngTemplateOutlet="cardTemplate; context: { $implicit: card }"
+        ></ng-container>
       </div>
     </div>
   </div>
-  <div class="list add">
-    + Add another list
-  </div>
+  <div class="list add">+ Add another list</div>
 </div>

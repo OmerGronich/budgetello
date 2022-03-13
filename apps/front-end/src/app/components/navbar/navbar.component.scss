@@ -1,0 +1,34 @@
+:host {
+  header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px 15px;
+
+    background: var(--surface-card);
+    box-shadow: 0 4px 30px rgba(var(--surface-card) 0.1);
+    backdrop-filter: blur(10.8px);
+    -webkit-backdrop-filter: blur(10.8px);
+
+    ::ng-deep .title {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0;
+
+      a {
+        color: var(--text-primary);
+
+        text-decoration: none;
+      }
+    }
+
+    p-avatar {
+      margin-left: auto;
+      cursor: pointer;
+
+      ::ng-deep .avatar {
+        background: var(--surface-300);
+      }
+    }
+  }
+}
