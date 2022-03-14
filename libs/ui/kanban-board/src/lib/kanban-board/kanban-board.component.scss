@@ -79,11 +79,12 @@
   align-items: flex-start;
   cursor: pointer;
   min-height: unset;
+  transition: all 0.2s ease-in-out;
+  height: 50px;
+  overflow: hidden;
 
   .add-list-form {
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s, opacity 0.5s linear;
+    display: none;
   }
 
   &.editing {
@@ -91,19 +92,28 @@
     border: 1px solid var(--gray-700);
     background: #333;
     color: var(--primary-color-text);
-    transition: transform 0.5s ease-in-out;
     max-width: fit-content;
+    height: 100px;
+
+    .pre-editing-text {
+      display: none;
+    }
 
     .add-list-form {
       display: flex;
       flex-direction: column;
-      visibility: visible;
-      opacity: 1;
       width: 100%;
 
-      input {
-        padding: 4px 6px;
-      }
+      font-size: initial;
+      margin: initial;
+      opacity: initial;
+      padding: initial;
+      transition: font-size 0.25s, margin 0.25s, padding 0.25s,
+        opacity 0.5s 0.25s;
+    }
+
+    input {
+      padding: 4px 6px;
     }
   }
 }

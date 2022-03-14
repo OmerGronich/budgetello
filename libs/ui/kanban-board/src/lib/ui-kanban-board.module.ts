@@ -6,6 +6,7 @@ import { KanbanBoardTemplateDirective } from './kanban-board/kanban-board-templa
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ButtonModule,
     InputTextModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
   ],
   declarations: [KanbanBoardComponent, KanbanBoardTemplateDirective],
   exports: [KanbanBoardComponent, KanbanBoardTemplateDirective],

@@ -22,9 +22,13 @@
       </div>
     </div>
   </div>
-  <div class="list add" [class.editing]="isEditing" (click)="isEditing = true">
-    <ng-container *ngIf="!isEditing"> + Add another list </ng-container>
-    <form class="add-list-form" *ngIf="isEditing" (submit)="addList($event)">
+  <div
+    (click)="this.isEditing = true"
+    [class.editing]="isEditing"
+    class="list add"
+  >
+    <span class="pre-editing-text">+ Add another list</span>
+    <form class="add-list-form" (submit)="addList($event)">
       <ng-container *ngIf="addListTemplate; else defaultAddListForm">
         <ng-container *ngTemplateOutlet="addListTemplate"></ng-container>
       </ng-container>
@@ -34,6 +38,7 @@
 
 <ng-template #defaultAddListForm>
   <input
+    autofocus
     [formControl]="listTitleFormControl"
     pInputText
     placeholder="Enter list title"
