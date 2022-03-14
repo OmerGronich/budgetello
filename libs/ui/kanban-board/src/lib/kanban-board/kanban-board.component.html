@@ -22,5 +22,36 @@
       </div>
     </div>
   </div>
-  <div class="list add">+ Add another list</div>
+  <div class="list add" [class.editing]="isEditing" (click)="isEditing = true">
+    <ng-container *ngIf="!isEditing"> + Add another list </ng-container>
+    <form class="add-list-form" *ngIf="isEditing" (submit)="addList($event)">
+      <ng-container *ngIf="addListTemplate; else defaultAddListForm">
+        <ng-container *ngTemplateOutlet="addListTemplate"></ng-container>
+      </ng-container>
+    </form>
+  </div>
 </div>
+
+<ng-template #defaultAddListForm>
+  <input
+    [formControl]="listTitleFormControl"
+    pInputText
+    placeholder="Enter list title"
+    type="text"
+  />
+  <div class="space-between mt-6">
+    <button
+      pButton
+      type="submit"
+      class="p-button-text"
+      icon="pi pi-plus"
+    ></button>
+    <button
+      pButton
+      type="button"
+      class="p-button-text"
+      icon="pi pi-times"
+      (click)="stopEditing($event)"
+    ></button>
+  </div>
+</ng-template>

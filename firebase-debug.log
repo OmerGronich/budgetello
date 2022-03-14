@@ -1,21 +1,20 @@
-[debug] [2022-03-13T22:12:21.093Z] ----------------------------------------------------------------------
-[debug] [2022-03-13T22:12:21.093Z] Command:       /Users/omergronich/.nvm/versions/node/v16.13.2/bin/node /Users/omergronich/.nvm/versions/node/v16.13.2/bin/firebase emulators:start --only=auth
-[debug] [2022-03-13T22:12:21.094Z] CLI Version:   10.2.2
-[debug] [2022-03-13T22:12:21.094Z] Platform:      darwin
-[debug] [2022-03-13T22:12:21.094Z] Node Version:  v16.13.2
-[debug] [2022-03-13T22:12:21.096Z] Time:          Mon Mar 14 2022 00:12:21 GMT+0200 (Israel Standard Time)
-[debug] [2022-03-13T22:12:21.096Z] ----------------------------------------------------------------------
+[debug] [2022-03-14T16:00:25.546Z] ----------------------------------------------------------------------
+[debug] [2022-03-14T16:00:25.547Z] Command:       /Users/omergronich/.nvm/versions/node/v16.13.2/bin/node /Users/omergronich/.nvm/versions/node/v16.13.2/bin/firebase emulators:start --only=auth
+[debug] [2022-03-14T16:00:25.547Z] CLI Version:   10.2.2
+[debug] [2022-03-14T16:00:25.547Z] Platform:      darwin
+[debug] [2022-03-14T16:00:25.547Z] Node Version:  v16.13.2
+[debug] [2022-03-14T16:00:25.549Z] Time:          Mon Mar 14 2022 18:00:25 GMT+0200 (Israel Standard Time)
+[debug] [2022-03-14T16:00:25.549Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2022-03-13T22:12:21.097Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
-[debug] [2022-03-13T22:12:21.135Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2022-03-13T22:12:21.135Z] > authorizing via signed-in user (gronichomer@gmail.com)
+[debug] [2022-03-14T16:00:25.581Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-03-14T16:00:25.582Z] > authorizing via signed-in user (gronichomer@gmail.com)
 [info] i  emulators: Starting emulators: auth {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth"}}
-[debug] [2022-03-13T22:12:21.142Z] [hub] writing locator at /var/folders/lc/k3s77d6d11b7pt0w7bdn81hw0000gn/T/hub-budgetello.json
-[debug] [2022-03-13T22:12:24.180Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
-[debug] [2022-03-13T22:12:24.180Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
-[debug] [2022-03-13T22:12:24.181Z] Starting Emulator UI with command {"binary":"node","args":["/Users/omergronich/.cache/firebase/emulators/ui-v1.6.5/server.bundle.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"/Users/omergronich/.cache/firebase/emulators/ui-v1.6.5/server.bundle.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
+[debug] [2022-03-14T16:00:25.596Z] [hub] writing locator at /var/folders/lc/k3s77d6d11b7pt0w7bdn81hw0000gn/T/hub-budgetello.json
+[debug] [2022-03-14T16:00:28.363Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2022-03-14T16:00:28.364Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2022-03-14T16:00:28.364Z] Starting Emulator UI with command {"binary":"node","args":["/Users/omergronich/.cache/firebase/emulators/ui-v1.6.5/server.bundle.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"/Users/omergronich/.cache/firebase/emulators/ui-v1.6.5/server.bundle.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
 [info] i  ui: Emulator UI logging to ui-debug.log {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI logging to \u001b[1mui-debug.log\u001b[22m"}}
-[debug] [2022-03-13T22:12:24.315Z] Web / API server started at localhost:4000
+[debug] [2022-03-14T16:00:28.471Z] Web / API server started at localhost:4000
  {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at localhost:4000\n"}}
 [info] 
 ┌─────────────────────────────────────────────────────────────┐
@@ -33,5 +32,3 @@
 
 Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
  
-[debug] [2022-03-13T22:12:24.775Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
-[debug] [2022-03-13T22:12:24.775Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}

@@ -4,16 +4,22 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChildren,
+  EventEmitter,
   Input,
+  Output,
   QueryList,
-  TemplateRef, ViewEncapsulation
+  TemplateRef,
 } from '@angular/core';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
-import {KanbanBoardTemplateDirective} from "./kanban-board-template.directive";
-
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
+import { KanbanBoardTemplateDirective } from './kanban-board-template.directive';
+import { FormControl } from '@angular/forms';
 
 export interface IKanbanBoardList {
-  title: string
+  title: string;
   cards: any[];
 }
 
@@ -24,19 +30,24 @@ export interface IKanbanBoardList {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KanbanBoardComponent implements AfterViewInit {
+  @Input() lists: IKanbanBoardList[] = [];
+  @Output() addedList = new EventEmitter();
 
-  @Input() lists: IKanbanBoardList[];
-
+  isEditing = false;
+  listTitleFormControl = new FormControl('');
   cardTemplate: TemplateRef<any>;
+  addListTemplate: TemplateRef<any>;
 
   @ContentChildren(KanbanBoardTemplateDirective) templates: QueryList<any>;
 
-  constructor(private cdr: ChangeDetectorRef) {
-  }
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngAfterViewInit() {
-    this.templates.forEach(tmpl => {
+    this.templates.forEach((tmpl) => {
       switch (tmpl.getType()) {
+        case 'addListForm':
+          this.addListTemplate = tmpl.template;
+          break;
         case 'card':
         default:
           this.cardTemplate = tmpl.template;
@@ -54,12 +65,38 @@ export class KanbanBoardComponent implements AfterViewInit {
 
   drop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      transferArrayItem(event.previousContainer.data,
+      moveItemInArray(
         event.container.data,
         event.previousIndex,
-        event.currentIndex);
+        event.currentIndex
+      );
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
     }
+  }
+
+  addList($event: SubmitEvent) {
+    if (this.addListTemplate) {
+      this.addedList.emit($event);
+    } else {
+      this.lists.push({
+        title: this.listTitleFormControl.value,
+        cards: [],
+      });
+
+      this.listTitleFormControl.reset();
+      this.isEditing = false;
+    }
+  }
+
+  stopEditing($event: MouseEvent) {
+    $event.stopImmediatePropagation();
+    this.listTitleFormControl.reset();
+    this.isEditing = false;
   }
 }

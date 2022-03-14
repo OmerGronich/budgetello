@@ -79,4 +79,31 @@
   align-items: flex-start;
   cursor: pointer;
   min-height: unset;
+
+  .add-list-form {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s linear;
+  }
+
+  &.editing {
+    opacity: 1;
+    border: 1px solid var(--gray-700);
+    background: #333;
+    color: var(--primary-color-text);
+    transition: transform 0.5s ease-in-out;
+    max-width: fit-content;
+
+    .add-list-form {
+      display: flex;
+      flex-direction: column;
+      visibility: visible;
+      opacity: 1;
+      width: 100%;
+
+      input {
+        padding: 4px 6px;
+      }
+    }
+  }
 }

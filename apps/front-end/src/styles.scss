@@ -37,6 +37,11 @@ body {
   place-content: center;
 }
 
+.space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
 .pointer {
   cursor: pointer;
 }
