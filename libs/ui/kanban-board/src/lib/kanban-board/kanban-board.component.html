@@ -5,27 +5,57 @@
   cdkDropListGroup
   (cdkDropListDropped)="dropList($event)"
 >
-  <div class="list" cdkDrag *ngFor="let list of lists">
+  <div
+    class="list"
+    cdkDrag
+    *ngFor="let list of lists"
+    (clickOutside)="clickOutside({$event, list})"
+  >
     <p class="list-title">
       {{ list.title }}
     </p>
-    <div
-      class="cards"
-      cdkDropList
-      [cdkDropListData]="list.cards"
-      (cdkDropListDropped)="drop($event)"
-    >
-      <div class="card" cdkDrag *ngFor="let card of list.cards">
-        <ng-container
-          *ngTemplateOutlet="cardTemplate; context: { $implicit: card }"
-        ></ng-container>
+    <div class="flex-column w-full mt-7 cards-wrapper">
+      <div
+        class="flex-column w-full cards"
+        (cdkDropListDropped)="drop($event)"
+        [cdkDropListData]="list.cards"
+        cdkDropList
+      >
+        <div class="card" cdkDrag *ngFor="let card of list.cards">
+          <ng-container
+            *ngTemplateOutlet="cardTemplate; context: { $implicit: card }"
+          ></ng-container>
+        </div>
+      </div>
+
+      <!-- Add card -->
+      <div class="add-card-row mt-10 flex">
+        <button
+          *ngIf="!list.isCreatingCard"
+          (click)="startCreatingCard({$event, list})"
+          pButton
+          class="p-button-sm p-button-text"
+          icon="pi pi-plus"
+          label="Add a card"
+        ></button>
+
+        <button
+          *ngIf="list.isCreatingCard"
+          (click)="createCard({$event, list})"
+          pButton
+          class="p-button-sm"
+          label="Add"
+        ></button>
       </div>
     </div>
   </div>
+
+  <!-- Add list -->
   <div
-    (click)="this.isEditing = true"
-    [class.editing]="isEditing"
+    (click)="startCreatingList()"
+    [class.editing]="isCreatingList"
     class="list add"
+    (clickOutside)="isCreatingList = false"
   >
     <span class="pre-editing-text">+ Add another list</span>
     <form class="add-list-form" (submit)="addList($event)">
@@ -38,6 +68,7 @@
 
 <ng-template #defaultAddListForm>
   <input
+    #addListInput
     autofocus
     [formControl]="listTitleFormControl"
     pInputText

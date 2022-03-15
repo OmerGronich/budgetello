@@ -62,6 +62,14 @@ body {
 .flex {
   display: flex;
 }
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.w-full {
+  width: 100%;
+}
 
 @for $i from 1 through 40 {
   .my-#{$i} {
@@ -83,6 +91,14 @@ body {
   }
   .mb-#{$i} {
     margin-bottom: #{$i}px;
+  }
+
+  .mt-auto {
+    margin-top: auto;
+  }
+
+  .mb-auto {
+    margin-bottom: auto;
   }
 
   .pt-#{$i} {

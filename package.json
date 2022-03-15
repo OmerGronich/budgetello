@@ -23,6 +23,7 @@
     "@angular/router": "~13.2.0",
     "@nrwl/angular": "13.8.4",
     "firebase": "^9.6.8",
+    "ng-click-outside": "^9.0.1",
     "primeicons": "^5.0.0",
     "primeng": "^13.2.1",
     "rxfire": "^6.0.0",

@@ -11,8 +11,13 @@ export class HomeComponent {
     {
       title: 'To Do',
       cards: [{ title: 'Write app' }, { title: 'Write docs' }],
+      isCreatingCard: false,
     },
-    { title: 'In Progress', cards: [{ title: 'Code app' }] },
-    { title: 'Done', cards: [{ title: 'Test app' }] },
+    {
+      title: 'In Progress',
+      cards: [{ title: 'Code app' }],
+      isCreatingCard: false,
+    },
+    { title: 'Done', cards: [{ title: 'Test app' }], isCreatingCard: false },
   ];
 }
