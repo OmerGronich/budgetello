@@ -4,7 +4,6 @@
     "front-end": "apps/front-end",
     "front-end-e2e": "apps/front-end-e2e",
     "ui-kanban-board": "libs/ui/kanban-board",
-    "ui-kanban-board-e2e": "apps/ui-kanban-board-e2e",
-    "ui-smooth-height": "libs/ui/smooth-height"
+    "ui-kanban-board-e2e": "apps/ui-kanban-board-e2e"
   }
 }

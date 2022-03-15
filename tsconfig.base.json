@@ -16,8 +16,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@budgetello/ui/kanban-board": ["libs/ui/kanban-board/src/index.ts"],
-      "@budgetello/ui/smooth-height": ["libs/ui/smooth-height/src/index.ts"]
+      "@budgetello/ui/kanban-board": ["libs/ui/kanban-board/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
