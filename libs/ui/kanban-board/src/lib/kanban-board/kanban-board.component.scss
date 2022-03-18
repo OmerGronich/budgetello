@@ -2,6 +2,7 @@
   background: var(--surface-overlay);
   border-radius: 4px;
   padding: 8px;
+  overflow-wrap: break-word;
 }
 
 @mixin list {
@@ -18,7 +19,7 @@
   padding: 16px;
   min-width: 250px;
   max-width: 250px;
-  min-height: 120px;
+  min-height: 60px;
 }
 
 :host {
@@ -133,5 +134,5 @@
 }
 
 .cards:empty {
-  min-height: 1px;
+  min-height: 20px;
 }
