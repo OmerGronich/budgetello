@@ -15,6 +15,7 @@ import {
 } from '@angular/core';
 import {
   CdkDragDrop,
+  CdkDragStart,
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
@@ -184,11 +185,25 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
     this.listsFromDto.forEach((list) => (list.isCreatingCard = false));
   }
 
-  cdkDragStarted($event: any) {
+  cdkListDragStarted($event: CdkDragStart) {
     const root = document.documentElement;
     root.style.setProperty(
       '--kanban-list-placeholder-height',
       $event.source.element.nativeElement.offsetHeight + 'px'
     );
+  }
+
+  cdkCardDragStarted($event: CdkDragStart) {
+    const root = document.documentElement;
+    const element = document.querySelector('.cdk-drag-preview');
+    root.style.setProperty(
+      '--kanban-card-placeholder-height',
+      element?.clientHeight + 'px'
+    );
+
+    console.log(element?.clientHeight);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    window['placeholder'] = element;
   }
 }

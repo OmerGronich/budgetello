@@ -6,7 +6,7 @@
   (cdkDropListDropped)="dropList($event)"
 >
   <div
-    (cdkDragStarted)="cdkDragStarted($event)"
+    (cdkDragStarted)="cdkListDragStarted($event)"
     (clickOutside)="clickOutside({$event, list})"
     *ngFor="let list of listsFromDto"
     cdkDrag
@@ -31,7 +31,13 @@
         [cdkDropListData]="list.cards"
         cdkDropList
       >
-        <div class="card" cdkDrag *ngFor="let card of list.cards">
+        <div
+          #cardTmpl
+          (cdkDragStarted)="cdkCardDragStarted($event)"
+          *ngFor="let card of list.cards"
+          cdkDrag
+          class="card"
+        >
           <ng-container
             *ngTemplateOutlet="cardTemplate; context: { $implicit: card }"
           ></ng-container>

@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'budgetello-board',
   templateUrl: './board.component.html',
-  styleUrls: ['./board.component.scss']
+  styleUrls: ['./board.component.scss'],
 })
-export class BoardComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+export class BoardComponent {
+  lists = [
+    {
+      title: 'lorem',
+      cards: [
+        {
+          title:
+            'lorem20lorem20lorem20lorem20lorem20lorem20lorem20lorem20lorem20lorem20lorem20lorem20lorem20lorem20lorem20lorem20lorem20lorem20',
+        },
+      ],
+    },
+  ];
 }

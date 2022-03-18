@@ -83,6 +83,9 @@
 :host ::ng-deep .list.cdk-drag-placeholder {
   height: var(--kanban-list-placeholder-height);
 }
+:host ::ng-deep .list .card.cdk-drag-placeholder {
+  height: var(--kanban-card-placeholder-height);
+}
 
 .list.add {
   opacity: 0.3;
