@@ -1,7 +1,14 @@
-header {
+.board-header {
   height: 50px;
 }
 
-main {
+.board-main {
   padding: 0 20px;
+}
+
+.list-header {
+  display: grid;
+  place-content: center;
+  align-items: center;
+  grid-template-columns: 1fr auto;
 }

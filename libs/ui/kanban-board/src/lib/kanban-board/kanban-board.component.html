@@ -24,15 +24,14 @@
       </p>
     </ng-template>
 
-    <div class="flex-column w-full mt-7 cards-wrapper">
-      <div
+    <main class="flex-column w-full mt-7 cards-wrapper">
+      <ul
         class="flex-column w-full cards"
         (cdkDropListDropped)="drop($event)"
         [cdkDropListData]="list.cards"
         cdkDropList
       >
-        <div
-          #cardTmpl
+        <li
           (cdkDragStarted)="cdkCardDragStarted($event)"
           *ngFor="let card of list.cards"
           cdkDrag
@@ -41,8 +40,8 @@
           <ng-container
             *ngTemplateOutlet="cardTemplate; context: { $implicit: card }"
           ></ng-container>
-        </div>
-      </div>
+        </li>
+      </ul>
 
       <!-- Add card -->
       <div class="add-card-row mt-10 flex-column align-start">
@@ -84,7 +83,7 @@
           </div>
         </form>
       </div>
-    </div>
+    </main>
   </div>
 
   <!-- Add list -->

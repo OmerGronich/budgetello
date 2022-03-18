@@ -2,27 +2,36 @@ import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
+  DocumentReference,
 } from '@angular/fire/compat/firestore';
-import { map, Observable, switchMap, tap } from 'rxjs';
+import { filter, forkJoin, from, map, Observable, switchMap, tap } from 'rxjs';
 import { connectFirestoreEmulator } from '@angular/fire/firestore';
 import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../authentication/authentication.service';
-import { DocumentData } from '@angular/fire/compat/firestore/interfaces';
+import { IKanbanBoardListDto } from '@budgetello/ui/kanban-board';
+import { ActivatedRoute } from '@angular/router';
 
-export interface IBoard {
+export interface IBoardDto {
   id?: string;
   title: string;
-  lists: string[];
+  lists: DocumentReference[];
   user: string;
 }
+
+export type IBoard = {
+  id?: string;
+  title: string;
+  lists: IKanbanBoardListDto[];
+  user: string;
+};
 
 @Injectable({
   providedIn: 'root',
 })
 export class BoardsService {
-  private boardsCollection: AngularFirestoreCollection<IBoard>;
-  private boardsCollection$: Observable<AngularFirestoreCollection<IBoard>>;
-  boards$: Observable<IBoard[]>;
+  private boardsCollection: AngularFirestoreCollection<IBoardDto>;
+  private boardsCollection$: Observable<AngularFirestoreCollection<IBoardDto>>;
+  boards$: Observable<IBoardDto[]>;
 
   constructor(
     private afs: AngularFirestore,
@@ -34,7 +43,7 @@ export class BoardsService {
 
     this.boardsCollection$ = this.auth.user$.pipe(
       map((user) =>
-        afs.collection<IBoard>('boards', (ref) =>
+        afs.collection<IBoardDto>('boards', (ref) =>
           ref.where('user', '==', user?.uid)
         )
       ),
@@ -56,7 +65,11 @@ export class BoardsService {
     );
   }
 
-  addBoard(board: IBoard) {
+  addBoard(board: IBoardDto) {
     this.boardsCollection.add(board);
+  }
+
+  getList(ref: DocumentReference) {
+    return this.afs.doc(ref).snapshotChanges();
   }
 }

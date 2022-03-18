@@ -1,7 +1,21 @@
-<header></header>
+<header class="board-header"></header>
 
-<main>
-  <budgetello-kanban-board class="kanban-board" [lists]="lists">
+<main class="board-main">
+  <budgetello-kanban-board
+    *ngIf="board$ | async as board"
+    class="kanban-board"
+    [lists]="board.lists"
+  >
+    <ng-template kanbanTemplate="listHeader" let-list>
+      <header class="list-header w-full">
+        <p class="list-title">{{ list.title }}</p>
+        <button
+          pButton
+          icon="pi pi-pencil"
+          class="p-button-text p-button-sm"
+        ></button>
+      </header>
+    </ng-template>
     <ng-template kanbanTemplate="card" let-card>
       <div class="card-layout">
         <div class="card-header">

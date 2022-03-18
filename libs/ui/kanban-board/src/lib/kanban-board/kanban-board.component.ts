@@ -200,10 +200,5 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
       '--kanban-card-placeholder-height',
       element?.clientHeight + 'px'
     );
-
-    console.log(element?.clientHeight);
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    window['placeholder'] = element;
   }
 }
