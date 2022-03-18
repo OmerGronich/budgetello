@@ -1,11 +1,16 @@
-import { Component } from '@angular/core';
-import { IKanbanBoardListDto } from '@budgetello/ui/kanban-board';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { BoardsService } from '../../services/boards/boards.service';
 
 @Component({
   selector: 'budgetello-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {
-  lists: IKanbanBoardListDto[];
+  constructor(public boardsService: BoardsService) {}
+
+  get boards$() {
+    return this.boardsService.boards$;
+  }
 }

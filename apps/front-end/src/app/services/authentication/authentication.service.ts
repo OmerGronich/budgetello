@@ -4,8 +4,8 @@ import { GoogleAuthProvider } from 'firebase/auth';
 import { ToastService } from '../toast/toast.service';
 import { Router } from '@angular/router';
 import firebase from 'firebase/compat';
-import FirebaseError = firebase.FirebaseError;
 import { LoggerService } from '../logger/logger.service';
+import FirebaseError = firebase.FirebaseError;
 
 @Injectable({
   providedIn: 'root',
