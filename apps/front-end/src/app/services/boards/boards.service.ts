@@ -4,7 +4,16 @@ import {
   AngularFirestoreCollection,
   DocumentReference,
 } from '@angular/fire/compat/firestore';
-import { filter, forkJoin, from, map, Observable, switchMap, tap } from 'rxjs';
+import {
+  combineLatest,
+  filter,
+  forkJoin,
+  from,
+  map,
+  Observable,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { connectFirestoreEmulator } from '@angular/fire/firestore';
 import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../authentication/authentication.service';
@@ -71,5 +80,19 @@ export class BoardsService {
 
   getList(ref: DocumentReference) {
     return this.afs.doc(ref).snapshotChanges();
+  }
+
+  getLists(board: IBoardDto) {
+    return combineLatest(board.lists.map((list) => this.getList(list))).pipe(
+      map((snapshots) => {
+        const lists = snapshots.map((snapshot: any) => {
+          const data = snapshot.payload.data();
+          const id = snapshot.payload.id;
+          return { ...data, id };
+        });
+
+        return { ...board, lists };
+      })
+    );
   }
 }

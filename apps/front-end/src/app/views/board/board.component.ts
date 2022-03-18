@@ -5,15 +5,7 @@ import {
   IBoardDto,
 } from '../../services/boards/boards.service';
 import { ActivatedRoute } from '@angular/router';
-import {
-  combineLatest,
-  filter,
-  forkJoin,
-  map,
-  Observable,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { filter, map, Observable, switchMap } from 'rxjs';
 
 @Component({
   selector: 'budgetello-board',
@@ -27,28 +19,15 @@ export class BoardComponent {
     private route: ActivatedRoute
   ) {
     this.board$ = this.boardsService.boards$.pipe(
-      map((boards) =>
-        boards.find(
-          (board: IBoardDto) =>
-            board.id === this.route.snapshot.paramMap.get('id')
-        )
-      ),
+      map(this.findBoardByRouteParams.bind(this)),
       filter(Boolean),
-      switchMap((board) =>
-        combineLatest(
-          board.lists.map((list) => this.boardsService.getList(list))
-        ).pipe(
-          map((snapshots) => {
-            const lists = snapshots.map((snapshot: any) => {
-              const data = snapshot.payload.data();
-              const id = snapshot.payload.id;
-              return { ...data, id };
-            });
+      switchMap(this.boardsService.getLists.bind(this.boardsService))
+    );
+  }
 
-            return { ...board, lists };
-          })
-        )
-      )
+  findBoardByRouteParams(boards: IBoardDto[]): IBoardDto | undefined {
+    return boards.find(
+      (board: IBoardDto) => board.id === this.route.snapshot.paramMap.get('id')
     );
   }
 }
