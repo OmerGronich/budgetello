@@ -8,12 +8,21 @@
   <div
     class="list"
     cdkDrag
-    *ngFor="let list of lists"
+    *ngFor="let list of listsFromDto"
     (clickOutside)="clickOutside({$event, list})"
   >
-    <p class="list-title">
-      {{ list.title }}
-    </p>
+    <ng-container *ngIf="listHeaderTemplate; else defaultListHeader">
+      <ng-container
+        *ngTemplateOutlet="listHeaderTemplate; context: { $implicit: list }"
+      ></ng-container>
+    </ng-container>
+
+    <ng-template #defaultListHeader>
+      <p class="list-title">
+        {{ list.title }}
+      </p>
+    </ng-template>
+
     <div class="flex-column w-full mt-7 cards-wrapper">
       <div
         class="flex-column w-full cards"

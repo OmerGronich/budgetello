@@ -4,7 +4,6 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChildren,
-  ElementRef,
   EventEmitter,
   HostListener,
   Input,
@@ -13,7 +12,6 @@ import {
   QueryList,
   SimpleChanges,
   TemplateRef,
-  ViewChild,
 } from '@angular/core';
 import {
   CdkDragDrop,
@@ -22,12 +20,16 @@ import {
 } from '@angular/cdk/drag-drop';
 import { KanbanBoardTemplateDirective } from './kanban-board-template.directive';
 import { FormControl } from '@angular/forms';
-import { BehaviorSubject, Observable } from 'rxjs';
 
-export interface IKanbanBoardList {
-  isCreatingCard: boolean;
+export interface IKanbanBoardListDto {
   title: string;
   cards: any[];
+}
+
+export interface IKanbanBoardList {
+  title: string;
+  cards: any[];
+  isCreatingCard: boolean;
 }
 
 @Component({
@@ -36,9 +38,10 @@ export interface IKanbanBoardList {
   styleUrls: ['./kanban-board.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class KanbanBoardComponent implements AfterViewInit {
-  @Input() lists: IKanbanBoardList[] = [];
-  @Output() addedList = new EventEmitter();
+export class KanbanBoardComponent implements AfterViewInit, OnChanges {
+  listsFromDto: IKanbanBoardList[] = [];
+  @Input() lists: IKanbanBoardListDto[] = [];
+  @Output() listAdded = new EventEmitter();
 
   @ContentChildren(KanbanBoardTemplateDirective) templates: QueryList<any>;
 
@@ -47,12 +50,31 @@ export class KanbanBoardComponent implements AfterViewInit {
   cardTitleFormControl = new FormControl('');
   cardTemplate: TemplateRef<any>;
   addListTemplate: TemplateRef<any>;
+  listHeaderTemplate: TemplateRef<any>;
 
   constructor(private cdr: ChangeDetectorRef) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['lists']) {
+      this.listsFromDto = this.createListsFromDto(
+        changes['lists'].currentValue
+      );
+    }
+  }
+
+  createListsFromDto(listsDto: IKanbanBoardListDto[]): IKanbanBoardList[] {
+    return listsDto.map((listDto) => ({
+      ...listDto,
+      isCreatingCard: false,
+    }));
+  }
 
   ngAfterViewInit() {
     this.templates.forEach((tmpl) => {
       switch (tmpl.getType()) {
+        case 'listHeader':
+          this.listHeaderTemplate = tmpl.template;
+          break;
         case 'addListForm':
           this.addListTemplate = tmpl.template;
           break;
@@ -74,7 +96,7 @@ export class KanbanBoardComponent implements AfterViewInit {
     this.cancelAllCardCreations();
   }
 
-  dropList(event: CdkDragDrop<IKanbanBoardList[]>) {
+  dropList(event: CdkDragDrop<IKanbanBoardListDto[]>) {
     moveItemInArray(this.lists, event.previousIndex, event.currentIndex);
   }
 
@@ -97,11 +119,11 @@ export class KanbanBoardComponent implements AfterViewInit {
 
   createList($event: SubmitEvent) {
     if (this.addListTemplate) {
-      this.addedList.emit($event);
+      this.listAdded.emit($event);
     } else {
       $event.preventDefault();
       if ((this.listTitleFormControl.value || '').trim()) {
-        this.lists.push({
+        this.listsFromDto.push({
           title: this.listTitleFormControl.value,
           cards: [],
           isCreatingCard: false,
@@ -140,7 +162,7 @@ export class KanbanBoardComponent implements AfterViewInit {
     $event,
   }: {
     $event: SubmitEvent | MouseEvent;
-    list: IKanbanBoardList;
+    list: IKanbanBoardListDto;
   }) {
     if ('preventDefault' in $event) {
       $event.preventDefault();
@@ -158,6 +180,6 @@ export class KanbanBoardComponent implements AfterViewInit {
   }
 
   cancelAllCardCreations() {
-    this.lists.forEach((list) => (list.isCreatingCard = false));
+    this.listsFromDto.forEach((list) => (list.isCreatingCard = false));
   }
 }
