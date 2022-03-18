@@ -76,7 +76,12 @@
 
 :host ::ng-deep .cdk-drag-placeholder * {
   opacity: 0;
+  height: 10px;
   color: transparent;
+}
+
+:host ::ng-deep .list.cdk-drag-placeholder {
+  height: var(--kanban-list-placeholder-height);
 }
 
 .list.add {
@@ -125,5 +130,5 @@
 }
 
 .cards:empty {
-  min-height: 10px;
+  min-height: 1px;
 }

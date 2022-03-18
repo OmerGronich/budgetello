@@ -7,8 +7,10 @@ import { map, Observable, switchMap, tap } from 'rxjs';
 import { connectFirestoreEmulator } from '@angular/fire/firestore';
 import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../authentication/authentication.service';
+import { DocumentData } from '@angular/fire/compat/firestore/interfaces';
 
 export interface IBoard {
+  id?: string;
   title: string;
   lists: string[];
   user: string;
@@ -40,7 +42,17 @@ export class BoardsService {
     );
 
     this.boards$ = this.boardsCollection$.pipe(
-      switchMap((col) => col.valueChanges())
+      switchMap((col) =>
+        col.snapshotChanges().pipe(
+          map((snapshots) =>
+            snapshots.map((snapshot) => {
+              const data = snapshot.payload.doc.data();
+              const id = snapshot.payload.doc.id;
+              return { id, ...data };
+            })
+          )
+        )
+      )
     );
   }
 

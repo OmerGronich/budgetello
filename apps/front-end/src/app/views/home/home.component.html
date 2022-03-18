@@ -1,23 +1,11 @@
-<!--Temporary ! create a dynamic board associated to a user => one user > many boards-->
-<!--<budgetello-kanban-board class="kanban-board" [lists]="lists">-->
-<!--  <ng-template kanbanTemplate="card" let-card>-->
-<!--    <div class="card-layout">-->
-<!--      <div class="card-header">-->
-<!--        <div class="card-title">-->
-<!--          <p>{{ card | json }}</p>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </ng-template>-->
-<!--</budgetello-kanban-board>-->
-
-<div class="flex-column">
+<div class="flex-column container">
   <section class="p-40">
-    <h2 class="title">YOUR BOARDS</h2>
+    <h2 class="title mb-10">YOUR BOARDS</h2>
     <ng-container *ngIf="boards$ | async as boards">
       <budgetello-board-preview
         *ngFor="let board of boards"
         [boardTitle]="board.title"
+        routerLink="board/{{ board.id }}"
       ></budgetello-board-preview>
     </ng-container>
   </section>

@@ -1,5 +1,11 @@
 :host {
   height: 100%;
-  display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  display: inline-flex;
+  width: fit-content;
+  min-width: 900px;
+  margin: 0 auto;
+}
+
+.container {
 }

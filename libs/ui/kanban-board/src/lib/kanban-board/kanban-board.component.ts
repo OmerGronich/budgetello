@@ -51,6 +51,7 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
   cardTemplate: TemplateRef<any>;
   addListTemplate: TemplateRef<any>;
   listHeaderTemplate: TemplateRef<any>;
+  height: number;
 
   constructor(private cdr: ChangeDetectorRef) {}
 
@@ -97,7 +98,7 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
   }
 
   dropList(event: CdkDragDrop<IKanbanBoardListDto[]>) {
-    moveItemInArray(this.lists, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.listsFromDto, event.previousIndex, event.currentIndex);
   }
 
   drop(event: CdkDragDrop<any[]>) {
@@ -181,5 +182,13 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
 
   cancelAllCardCreations() {
     this.listsFromDto.forEach((list) => (list.isCreatingCard = false));
+  }
+
+  cdkDragStarted($event: any) {
+    const root = document.documentElement;
+    root.style.setProperty(
+      '--kanban-list-placeholder-height',
+      $event.source.element.nativeElement.offsetHeight + 'px'
+    );
   }
 }

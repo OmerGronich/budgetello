@@ -6,10 +6,11 @@
   (cdkDropListDropped)="dropList($event)"
 >
   <div
-    class="list"
-    cdkDrag
-    *ngFor="let list of listsFromDto"
+    (cdkDragStarted)="cdkDragStarted($event)"
     (clickOutside)="clickOutside({$event, list})"
+    *ngFor="let list of listsFromDto"
+    cdkDrag
+    class="list"
   >
     <ng-container *ngIf="listHeaderTemplate; else defaultListHeader">
       <ng-container

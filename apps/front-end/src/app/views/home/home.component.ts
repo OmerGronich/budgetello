@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BoardsService } from '../../services/boards/boards.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'budgetello-home',
@@ -8,7 +9,7 @@ import { BoardsService } from '../../services/boards/boards.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {
-  constructor(public boardsService: BoardsService) {}
+  constructor(public boardsService: BoardsService, private router: Router) {}
 
   get boards$() {
     return this.boardsService.boards$;
