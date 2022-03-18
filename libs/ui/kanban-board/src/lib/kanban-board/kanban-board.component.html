@@ -29,7 +29,7 @@
       </div>
 
       <!-- Add card -->
-      <div class="add-card-row mt-10 flex">
+      <div class="add-card-row mt-10 flex-column align-start">
         <button
           *ngIf="!list.isCreatingCard"
           (click)="startCreatingCard({$event, list})"
@@ -39,13 +39,34 @@
           label="Add a card"
         ></button>
 
-        <button
+        <form
+          class="w-full"
           *ngIf="list.isCreatingCard"
-          (click)="createCard({$event, list})"
-          pButton
-          class="p-button-sm"
-          label="Add"
-        ></button>
+          (submit)="createCard({ list: list, $event: $event })"
+        >
+          <input
+            class="my-10 w-full"
+            [budgetelloAsyncAutofocus]="list.isCreatingCard"
+            placeholder="Card title..."
+            [formControl]="cardTitleFormControl"
+            pInputText
+          />
+
+          <div class="flex">
+            <button
+              (click)="createCard({$event, list})"
+              pButton
+              class="p-button-sm"
+              label="Add"
+            ></button>
+            <button
+              pButton
+              (click)="stopCreating($event); list.isCreatingCard = false"
+              class="mx-10 p-button-sm p-button-text"
+              icon="pi pi-times"
+            ></button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -58,7 +79,7 @@
     (clickOutside)="isCreatingList = false"
   >
     <span class="pre-editing-text">+ Add another list</span>
-    <form class="add-list-form" (submit)="addList($event)">
+    <form class="add-list-form" (submit)="createList($event)">
       <ng-container *ngIf="addListTemplate; else defaultAddListForm">
         <ng-container *ngTemplateOutlet="addListTemplate"></ng-container>
       </ng-container>
@@ -68,7 +89,7 @@
 
 <ng-template #defaultAddListForm>
   <input
-    #addListInput
+    [budgetelloAsyncAutofocus]="this.isCreatingList"
     autofocus
     [formControl]="listTitleFormControl"
     pInputText
@@ -87,7 +108,7 @@
       type="button"
       class="p-button-text"
       icon="pi pi-times"
-      (click)="stopEditing($event)"
+      (click)="stopCreating($event)"
     ></button>
   </div>
 </ng-template>

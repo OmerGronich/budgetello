@@ -3,6 +3,7 @@
   "projects": {
     "front-end": "apps/front-end",
     "front-end-e2e": "apps/front-end-e2e",
+    "ui-async-autofocus": "libs/ui/async-autofocus",
     "ui-kanban-board": "libs/ui/kanban-board",
     "ui-kanban-board-e2e": "apps/ui-kanban-board-e2e"
   }

@@ -8,8 +8,10 @@ import {
   EventEmitter,
   HostListener,
   Input,
+  OnChanges,
   Output,
   QueryList,
+  SimpleChanges,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
@@ -20,6 +22,7 @@ import {
 } from '@angular/cdk/drag-drop';
 import { KanbanBoardTemplateDirective } from './kanban-board-template.directive';
 import { FormControl } from '@angular/forms';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface IKanbanBoardList {
   isCreatingCard: boolean;
@@ -37,11 +40,11 @@ export class KanbanBoardComponent implements AfterViewInit {
   @Input() lists: IKanbanBoardList[] = [];
   @Output() addedList = new EventEmitter();
 
-  @ViewChild('addListInput') input: ElementRef<HTMLInputElement>;
   @ContentChildren(KanbanBoardTemplateDirective) templates: QueryList<any>;
 
   isCreatingList = false;
   listTitleFormControl = new FormControl('');
+  cardTitleFormControl = new FormControl('');
   cardTemplate: TemplateRef<any>;
   addListTemplate: TemplateRef<any>;
 
@@ -68,6 +71,7 @@ export class KanbanBoardComponent implements AfterViewInit {
     event: KeyboardEvent
   ) {
     this.isCreatingList = false;
+    this.cancelAllCardCreations();
   }
 
   dropList(event: CdkDragDrop<IKanbanBoardList[]>) {
@@ -91,7 +95,7 @@ export class KanbanBoardComponent implements AfterViewInit {
     }
   }
 
-  addList($event: SubmitEvent) {
+  createList($event: SubmitEvent) {
     if (this.addListTemplate) {
       this.addedList.emit($event);
     } else {
@@ -108,18 +112,15 @@ export class KanbanBoardComponent implements AfterViewInit {
     }
   }
 
-  stopEditing($event: MouseEvent) {
+  stopCreating($event: MouseEvent) {
     $event.stopImmediatePropagation();
+    this.cardTitleFormControl.reset();
     this.listTitleFormControl.reset();
     this.isCreatingList = false;
   }
 
   startCreatingList() {
     this.isCreatingList = true;
-    setTimeout(() => {
-      // this will make the execution after the above boolean has changed
-      this.input.nativeElement.focus();
-    }, 1);
   }
 
   startCreatingCard({
@@ -134,8 +135,23 @@ export class KanbanBoardComponent implements AfterViewInit {
     list.isCreatingCard = true;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  createCard({ list }: { $event: MouseEvent; list: IKanbanBoardList }) {}
+  createCard({
+    list,
+    $event,
+  }: {
+    $event: SubmitEvent | MouseEvent;
+    list: IKanbanBoardList;
+  }) {
+    if ('preventDefault' in $event) {
+      $event.preventDefault();
+    }
+    if ((this.cardTitleFormControl.value || '').trim()) {
+      list.cards.push({
+        title: this.cardTitleFormControl.value,
+      });
+      this.cardTitleFormControl.reset();
+    }
+  }
 
   clickOutside({ list }: { $event: Event; list: IKanbanBoardList }) {
     list.isCreatingCard = false;

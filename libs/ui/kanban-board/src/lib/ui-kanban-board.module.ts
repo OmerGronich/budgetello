@@ -8,6 +8,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ClickOutsideModule } from 'ng-click-outside';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { UiAsyncAutofocusModule } from '@budgetello/ui/async-autofocus';
 
 @NgModule({
   imports: [
@@ -18,6 +20,8 @@ import { ClickOutsideModule } from 'ng-click-outside';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     ClickOutsideModule,
+    InputTextareaModule,
+    UiAsyncAutofocusModule,
   ],
   declarations: [KanbanBoardComponent, KanbanBoardTemplateDirective],
   exports: [KanbanBoardComponent, KanbanBoardTemplateDirective],
