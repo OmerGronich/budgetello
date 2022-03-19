@@ -35,6 +35,7 @@ export class BoardHeaderComponent implements OnInit {
   }: {
     boardNameTemplate: Inplace;
   }) {
+    this.boardTitleFormControl.setValue(this.boardTitle);
     boardNameTemplate.deactivate();
   }
 

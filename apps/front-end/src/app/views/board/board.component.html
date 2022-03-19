@@ -2,7 +2,7 @@
   <budgetello-board-header
     [boardTitle]="board.title"
     (boardTitleUpdated)="updateBoardTitle($event)"
-    (boardDeleted)="deleteBoard()"
+    (boardDeleted)="deleteBoard(board)"
   ></budgetello-board-header>
 
   <main>

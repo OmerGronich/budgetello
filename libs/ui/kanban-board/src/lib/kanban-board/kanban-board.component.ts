@@ -22,12 +22,12 @@ import {
 import { KanbanBoardTemplateDirective } from './kanban-board-template.directive';
 import { FormControl } from '@angular/forms';
 
-export interface IKanbanBoardListDto {
+interface IKanbanBoardListDto {
   title: string;
   cards: any[];
 }
 
-export interface IKanbanBoardList {
+interface IKanbanBoardList {
   title: string;
   cards: any[];
   isCreatingCard: boolean;

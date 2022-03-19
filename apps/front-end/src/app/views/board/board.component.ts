@@ -1,9 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  BoardsService,
-  IBoard,
-  IBoardDto,
-} from '../../services/boards/boards.service';
+import { BoardsService, IBoard } from '../../services/boards/boards.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AngularFirestoreDocument } from '@angular/fire/compat/firestore';
@@ -15,7 +11,7 @@ import { AngularFirestoreDocument } from '@angular/fire/compat/firestore';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BoardComponent {
-  private boardDoc: AngularFirestoreDocument<IBoardDto>;
+  private boardDoc: AngularFirestoreDocument<IBoard>;
   board$: Observable<IBoard>;
 
   constructor(
@@ -35,7 +31,9 @@ export class BoardComponent {
     this.boardDoc.update($event);
   }
 
-  deleteBoard() {
+  deleteBoard(board: IBoard) {
+    console.log(board);
+    this.boardsService.deleteAssociatedLists(board);
     this.boardDoc.delete();
     this.router.navigate(['/']);
   }
