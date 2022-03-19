@@ -1,8 +1,18 @@
 .board-preview {
+  position: relative;
   width: 200px;
   height: 100px;
   border-radius: 4px;
   padding: 20px;
   background: var(--primary-color);
   cursor: pointer;
+
+  p {
+    inline-size: 150px;
+    overflow-wrap: break-word;
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
 }

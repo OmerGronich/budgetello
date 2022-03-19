@@ -1,0 +1,33 @@
+<header class="board-header flex align-center my-5">
+  <p-inplace #boardNameTemplate>
+    <ng-template pTemplate="display">
+      {{ boardTitle }}
+    </ng-template>
+    <ng-template pTemplate="content">
+      <input
+        [budgetelloAsyncAutofocus]="boardNameTemplate.active"
+        type="text"
+        class="board-title-input"
+        pInputText
+        [formControl]="boardTitleFormControl"
+        (keyup.enter)="onBoardTitleEdit({boardNameTemplate})"
+        (keyup.esc)="onBoardTitleEditCancel({boardNameTemplate})"
+      />
+    </ng-template>
+  </p-inplace>
+
+  <div class="flex-1"></div>
+
+  <button
+    pButton
+    class="p-button-outlined p-button-sm p-button-danger"
+    icon="pi pi-trash"
+    (click)="confirm()"
+  ></button>
+</header>
+
+<p-confirmDialog
+  [style]="{ width: '50vw' }"
+  [autoZIndex]="true"
+  rejectButtonStyleClass="p-button-text"
+></p-confirmDialog>

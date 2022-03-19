@@ -17,6 +17,10 @@ export class AuthenticationService {
     return this.auth.user;
   }
 
+  get authSate$() {
+    return this.auth.authState;
+  }
+
   constructor(
     private auth: AngularFireAuth,
     private toastService: ToastService,

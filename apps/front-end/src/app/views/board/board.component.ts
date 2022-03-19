@@ -1,33 +1,42 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   BoardsService,
   IBoard,
   IBoardDto,
 } from '../../services/boards/boards.service';
-import { ActivatedRoute } from '@angular/router';
-import { filter, map, Observable, switchMap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'budgetello-board',
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BoardComponent {
-  public board$: Observable<IBoard>;
+  private boardDoc: AngularFirestoreDocument<IBoardDto>;
+  board$: Observable<IBoard>;
+
   constructor(
     private boardsService: BoardsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
-    this.board$ = this.boardsService.boards$.pipe(
-      map(this.findBoardByRouteParams.bind(this)),
-      filter(Boolean),
-      switchMap(this.boardsService.getLists.bind(this.boardsService))
-    );
+    ({ board$: this.board$, boardDoc: this.boardDoc } =
+      this.boardsService.getBoard(this.boardId));
   }
 
-  findBoardByRouteParams(boards: IBoardDto[]): IBoardDto | undefined {
-    return boards.find(
-      (board: IBoardDto) => board.id === this.route.snapshot.paramMap.get('id')
-    );
+  get boardId() {
+    return this.route.snapshot.paramMap.get('id') || '';
+  }
+
+  updateBoardTitle($event: { title: string }) {
+    this.boardDoc.update($event);
+  }
+
+  deleteBoard() {
+    this.boardDoc.delete();
+    this.router.navigate(['/']);
   }
 }

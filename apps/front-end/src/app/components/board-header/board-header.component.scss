@@ -1,0 +1,15 @@
+.board-header {
+  height: 50px;
+
+  ::ng-deep .board-title-input {
+    padding: 0.3rem;
+  }
+
+  ::ng-deep .p-inplace-display {
+    background: var(--surface-card);
+    padding: 10px;
+    height: 100%;
+    font-weight: bold;
+    font-size: 18px;
+  }
+}

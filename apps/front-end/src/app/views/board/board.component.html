@@ -1,29 +1,31 @@
-<header class="board-header"></header>
+<ng-container *ngIf="board$ | async as board">
+  <budgetello-board-header
+    [boardTitle]="board.title"
+    (boardTitleUpdated)="updateBoardTitle($event)"
+    (boardDeleted)="deleteBoard()"
+  ></budgetello-board-header>
 
-<main class="board-main">
-  <budgetello-kanban-board
-    *ngIf="board$ | async as board"
-    class="kanban-board"
-    [lists]="board.lists"
-  >
-    <ng-template kanbanTemplate="listHeader" let-list>
-      <header class="list-header w-full">
-        <p class="list-title">{{ list.title }}</p>
-        <button
-          pButton
-          icon="pi pi-pencil"
-          class="p-button-text p-button-sm"
-        ></button>
-      </header>
-    </ng-template>
-    <ng-template kanbanTemplate="card" let-card>
-      <div class="card-layout">
-        <div class="card-header">
-          <div class="card-title">
-            <p>{{ card | json }}</p>
+  <main>
+    <budgetello-kanban-board class="kanban-board" [lists]="board.lists">
+      <ng-template kanbanTemplate="listHeader" let-list>
+        <header class="list-header w-full">
+          <p class="list-title">{{ list.title }}</p>
+          <button
+            pButton
+            icon="pi pi-pencil"
+            class="p-button-text p-button-sm"
+          ></button>
+        </header>
+      </ng-template>
+      <ng-template kanbanTemplate="card" let-card>
+        <div class="card-layout">
+          <div class="card-header">
+            <div class="card-title">
+              <p>{{ card | json }}</p>
+            </div>
           </div>
         </div>
-      </div>
-    </ng-template>
-  </budgetello-kanban-board>
-</main>
+      </ng-template>
+    </budgetello-kanban-board>
+  </main>
+</ng-container>

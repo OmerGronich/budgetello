@@ -1,12 +1,32 @@
-<div class="flex-column container">
+<div class="flex-column container w-full">
   <section class="p-40">
     <h2 class="title mb-10">YOUR BOARDS</h2>
-    <ng-container *ngIf="boards$ | async as boards">
-      <budgetello-board-preview
-        *ngFor="let board of boards"
-        [boardTitle]="board.title"
-        routerLink="board/{{ board.id }}"
-      ></budgetello-board-preview>
-    </ng-container>
+    <div class="board-previews flex">
+      <ng-container *ngIf="boards$ | async as boards">
+        <budgetello-board-preview
+          *ngFor="let board of boards"
+          [boardTitle]="board.title"
+          routerLink="board/{{ board.id }}"
+        ></budgetello-board-preview>
+      </ng-container>
+      <form
+        (submit)="onCreateBoard($event)"
+        (click)="setIsCreatingBoard(true)"
+        (clickOutside)="setIsCreatingBoard(false)"
+        class="add-board-form"
+      >
+        <ng-container *ngIf="(isCreatingBoard$ | async) === false"
+          >Create a new board</ng-container
+        >
+        <input
+          [formControl]="boardTitleFormControl"
+          *ngIf="isCreatingBoard$ | async as isCreatingBoard"
+          [budgetelloAsyncAutofocus]="isCreatingBoard"
+          pInputText
+          class="p-inputtext-sm"
+          placeholder="Board title"
+        />
+      </form>
+    </div>
   </section>
 </div>

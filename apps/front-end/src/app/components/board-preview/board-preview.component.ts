@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'budgetello-board-preview',
@@ -7,5 +7,4 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class BoardPreviewComponent {
   @Input() boardTitle: string;
-  @Output() clicked = new EventEmitter();
 }

@@ -102,7 +102,7 @@
     display: none;
   }
 
-  &.editing {
+  &.isCreatingList {
     opacity: 1;
     border: 1px solid var(--gray-700);
     background: #333;
