@@ -25,4 +25,14 @@ export class ListHeaderComponent implements OnInit {
   ngOnInit(): void {
     this.listTitleFormControl.setValue(this.list.title);
   }
+
+  cancelEdit($event?: Event) {
+    this.isEditingTitle$.next(false);
+    this.listTitleFormControl.setValue(this.list.title);
+  }
+
+  startEditing($event: MouseEvent) {
+    $event.stopPropagation();
+    this.isEditingTitle$.next(true);
+  }
 }

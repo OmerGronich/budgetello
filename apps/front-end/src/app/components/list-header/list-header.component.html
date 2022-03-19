@@ -1,11 +1,14 @@
-<header class="flex align-center space-between w-full col-gap-10">
+<header
+  class="flex align-center space-between w-full col-gap-10"
+  (clickOutside)="cancelEdit($event)"
+>
   <ng-container *ngIf="(isEditingTitle$ | async) === false; else editingState">
     <p class="list-title">{{ list.title }}</p>
     <button
       pButton
       icon="pi pi-pencil"
       class="p-button-text p-button-sm"
-      (click)="isEditingTitle$.next(true)"
+      (click)="startEditing($event)"
     ></button>
   </ng-container>
 </header>
@@ -18,11 +21,12 @@
     [formControl]="listTitleFormControl"
     [budgetelloAsyncAutofocus]="!!(isEditingTitle$ | async)"
     (keyup.enter)="listTitleChanged.emit({ title: listTitleFormControl.value })"
+    (keyup.esc)="cancelEdit($event)"
   />
   <button
     pButton
     icon="pi pi-times"
     class="p-button-text p-button-sm"
-    (click)="isEditingTitle$.next(false)"
+    (click)="cancelEdit($event)"
   ></button>
 </ng-template>

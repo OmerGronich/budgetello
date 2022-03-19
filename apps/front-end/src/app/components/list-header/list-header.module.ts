@@ -5,6 +5,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UiAsyncAutofocusModule } from '@budgetello/ui/async-autofocus';
+import { ClickOutsideModule } from 'ng-click-outside';
 
 @NgModule({
   declarations: [ListHeaderComponent],
@@ -14,6 +15,7 @@ import { UiAsyncAutofocusModule } from '@budgetello/ui/async-autofocus';
     InputTextModule,
     ReactiveFormsModule,
     UiAsyncAutofocusModule,
+    ClickOutsideModule,
   ],
   exports: [ListHeaderComponent],
 })
