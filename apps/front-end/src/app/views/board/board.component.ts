@@ -1,8 +1,15 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BoardsService, IBoard } from '../../services/boards/boards.service';
+import {
+  BoardsService,
+  IBoard,
+  IList,
+} from '../../services/boards/boards.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AngularFirestoreDocument } from '@angular/fire/compat/firestore';
+import { FormControl, Validators } from '@angular/forms';
+import { LIST_TYPES } from '../../constants';
+import { arrayUnion } from '@angular/fire/firestore';
 
 @Component({
   selector: 'budgetello-board',
@@ -13,6 +20,23 @@ import { AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 export class BoardComponent {
   private boardDoc: AngularFirestoreDocument<IBoard>;
   board$: Observable<IBoard>;
+  addListTitleFormControl = new FormControl('', [Validators.required]);
+  listTypeSelectorFormControl = new FormControl(null, [Validators.required]);
+  listTypes = [
+    {
+      value: LIST_TYPES.Income,
+      label: `Income`,
+    },
+    {
+      value: LIST_TYPES.Expense,
+      label: `Expense`,
+    },
+    {
+      value: LIST_TYPES.Split,
+      label: `Split`,
+      disabled: true,
+    },
+  ];
 
   constructor(
     private boardsService: BoardsService,
@@ -39,5 +63,30 @@ export class BoardComponent {
 
   updateList($event: { title: string; id: string }) {
     this.boardsService.updateList($event);
+  }
+
+  async addList({
+    $event,
+    stopCreating,
+  }: {
+    $event: MouseEvent;
+    stopCreating: ($event: MouseEvent) => void;
+  }) {
+    $event.preventDefault();
+    if (this.addListTitleFormControl.invalid) return;
+    const listRef = await this.boardsService.addList({
+      title: this.addListTitleFormControl.value,
+      type: this.listTypeSelectorFormControl.value,
+    });
+    this.boardDoc.update({
+      lists: arrayUnion(listRef) as unknown as IList[],
+    });
+    this.addListTitleFormControl.reset();
+    stopCreating($event);
+  }
+
+  resetAddListForm() {
+    this.addListTitleFormControl.reset();
+    this.listTypeSelectorFormControl.reset();
   }
 }

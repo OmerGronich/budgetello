@@ -11,6 +11,8 @@ import { ClickOutsideModule } from 'ng-click-outside';
 import { UiAsyncAutofocusModule } from '@budgetello/ui/async-autofocus';
 import { BoardHeaderModule } from '../../components/board-header/board-header.module';
 import { ListHeaderModule } from '../../components/list-header/list-header.module';
+import { DropdownModule } from 'primeng/dropdown';
+import { MapListOperatorToIconModule } from '../../pipes/map-list-operator-to-icon/map-list-operator-to-icon.module';
 
 @NgModule({
   declarations: [BoardComponent],
@@ -26,6 +28,8 @@ import { ListHeaderModule } from '../../components/list-header/list-header.modul
     UiAsyncAutofocusModule,
     BoardHeaderModule,
     ListHeaderModule,
+    DropdownModule,
+    MapListOperatorToIconModule,
   ],
 })
 export class BoardModule {}

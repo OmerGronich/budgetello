@@ -42,11 +42,13 @@ interface IKanbanBoardList {
 export class KanbanBoardComponent implements AfterViewInit, OnChanges {
   listsFromDto: IKanbanBoardList[] = [];
   @Input() lists: IKanbanBoardListDto[] = [];
+  @Input() isCreatingList = false;
   @Output() listAdded = new EventEmitter();
+  @Output() addListFormHide = new EventEmitter();
+  @Input() listCssClassMapper = '';
 
   @ContentChildren(KanbanBoardTemplateDirective) templates: QueryList<any>;
 
-  isCreatingList = false;
   listTitleFormControl = new FormControl('');
   cardTitleFormControl = new FormControl('');
   cardTemplate: TemplateRef<any>;
@@ -96,6 +98,7 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
   ) {
     this.isCreatingList = false;
     this.cancelAllCardCreations();
+    this.addListFormHide.emit();
   }
 
   dropList(event: CdkDragDrop<IKanbanBoardListDto[]>) {
@@ -136,7 +139,7 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  stopCreating($event: MouseEvent) {
+  stopCreatingList($event: MouseEvent) {
     $event.stopImmediatePropagation();
     this.cardTitleFormControl.reset();
     this.listTitleFormControl.reset();
@@ -200,5 +203,9 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
       '--kanban-card-placeholder-height',
       element?.clientHeight + 'px'
     );
+  }
+
+  handleClickOutside($event: Event) {
+    this.isCreatingList = false;
   }
 }

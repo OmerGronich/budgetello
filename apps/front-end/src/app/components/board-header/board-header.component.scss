@@ -6,10 +6,14 @@
   }
 
   ::ng-deep .p-inplace-display {
-    background: var(--surface-card);
-    padding: 10px;
-    height: 100%;
-    font-weight: bold;
-    font-size: 18px;
+    padding: 0;
+
+    & .board-name {
+      background: var(--surface-card);
+      padding: 10px;
+      height: 100%;
+      font-weight: bold;
+      font-size: 18px;
+    }
   }
 }

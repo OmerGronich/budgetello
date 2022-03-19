@@ -17,11 +17,11 @@ import {
 import { connectFirestoreEmulator } from '@angular/fire/firestore';
 import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../authentication/authentication.service';
-import { LIST_OPERATORS } from '../../constants';
+import { LIST_OPERATORS, LIST_TYPES } from '../../constants';
 import firebase from 'firebase/compat/app';
 import FieldValue = firebase.firestore.FieldValue;
 
-export interface IList extends DocumentReference {
+export interface IList extends Partial<DocumentReference> {
   type: LIST_OPERATORS;
   id: string;
   title: string;
@@ -42,6 +42,7 @@ export type IBoard = {
 })
 export class BoardsService {
   private boardsCollection: AngularFirestoreCollection<IBoard>;
+  private listsCollection: AngularFirestoreCollection<IList>;
   private boardsCollection$: Observable<AngularFirestoreCollection<IBoard>>;
   boards$: Observable<IBoard[]>;
 
@@ -52,6 +53,8 @@ export class BoardsService {
     if (environment.useEmulators) {
       connectFirestoreEmulator(this.afs.firestore, 'localhost', 8080);
     }
+
+    this.listsCollection = this.afs.collection<IList>('lists');
 
     this.boardsCollection$ = this.auth.user$.pipe(
       map((user) =>
@@ -87,7 +90,9 @@ export class BoardsService {
   }
 
   getLists(board: IBoard) {
-    return combineLatest(board.lists.map((list) => this.getList(list))).pipe(
+    return combineLatest(
+      board.lists.map((list) => this.getList(<DocumentReference>list))
+    ).pipe(
       startWith([]),
       map((lists) => ({ ...board, lists }))
     );
@@ -116,6 +121,17 @@ export class BoardsService {
   updateList(list: { title: string; id: string }) {
     this.afs.doc('lists/' + list.id).update({
       title: list.title,
+    });
+  }
+
+  addList({ title, type }: { title: string; type: LIST_OPERATORS }) {
+    const id = this.afs.createId();
+    return this.listsCollection.add({
+      id,
+      title,
+      type,
+      cards: [],
+      created: firebase.firestore.FieldValue.serverTimestamp(),
     });
   }
 }

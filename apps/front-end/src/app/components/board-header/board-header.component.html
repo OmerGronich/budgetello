@@ -1,7 +1,14 @@
 <header class="board-header flex align-center my-5">
-  <p-inplace #boardNameTemplate>
+  <p-inplace #boardNameTemplate [preventClick]="true">
     <ng-template pTemplate="display">
-      {{ boardTitle }}
+      <div
+        (click)="
+          $event.stopImmediatePropagation(); boardNameTemplate.activate()
+        "
+        class="board-name"
+      >
+        {{ boardTitle }}
+      </div>
     </ng-template>
     <ng-template pTemplate="content">
       <input
@@ -12,6 +19,7 @@
         [formControl]="boardTitleFormControl"
         (keyup.enter)="onBoardTitleEdit({boardNameTemplate})"
         (keyup.esc)="onBoardTitleEditCancel({boardNameTemplate})"
+        (clickOutside)="onBoardTitleEditCancel({boardNameTemplate})"
       />
     </ng-template>
   </p-inplace>

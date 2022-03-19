@@ -96,6 +96,10 @@ body {
   justify-content: space-between;
 }
 
+.pointer-none {
+  pointer-events: none;
+}
+
 @for $i from 1 through 40 {
   .my-#{$i} {
     margin-top: #{$i}px;
@@ -160,5 +164,15 @@ body {
 
   .col-gap-#{$i} {
     column-gap: #{$i}px;
+  }
+}
+
+.list-type-selector .p-dropdown-item {
+  padding: 4px 16px !important;
+}
+
+.p-inputwrapper-filled {
+  .p-dropdown-label {
+    width: 30px;
   }
 }

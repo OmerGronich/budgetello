@@ -18,10 +18,7 @@ export class AsyncAutofocusDirective implements OnChanges, OnDestroy {
   constructor(private el: ElementRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes['budgetelloAsyncAutofocus'] &&
-      changes['budgetelloAsyncAutofocus'].currentValue
-    ) {
+    if (changes['budgetelloAsyncAutofocus']?.currentValue) {
       if (this._timeoutId) {
         clearTimeout(this._timeoutId);
       }

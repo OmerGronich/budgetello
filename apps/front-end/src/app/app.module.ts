@@ -22,7 +22,6 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { BaseReactiveFormDirective } from './directives/base-reactive-form.directive';
 import { MessageService } from 'primeng/api';
 import { BoardModule } from './views/board/board.module';
-import { BoardHeaderComponent } from './components/board-header/board-header.component';
 
 @NgModule({
   declarations: [AppComponent, BaseReactiveFormDirective],

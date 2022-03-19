@@ -1,3 +1,19 @@
 :host {
   padding: 0 20px;
+
+  ::ng-deep budgetello-kanban-board {
+    .p-dropdown {
+      .p-dropdown-label {
+        padding: 4px;
+      }
+    }
+
+    .add-list-form {
+      gap: 10px;
+    }
+
+    .list.add.isCreatingList {
+      height: 200px;
+    }
+  }
 }

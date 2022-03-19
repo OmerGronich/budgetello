@@ -76,7 +76,7 @@
             ></button>
             <button
               pButton
-              (click)="stopCreating($event); list.isCreatingCard = false"
+              (click)="stopCreatingList($event); list.isCreatingCard = false"
               class="mx-10 p-button-sm p-button-text"
               icon="pi pi-times"
             ></button>
@@ -91,12 +91,19 @@
     (click)="startCreatingList()"
     [class.isCreatingList]="isCreatingList"
     class="list add"
-    (clickOutside)="isCreatingList = false"
   >
     <span class="pre-editing-text">+ Add another list</span>
-    <form class="add-list-form" (submit)="createList($event)">
+    <form class="add-list-form flex-1" (submit)="createList($event)">
       <ng-container *ngIf="addListTemplate; else defaultAddListForm">
-        <ng-container *ngTemplateOutlet="addListTemplate"></ng-container>
+        <ng-container
+          *ngTemplateOutlet="
+            addListTemplate;
+            context: {
+              $implicit: stopCreatingList.bind(this),
+              isCreatingList: isCreatingList
+            }
+          "
+        ></ng-container>
       </ng-container>
     </form>
   </div>
@@ -123,7 +130,7 @@
       type="button"
       class="p-button-text"
       icon="pi pi-times"
-      (click)="stopCreating($event)"
+      (click)="stopCreatingList($event)"
     ></button>
   </div>
 </ng-template>

@@ -7,6 +7,7 @@ import { UiAsyncAutofocusModule } from '@budgetello/ui/async-autofocus';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ClickOutsideModule } from 'ng-click-outside';
 
 @NgModule({
   declarations: [BoardHeaderComponent],
@@ -18,6 +19,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     ReactiveFormsModule,
     InputTextModule,
     ConfirmDialogModule,
+    ClickOutsideModule,
   ],
   exports: [BoardHeaderComponent],
 })

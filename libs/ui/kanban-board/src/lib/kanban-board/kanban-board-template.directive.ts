@@ -4,7 +4,7 @@ import { Directive, Input, TemplateRef } from '@angular/core';
   selector: '[kanbanTemplate]',
 })
 export class KanbanBoardTemplateDirective {
-  @Input() type: 'card' | 'addListForm';
+  @Input() type: 'card' | 'addListForm' | 'listHeader';
   @Input('kanbanTemplate') name: string;
 
   constructor(public template: TemplateRef<any>) {}
