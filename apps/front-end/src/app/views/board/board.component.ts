@@ -32,9 +32,12 @@ export class BoardComponent {
   }
 
   deleteBoard(board: IBoard) {
-    console.log(board);
     this.boardsService.deleteAssociatedLists(board);
     this.boardDoc.delete();
     this.router.navigate(['/']);
+  }
+
+  updateList($event: { title: string; id: string }) {
+    this.boardsService.updateList($event);
   }
 }

@@ -92,6 +92,10 @@ body {
   align-items: flex-end;
 }
 
+.space-between {
+  justify-content: space-between;
+}
+
 @for $i from 1 through 40 {
   .my-#{$i} {
     margin-top: #{$i}px;
@@ -148,6 +152,10 @@ body {
 
   .fs-#{$i} {
     font-size: #{$i}px;
+  }
+
+  .gap-#{$i} {
+    grid-gap: #{$i}px;
   }
 
   .col-gap-#{$i} {

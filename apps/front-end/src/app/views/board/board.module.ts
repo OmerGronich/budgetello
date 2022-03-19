@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { UiAsyncAutofocusModule } from '@budgetello/ui/async-autofocus';
 import { BoardHeaderModule } from '../../components/board-header/board-header.module';
+import { ListHeaderModule } from '../../components/list-header/list-header.module';
 
 @NgModule({
   declarations: [BoardComponent],
@@ -24,6 +25,7 @@ import { BoardHeaderModule } from '../../components/board-header/board-header.mo
     ClickOutsideModule,
     UiAsyncAutofocusModule,
     BoardHeaderModule,
+    ListHeaderModule,
   ],
 })
 export class BoardModule {}

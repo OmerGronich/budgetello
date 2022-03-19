@@ -1,0 +1,28 @@
+<header class="flex align-center space-between w-full col-gap-10">
+  <ng-container *ngIf="(isEditingTitle$ | async) === false; else editingState">
+    <p class="list-title">{{ list.title }}</p>
+    <button
+      pButton
+      icon="pi pi-pencil"
+      class="p-button-text p-button-sm"
+      (click)="isEditingTitle$.next(true)"
+    ></button>
+  </ng-container>
+</header>
+
+<ng-template #editingState>
+  <input
+    class="p-button-text p-button-sm"
+    pInputText
+    type="text"
+    [formControl]="listTitleFormControl"
+    [budgetelloAsyncAutofocus]="!!(isEditingTitle$ | async)"
+    (keyup.enter)="listTitleChanged.emit({ title: listTitleFormControl.value })"
+  />
+  <button
+    pButton
+    icon="pi pi-times"
+    class="p-button-text p-button-sm"
+    (click)="isEditingTitle$.next(false)"
+  ></button>
+</ng-template>

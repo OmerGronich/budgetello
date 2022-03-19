@@ -8,14 +8,10 @@
   <main>
     <budgetello-kanban-board class="kanban-board" [lists]="board.lists">
       <ng-template kanbanTemplate="listHeader" let-list>
-        <header class="list-header w-full">
-          <p class="list-title">{{ list.title }}</p>
-          <button
-            pButton
-            icon="pi pi-pencil"
-            class="p-button-text p-button-sm"
-          ></button>
-        </header>
+        <budgetello-list-header
+          [list]="list"
+          (listTitleChanged)="updateList({ title: $event.title, id: list.id })"
+        ></budgetello-list-header>
       </ng-template>
       <ng-template kanbanTemplate="card" let-card>
         <div class="card-layout">

@@ -112,4 +112,10 @@ export class BoardsService {
       this.afs.doc('lists/' + list.id).delete();
     });
   }
+
+  updateList(list: { title: string; id: string }) {
+    this.afs.doc('lists/' + list.id).update({
+      title: list.title,
+    });
+  }
 }
