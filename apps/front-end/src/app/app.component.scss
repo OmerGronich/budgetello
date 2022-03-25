@@ -1,5 +1,4 @@
-@use 'apps/front-end/src/assets/styles/mixins.scss' as mixins;
-
+@use 'assets/styles/mixins';
 
 budgetello-layout {
   @include mixins.flex-column;

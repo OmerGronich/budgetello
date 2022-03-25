@@ -9,3 +9,10 @@ export const LIST_TYPES: Record<LIST_TYPES_PROPS, LIST_OPERATORS> = {
   Expense: '-',
   Split: '%',
 };
+
+export const LIST_OPERATORS_TO_PROPS: Record<LIST_OPERATORS, LIST_TYPES_PROPS> =
+  {
+    '+': 'Income',
+    '-': 'Expense',
+    '%': 'Split',
+  };

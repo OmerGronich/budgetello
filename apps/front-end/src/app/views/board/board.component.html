@@ -9,15 +9,18 @@
     <budgetello-kanban-board
       class="kanban-board"
       [lists]="board.lists"
-      (listAdded)="addList($event)"
-      (addListFormHide)="resetAddListForm()"
+      (listAdded)="$event.preventDefault()"
+      [getListCssClass]="getListCssClass"
     >
+      <!-- list header -->
       <ng-template kanbanTemplate="listHeader" let-list>
         <budgetello-list-header
           [list]="list"
           (listTitleChanged)="updateList({ title: $event.title, id: list.id })"
         ></budgetello-list-header>
       </ng-template>
+
+      <!-- list card -->
       <ng-template kanbanTemplate="card" let-card>
         <div class="card-layout">
           <div class="card-header">
@@ -27,71 +30,27 @@
           </div>
         </div>
       </ng-template>
+
+      <!--  add list form    -->
       <ng-template
         kanbanTemplate="addListForm"
         let-isCreatingList="isCreatingList"
         let-close
       >
-        <input
-          [budgetelloAsyncAutofocus]="isCreatingList"
-          pInputText
-          [formControl]="addListTitleFormControl"
-          placeholder="Enter list title"
-          type="text"
-        />
-        <p-dropdown
-          appendTo="body"
-          [options]="listTypes"
-          [formControl]="listTypeSelectorFormControl"
-          placeholder="List type"
-          panelStyleClass="list-type-selector"
-          optionLabel="label"
-        >
-          <ng-template let-listTypeOption pTemplate="selectedItem">
-            <div class="flex align-center pointer-none">
-              <button
-                pButton
-                icon="pi pi-{{ listTypeOption.value | mapListOperatorToIcon }}"
-                class="mx-4 p-button-text p-button-sm"
-                [ngClass]="{
-                  'p-button-danger': listTypeOption.value === '-',
-                  'p-button-secondary': listTypeOption.value === '+'
-                }"
-              ></button>
-            </div>
-          </ng-template>
-          <ng-template let-listTypeOption pTemplate="item">
-            <div class="flex align-center pointer-none">
-              <span>{{ listTypeOption.label }}</span>
-              <button
-                pButton
-                icon="pi pi-{{ listTypeOption.value | mapListOperatorToIcon }}"
-                class="mx-4 p-button-text p-button-{{
-                  listTypeOption.value | mapListOperatorToIcon: 'color'
-                }}"
-              ></button>
-            </div>
-          </ng-template>
-        </p-dropdown>
-
-        <div class="flex-1"></div>
-        <div class="space-between mt-6">
-          <button
-            pButton
-            type="submit"
-            class="p-button-text"
-            icon="pi pi-plus"
-            label="Add list"
-            (click)="addList({$event, stopCreating:close})"
-          ></button>
-          <button
-            pButton
-            type="button"
-            class="p-button-text"
-            icon="pi pi-times"
-            (click)="resetAddListForm(); close($event)"
-          ></button>
-        </div>
+        <budgetello-add-list-form
+          *ngIf="isCreatingList"
+          class="flex-column"
+          [isCreatingList]="isCreatingList"
+          (closeButtonClicked)="close($event)"
+          (listAdded)="
+            addList({
+              $event: $event.event,
+              title: $event.title,
+              type: $event.type
+            });
+            close()
+          "
+        ></budgetello-add-list-form>
       </ng-template>
     </budgetello-kanban-board>
   </main>

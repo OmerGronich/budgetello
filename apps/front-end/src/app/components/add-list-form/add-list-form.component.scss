@@ -1,0 +1,13 @@
+:host {
+  ::ng-deep {
+    p-dropdown.ng-dirty.ng-invalid > .p-dropdown {
+      border-color: #e24c4c;
+    }
+
+    .p-dropdown {
+      .p-dropdown-label {
+        padding: 4px;
+      }
+    }
+  }
+}

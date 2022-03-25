@@ -1,0 +1,34 @@
+<p-dropdown
+  appendTo="body"
+  [options]="listTypeOptions"
+  [formControl]="control"
+  placeholder="List type"
+  panelStyleClass="list-type-selector"
+  optionLabel="label"
+>
+  <ng-template let-listTypeOption pTemplate="selectedItem">
+    <div class="flex align-center pointer-none">
+      <button
+        pButton
+        icon="pi pi-{{ listTypeOption.value | mapListOperatorToIcon }}"
+        class="mx-4 p-button-text p-button-sm"
+        [ngClass]="{
+          'p-button-danger': listTypeOption.value === '-',
+          'p-button-secondary': listTypeOption.value === '+'
+        }"
+      ></button>
+    </div>
+  </ng-template>
+  <ng-template let-listTypeOption pTemplate="item">
+    <div class="flex align-center pointer-none">
+      <span>{{ listTypeOption.label }}</span>
+      <button
+        pButton
+        icon="pi pi-{{ listTypeOption.value | mapListOperatorToIcon }}"
+        class="mx-4 p-button-text p-button-{{
+          listTypeOption.value | mapListOperatorToIcon: 'color'
+        }}"
+      ></button>
+    </div>
+  </ng-template>
+</p-dropdown>

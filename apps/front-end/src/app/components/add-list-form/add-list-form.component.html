@@ -1,0 +1,28 @@
+<input
+  [budgetelloAsyncAutofocus]="isCreatingList"
+  pInputText
+  [formControl]="addListTitleFormControl"
+  placeholder="Enter list title"
+  type="text"
+/>
+<budgetello-list-type-selector
+  [control]="listTypeSelectorFormControl"
+></budgetello-list-type-selector>
+<div class="flex-1"></div>
+<div class="space-between mt-6">
+  <button
+    pButton
+    type="submit"
+    class="p-button-text"
+    icon="pi pi-plus"
+    label="Add list"
+    (click)="handleAddListClick($event)"
+  ></button>
+  <button
+    pButton
+    type="button"
+    class="p-button-text"
+    icon="pi pi-times"
+    (click)="handleCancelClick($event)"
+  ></button>
+</div>

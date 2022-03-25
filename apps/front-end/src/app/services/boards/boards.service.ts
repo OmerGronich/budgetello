@@ -17,7 +17,7 @@ import {
 import { connectFirestoreEmulator } from '@angular/fire/firestore';
 import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../authentication/authentication.service';
-import { LIST_OPERATORS, LIST_TYPES } from '../../constants';
+import { LIST_OPERATORS } from '../../constants';
 import firebase from 'firebase/compat/app';
 import FieldValue = firebase.firestore.FieldValue;
 

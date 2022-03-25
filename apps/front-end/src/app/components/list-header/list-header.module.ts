@@ -6,6 +6,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UiAsyncAutofocusModule } from '@budgetello/ui/async-autofocus';
 import { ClickOutsideModule } from 'ng-click-outside';
+import { MapListOperatorToIconModule } from '../../pipes/map-list-operator-to-icon/map-list-operator-to-icon.module';
 
 @NgModule({
   declarations: [ListHeaderComponent],
@@ -16,6 +17,7 @@ import { ClickOutsideModule } from 'ng-click-outside';
     ReactiveFormsModule,
     UiAsyncAutofocusModule,
     ClickOutsideModule,
+    MapListOperatorToIconModule,
   ],
   exports: [ListHeaderComponent],
 })

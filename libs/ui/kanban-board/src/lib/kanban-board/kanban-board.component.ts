@@ -10,6 +10,7 @@ import {
   OnChanges,
   Output,
   QueryList,
+  Renderer2,
   SimpleChanges,
   TemplateRef,
 } from '@angular/core';
@@ -28,6 +29,7 @@ interface IKanbanBoardListDto {
 }
 
 interface IKanbanBoardList {
+  cssClass: string;
   title: string;
   cards: any[];
   isCreatingCard: boolean;
@@ -41,10 +43,12 @@ interface IKanbanBoardList {
 })
 export class KanbanBoardComponent implements AfterViewInit, OnChanges {
   listsFromDto: IKanbanBoardList[] = [];
+  @Input() getListCssClass: (list: any) => string;
   @Input() lists: IKanbanBoardListDto[] = [];
   @Input() isCreatingList = false;
   @Output() listAdded = new EventEmitter();
   @Output() addListFormHide = new EventEmitter();
+  @Output() listCreationFormClosed = new EventEmitter();
   @Input() listCssClassMapper = '';
 
   @ContentChildren(KanbanBoardTemplateDirective) templates: QueryList<any>;
@@ -56,7 +60,7 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
   listHeaderTemplate: TemplateRef<any>;
   height: number;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef, private renderer: Renderer2) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['lists']) {
@@ -70,6 +74,7 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
     return listsDto.map((listDto) => ({
       ...listDto,
       isCreatingCard: false,
+      cssClass: this.getListCssClass(listDto),
     }));
   }
 
@@ -132,6 +137,7 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
           title: this.listTitleFormControl.value,
           cards: [],
           isCreatingCard: false,
+          cssClass: '',
         });
 
         this.listTitleFormControl.reset();
@@ -139,11 +145,12 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  stopCreatingList($event: MouseEvent) {
+  stopCreatingList($event: Event) {
     $event.stopImmediatePropagation();
     this.cardTitleFormControl.reset();
     this.listTitleFormControl.reset();
     this.isCreatingList = false;
+    this.listCreationFormClosed.emit();
   }
 
   startCreatingList() {

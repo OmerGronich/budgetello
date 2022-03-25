@@ -1,11 +1,11 @@
-@use 'apps/front-end/src/assets/styles/mixins.scss';
+@use 'assets/styles';
 
 :host {
   height: 100%;
-  @include mixins.flex-column;
+  @include styles.mixins-flex-column;
 
   .content {
-    @include mixins.flex-column;
+    @include styles.mixins-flex-column;
     flex: 1;
   }
 }

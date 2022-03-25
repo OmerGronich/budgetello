@@ -13,6 +13,7 @@ import { BoardHeaderModule } from '../../components/board-header/board-header.mo
 import { ListHeaderModule } from '../../components/list-header/list-header.module';
 import { DropdownModule } from 'primeng/dropdown';
 import { MapListOperatorToIconModule } from '../../pipes/map-list-operator-to-icon/map-list-operator-to-icon.module';
+import { AddListFormModule } from '../../components/add-list-form/add-list-form.module';
 
 @NgModule({
   declarations: [BoardComponent],
@@ -30,6 +31,7 @@ import { MapListOperatorToIconModule } from '../../pipes/map-list-operator-to-ic
     ListHeaderModule,
     DropdownModule,
     MapListOperatorToIconModule,
+    AddListFormModule,
   ],
 })
 export class BoardModule {}

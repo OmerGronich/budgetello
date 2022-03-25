@@ -3,11 +3,18 @@
   (clickOutside)="cancelEdit($event)"
 >
   <ng-container *ngIf="(isEditingTitle$ | async) === false; else editingState">
-    <p class="list-title">{{ list.title }}</p>
+    <p class="list-title">
+      <i
+        class="list-type-indicator list-type-indicator-{{
+          list.type | mapListOperatorToIcon
+        }} mx-6 pi pi-{{ list.type | mapListOperatorToIcon }}"
+      ></i
+      >{{ list.title }}
+    </p>
     <button
       pButton
       icon="pi pi-pencil"
-      class="p-button-text p-button-sm"
+      class="p-button-text p-button-sm p-button-plain"
       (click)="startEditing($event)"
     ></button>
   </ng-container>
@@ -15,7 +22,6 @@
 
 <ng-template #editingState>
   <input
-    class="p-button-text p-button-sm"
     pInputText
     type="text"
     [formControl]="listTitleFormControl"
@@ -26,7 +32,7 @@
   <button
     pButton
     icon="pi pi-times"
-    class="p-button-text p-button-sm"
+    class="p-button-text p-button-sm p-button-plain"
     (click)="cancelEdit($event)"
   ></button>
 </ng-template>

@@ -1,19 +1,46 @@
+@use 'assets/styles';
+
 :host {
   padding: 0 20px;
 
   ::ng-deep budgetello-kanban-board {
-    .p-dropdown {
-      .p-dropdown-label {
-        padding: 4px;
+    position: relative;
+    .list-type-indicator {
+      &-plus-circle:before {
+        color: styles.$variables-color-income;
+      }
+      &-minus-circle {
+        color: styles.$variables-color-expense;
+      }
+      &-sync {
+        color: styles.$variables-color-split;
       }
     }
 
-    .add-list-form {
-      gap: 10px;
+    .list-title {
+      display: flex;
+      align-items: center;
+    }
+
+    .list {
+      &-income {
+        border: 1px solid rgba(styles.$variables-color-income, 0.7);
+      }
+      &-expense {
+        border: 1px solid rgba(styles.$variables-color-expense, 0.7);
+      }
+      &-split {
+        border: 1px solid rgba(styles.$variables-color-split, 0.7);
+      }
     }
 
     .list.add.isCreatingList {
       height: 200px;
+
+      .add-list-form budgetello-add-list-form {
+        height: 100%;
+        gap: 10px;
+      }
     }
   }
 }

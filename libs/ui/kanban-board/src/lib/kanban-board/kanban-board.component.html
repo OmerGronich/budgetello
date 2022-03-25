@@ -10,7 +10,7 @@
     (clickOutside)="clickOutside({$event, list})"
     *ngFor="let list of listsFromDto"
     cdkDrag
-    class="list"
+    class="list {{ list.cssClass }}"
   >
     <ng-container *ngIf="listHeaderTemplate; else defaultListHeader">
       <ng-container
@@ -49,7 +49,7 @@
           *ngIf="!list.isCreatingCard"
           (click)="startCreatingCard({$event, list})"
           pButton
-          class="p-button-sm p-button-text"
+          class="p-button-sm p-button-text p-button-plain"
           icon="pi pi-plus"
           label="Add a card"
         ></button>
