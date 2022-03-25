@@ -76,7 +76,10 @@
             ></button>
             <button
               pButton
-              (click)="stopCreatingList($event); list.isCreatingCard = false"
+              (click)="
+                stopCreatingList($event);
+                stopCreatingCard({ $event: $event, list: list })
+              "
               class="mx-10 p-button-sm p-button-text"
               icon="pi pi-times"
             ></button>

@@ -186,6 +186,7 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
 
   cancelAllCardCreations() {
     this.listsFromDto.forEach((list) => (list.isCreatingCard = false));
+    this.cardTitleFormControl.reset();
   }
 
   cdkListDragStarted($event: CdkDragStart) {
@@ -207,5 +208,10 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
 
   handleClickOutside($event: Event) {
     this.isCreatingList = false;
+  }
+
+  stopCreatingCard($event: { $event: MouseEvent; list: IKanbanBoardList }) {
+    $event.list.isCreatingCard = false;
+    this.cardTitleFormControl.reset();
   }
 }
