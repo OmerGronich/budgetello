@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, switchMap } from 'rxjs';
 import { AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { LIST_OPERATORS_TO_PROPS } from '../../constants';
-import { arrayUnion } from '@angular/fire/firestore';
+import { arrayRemove, arrayUnion } from '@angular/fire/firestore';
 
 @Component({
   selector: 'budgetello-board',
@@ -101,5 +101,13 @@ export class BoardComponent {
 
   reorderCards(lists: IList[]) {
     this.boardsService.setLists(lists);
+  }
+
+  deleteList(list: IList) {
+    const listRef = this.boardsService.getListRef(list.id);
+    this.boardDoc.update({
+      lists: arrayRemove(listRef) as unknown as IList[],
+    });
+    listRef.delete();
   }
 }

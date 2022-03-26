@@ -7,6 +7,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UiAsyncAutofocusModule } from '@budgetello/ui/async-autofocus';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { MapListOperatorToIconModule } from '../../pipes/map-list-operator-to-icon/map-list-operator-to-icon.module';
+import { ListContextMenuModule } from '../list-context-menu/list-context-menu.module';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
   declarations: [ListHeaderComponent],
@@ -18,6 +20,8 @@ import { MapListOperatorToIconModule } from '../../pipes/map-list-operator-to-ic
     UiAsyncAutofocusModule,
     ClickOutsideModule,
     MapListOperatorToIconModule,
+    ListContextMenuModule,
+    ConfirmDialogModule,
   ],
   exports: [ListHeaderComponent],
 })

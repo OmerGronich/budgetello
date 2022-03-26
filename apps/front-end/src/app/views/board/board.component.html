@@ -19,17 +19,13 @@
       <budgetello-list-header
         [list]="list"
         (listTitleChanged)="updateList({ title: $event.title, id: list.id })"
+        (listDeleted)="deleteList(list)"
       ></budgetello-list-header>
     </ng-template>
 
     <!-- list card -->
     <ng-template kanbanTemplate="card" let-card>
-      <div class="flex space-between">
-        <h4 class="title">{{ card.title }}</h4>
-        <p class="amount">
-          {{ card.amount | currency: 'USD':'symbol':'1.0' }}
-        </p>
-      </div>
+      <budgetello-kanban-card [card]="card"></budgetello-kanban-card>
     </ng-template>
 
     <!-- list footer -->

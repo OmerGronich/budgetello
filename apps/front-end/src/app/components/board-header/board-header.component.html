@@ -18,7 +18,7 @@
         pInputText
         [formControl]="boardTitleFormControl"
         (keyup.enter)="onBoardTitleEdit({boardNameTemplate})"
-        (keyup.esc)="onBoardTitleEditCancel({boardNameTemplate})"
+        (keyup.escape)="onBoardTitleEditCancel({boardNameTemplate})"
         (clickOutside)="onBoardTitleEditCancel({boardNameTemplate})"
       />
     </ng-template>

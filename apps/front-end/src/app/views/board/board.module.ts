@@ -16,6 +16,7 @@ import { MapListOperatorToIconModule } from '../../pipes/map-list-operator-to-ic
 import { AddListFormModule } from '../../components/add-list-form/add-list-form.module';
 import { ListFooterModule } from '../../components/list-footer/list-footer.module';
 import { CalculateListTotalModule } from '../../pipes/calculate-list-total/calculate-list-total.module';
+import { KanbanCardModule } from '../../components/kanban-card/kanban-card.module';
 
 @NgModule({
   declarations: [BoardComponent],
@@ -36,6 +37,7 @@ import { CalculateListTotalModule } from '../../pipes/calculate-list-total/calcu
     AddListFormModule,
     ListFooterModule,
     CalculateListTotalModule,
+    KanbanCardModule,
   ],
 })
 export class BoardModule {}

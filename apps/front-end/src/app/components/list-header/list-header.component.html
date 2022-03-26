@@ -2,7 +2,7 @@
   class="flex align-center space-between w-full col-gap-10"
   (clickOutside)="cancelEdit($event)"
 >
-  <ng-container *ngIf="(isEditingTitle$ | async) === false; else editingState">
+  <ng-container *ngIf="!isEditingTitle; else editingState">
     <p class="list-title">
       <i
         class="list-type-indicator list-type-indicator-{{
@@ -11,12 +11,10 @@
       ></i
       >{{ list.title }}
     </p>
-    <button
-      pButton
-      icon="pi pi-pencil"
-      class="p-button-text p-button-sm p-button-plain"
-      (click)="startEditing($event)"
-    ></button>
+    <budgetello-list-context-menu
+      (editButtonClicked)="startEditing()"
+      (deleteButtonClicked)="deleteList()"
+    ></budgetello-list-context-menu>
   </ng-container>
 </header>
 
@@ -25,7 +23,7 @@
     pInputText
     type="text"
     [formControl]="listTitleFormControl"
-    [budgetelloAsyncAutofocus]="!!(isEditingTitle$ | async)"
+    [budgetelloAsyncAutofocus]="isEditingTitle"
     (keyup.enter)="submitListTitleEdit($event)"
     (keyup.escape)="cancelEdit($event)"
   />
@@ -36,3 +34,9 @@
     (click)="cancelEdit($event)"
   ></button>
 </ng-template>
+
+<p-confirmDialog
+  [style]="{ width: '50vw' }"
+  [autoZIndex]="true"
+  rejectButtonStyleClass="p-button-text"
+></p-confirmDialog>
