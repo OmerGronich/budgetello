@@ -3,6 +3,7 @@ import { LIST_OPERATORS } from '../../constants';
 
 @Pipe({
   name: 'mapListOperatorToIcon',
+  pure: true,
 })
 export class MapListOperatorToIconPipe implements PipeTransform {
   transform(value: LIST_OPERATORS, ...args: any[]): string {

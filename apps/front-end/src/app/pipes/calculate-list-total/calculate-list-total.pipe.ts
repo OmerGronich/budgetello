@@ -3,6 +3,7 @@ import { IList } from '../../services/boards/boards.service';
 
 @Pipe({
   name: 'calculateListTotal',
+  pure: true,
 })
 export class CalculateListTotalPipe implements PipeTransform {
   transform(list: IList, ...args: unknown[]): number {
