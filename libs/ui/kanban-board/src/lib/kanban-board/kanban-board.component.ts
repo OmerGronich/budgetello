@@ -50,6 +50,7 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
   @Output() addListFormHide = new EventEmitter();
   @Output() listCreationFormClosed = new EventEmitter();
   @Output() listReordered = new EventEmitter();
+  @Output() cardsReordered = new EventEmitter();
   @Input() listCssClassMapper = '';
 
   @ContentChildren(KanbanBoardTemplateDirective) templates: QueryList<any>;
@@ -120,7 +121,7 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
     this.listReordered.emit(this.kanbanBoardLists);
   }
 
-  drop(event: CdkDragDrop<any[]>) {
+  dropCard(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -135,6 +136,8 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
         event.currentIndex
       );
     }
+
+    this.cardsReordered.emit(this.kanbanBoardLists);
   }
 
   createList($event: SubmitEvent) {

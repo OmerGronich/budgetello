@@ -5,14 +5,7 @@ import {
   IList,
 } from '../../services/boards/boards.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  BehaviorSubject,
-  Observable,
-  share,
-  shareReplay,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { LIST_OPERATORS_TO_PROPS } from '../../constants';
 import { arrayUnion } from '@angular/fire/firestore';
@@ -103,6 +96,10 @@ export class BoardComponent {
 
   reorderLists(lists: IList[]) {
     const docRefs = lists.map((list) => this.boardsService.getListRef(list.id));
-    this.boardDoc.update({ lists: docRefs as IList[] });
+    this.boardDoc.update({ lists: docRefs as unknown as IList[] });
+  }
+
+  reorderCards(lists: IList[]) {
+    this.boardsService.setLists(lists);
   }
 }

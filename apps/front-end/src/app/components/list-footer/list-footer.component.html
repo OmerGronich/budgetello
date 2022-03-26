@@ -69,7 +69,9 @@
 <ng-template #totalTmpl>
   <div
     class="flex align-center total cursor-default"
-    pTooltip="{{ total | currency: 'USD':'symbol':'3.0' }}"
+    pTooltip="{{
+      total === 0 ? '0' : (total | currency: 'USD':'symbol':'3.0')
+    }}"
     tooltipPosition="bottom"
   >
     <i class="pi pi-eye mx-4"></i>Total

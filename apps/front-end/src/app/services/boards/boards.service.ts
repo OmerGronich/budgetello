@@ -6,13 +6,11 @@ import {
 } from '@angular/fire/compat/firestore';
 import {
   combineLatest,
-  distinct,
   filter,
   firstValueFrom,
   map,
   Observable,
   shareReplay,
-  startWith,
   switchMap,
   tap,
 } from 'rxjs';
@@ -47,11 +45,14 @@ export class BoardsService {
   private listsCollection: AngularFirestoreCollection<IList>;
   private boardsCollection$: Observable<AngularFirestoreCollection<IBoard>>;
   boards$: Observable<IBoard[]>;
+  runTransaction: AngularFirestore['firestore']['runTransaction'];
 
   constructor(
     private afs: AngularFirestore,
     private auth: AuthenticationService
   ) {
+    this.runTransaction = this.afs.firestore.runTransaction;
+
     if (environment.useEmulators) {
       connectFirestoreEmulator(this.afs.firestore, 'localhost', 8080);
     }
@@ -76,19 +77,25 @@ export class BoardsService {
     const id = this.afs.createId();
     const user = await firstValueFrom(this.auth.user$);
     const created = firebase.firestore.FieldValue.serverTimestamp();
-    this.boardsCollection.add({
-      id,
-      user: (<firebase.User>user).uid,
-      title,
-      lists: [],
-      created,
-    });
+    this.boardsCollection
+      .add({
+        id,
+        user: (<firebase.User>user).uid,
+        title,
+        lists: [],
+        created,
+      })
+      .catch(console.log);
   }
 
   getList(ref: DocumentReference) {
     return this.afs
       .doc(ref)
       .valueChanges({ idField: 'id' }) as Observable<IList>;
+  }
+
+  getListDoc(ref: DocumentReference | string) {
+    return this.afs.doc(<any>ref);
   }
 
   getLists(board: IBoard) {
@@ -156,6 +163,16 @@ export class BoardsService {
   }
 
   getListRef(id: string) {
-    return this.afs.collection('lists').doc(id).ref;
+    return this.afs.collection('lists').doc<IList>(id).ref;
+  }
+
+  setLists(lists: IList[]) {
+    const updates = lists.map((list) => {
+      const doc = this.getListDoc(`lists/${list.id}`);
+      return doc.update({ cards: list.cards });
+    });
+    this.afs.firestore.runTransaction(() => {
+      return Promise.all(updates);
+    });
   }
 }
