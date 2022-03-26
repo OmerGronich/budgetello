@@ -1,0 +1,76 @@
+<footer
+  class="add-card-row mt-10 space-between w-full"
+  [class.isCreatingCard]="isCreatingCard"
+>
+  <div class="flex flex-1">
+    <button
+      *ngIf="!isCreatingCard"
+      (click)="isCreatingCard = !isCreatingCard"
+      pButton
+      class="p-button-sm p-button-text p-button-plain"
+      icon="pi pi-plus"
+      label="Add a card"
+    ></button>
+    <div class="flex flex-1 flex-end align-center" *ngIf="!isCreatingCard">
+      <ng-container *ngTemplateOutlet="totalTmpl"></ng-container>
+    </div>
+  </div>
+  <form
+    class="w-full"
+    [formGroup]="form"
+    *ngIf="isCreatingCard"
+    (submit)="submit($event)"
+  >
+    <div class="flex-column my-10 gap-10">
+      <span class="p-input-icon-left">
+        <i class="pi pi-book"></i>
+        <input
+          class="w-full p-inputtext-sm"
+          [budgetelloAsyncAutofocus]="isCreatingCard"
+          placeholder="Card title..."
+          formControlName="cardTitle"
+          pInputText
+        />
+      </span>
+
+      <span class="p-input-icon-left">
+        <i class="pi pi-dollar"></i>
+        <input
+          class="w-full p-inputtext-sm"
+          type="number"
+          placeholder="Amount..."
+          formControlName="amount"
+          pInputText
+        />
+      </span>
+    </div>
+
+    <div class="flex w-full">
+      <button
+        pButton
+        class="p-button-sm p-button-text p-button-plain"
+        label="Add"
+      ></button>
+      <button
+        pButton
+        (click)="stopCreatingCard($event)"
+        class="mx-10 p-button-sm p-button-text p-button-plain"
+        icon="pi pi-times"
+      ></button>
+
+      <div class="flex flex-1 flex-end align-center" *ngIf="isCreatingCard">
+        <ng-container *ngTemplateOutlet="totalTmpl"></ng-container>
+      </div>
+    </div>
+  </form>
+</footer>
+
+<ng-template #totalTmpl>
+  <div
+    class="flex align-center total cursor-default"
+    pTooltip="{{ total | currency: 'USD':'symbol':'3.0' }}"
+    tooltipPosition="bottom"
+  >
+    <i class="pi pi-eye mx-4"></i>Total
+  </div>
+</ng-template>

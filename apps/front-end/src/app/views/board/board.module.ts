@@ -14,6 +14,8 @@ import { ListHeaderModule } from '../../components/list-header/list-header.modul
 import { DropdownModule } from 'primeng/dropdown';
 import { MapListOperatorToIconModule } from '../../pipes/map-list-operator-to-icon/map-list-operator-to-icon.module';
 import { AddListFormModule } from '../../components/add-list-form/add-list-form.module';
+import { ListFooterModule } from '../../components/list-footer/list-footer.module';
+import { CalculateListTotalModule } from '../../pipes/calculate-list-total/calculate-list-total.module';
 
 @NgModule({
   declarations: [BoardComponent],
@@ -32,6 +34,8 @@ import { AddListFormModule } from '../../components/add-list-form/add-list-form.
     DropdownModule,
     MapListOperatorToIconModule,
     AddListFormModule,
+    ListFooterModule,
+    CalculateListTotalModule,
   ],
 })
 export class BoardModule {}

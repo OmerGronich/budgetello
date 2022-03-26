@@ -42,7 +42,7 @@ interface IKanbanBoardList {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KanbanBoardComponent implements AfterViewInit, OnChanges {
-  listsFromDto: IKanbanBoardList[] = [];
+  kanbanBoardLists: IKanbanBoardList[] = [];
   @Input() getListCssClass: (list: any) => string;
   @Input() lists: IKanbanBoardListDto[] = [];
   @Input() isCreatingList = false;
@@ -58,13 +58,14 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
   cardTemplate: TemplateRef<any>;
   addListTemplate: TemplateRef<any>;
   listHeaderTemplate: TemplateRef<any>;
+  listFooterTemplate: TemplateRef<any>;
   height: number;
 
   constructor(private cdr: ChangeDetectorRef, private renderer: Renderer2) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['lists']) {
-      this.listsFromDto = this.createListsFromDto(
+      this.kanbanBoardLists = this.createListsFromDto(
         changes['lists'].currentValue
       );
     }
@@ -81,6 +82,9 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
   ngAfterViewInit() {
     this.templates.forEach((tmpl) => {
       switch (tmpl.getType()) {
+        case 'listFooter':
+          this.listFooterTemplate = tmpl.template;
+          break;
         case 'listHeader':
           this.listHeaderTemplate = tmpl.template;
           break;
@@ -107,7 +111,11 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
   }
 
   dropList(event: CdkDragDrop<IKanbanBoardListDto[]>) {
-    moveItemInArray(this.listsFromDto, event.previousIndex, event.currentIndex);
+    moveItemInArray(
+      this.kanbanBoardLists,
+      event.previousIndex,
+      event.currentIndex
+    );
   }
 
   drop(event: CdkDragDrop<any[]>) {
@@ -133,7 +141,7 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
     } else {
       $event.preventDefault();
       if ((this.listTitleFormControl.value || '').trim()) {
-        this.listsFromDto.push({
+        this.kanbanBoardLists.push({
           title: this.listTitleFormControl.value,
           cards: [],
           isCreatingCard: false,
@@ -192,7 +200,7 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
   }
 
   cancelAllCardCreations() {
-    this.listsFromDto.forEach((list) => (list.isCreatingCard = false));
+    this.kanbanBoardLists.forEach((list) => (list.isCreatingCard = false));
     this.cardTitleFormControl.reset();
   }
 

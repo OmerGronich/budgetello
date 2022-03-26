@@ -22,13 +22,21 @@
 
       <!-- list card -->
       <ng-template kanbanTemplate="card" let-card>
-        <div class="card-layout">
-          <div class="card-header">
-            <div class="card-title">
-              <p>{{ card | json }}</p>
-            </div>
-          </div>
+        <div class="flex space-between">
+          <h4 class="title">{{ card.title }}</h4>
+          <p class="amount">
+            {{ card.amount | currency: 'USD':'symbol':'3.0' }}
+          </p>
         </div>
+      </ng-template>
+
+      <!-- list footer -->
+      <ng-template kanbanTemplate="listFooter" let-list>
+        <budgetello-list-footer
+          [total]="list | calculateListTotal"
+          class="w-full"
+          (submitNewCard)="createCard($event, list)"
+        ></budgetello-list-footer>
       </ng-template>
 
       <!--  add list form    -->

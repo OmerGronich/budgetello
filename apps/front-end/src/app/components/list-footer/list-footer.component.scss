@@ -1,0 +1,19 @@
+@use 'assets/styles';
+
+:host {
+  display: flex;
+  position: relative;
+
+  ::ng-deep {
+    .p-inputtext:enabled:focus {
+      box-shadow: none;
+      border: 1px solid styles.$variables-color-plain;
+    }
+
+    p-inputnumber,
+    .p-inputnumber {
+      display: inline-flex;
+      width: 100%;
+    }
+  }
+}

@@ -7,7 +7,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AngularFirestoreDocument } from '@angular/fire/compat/firestore';
-import { LIST_OPERATORS, LIST_OPERATORS_TO_PROPS } from '../../constants';
+import { LIST_OPERATORS_TO_PROPS } from '../../constants';
 import { arrayUnion } from '@angular/fire/firestore';
 
 @Component({
@@ -66,5 +66,26 @@ export class BoardComponent {
 
   getListCssClass(list: IList) {
     return `list-${LIST_OPERATORS_TO_PROPS[list.type]?.toLowerCase()}`;
+  }
+
+  createCard(
+    {
+      submitEvent,
+      cardTitle,
+      amount,
+    }: {
+      cardTitle: string;
+      amount: string;
+      submitEvent: SubmitEvent;
+    },
+    list: IList
+  ) {
+    submitEvent.preventDefault();
+
+    this.boardsService.createCard({
+      list,
+      title: cardTitle,
+      amount: amount,
+    });
   }
 }

@@ -8,7 +8,7 @@
   <div
     (cdkDragStarted)="cdkListDragStarted($event)"
     (clickOutside)="clickOutside({$event, list})"
-    *ngFor="let list of listsFromDto"
+    *ngFor="let list of kanbanBoardLists"
     cdkDrag
     class="list {{ list.cssClass }}"
   >
@@ -42,9 +42,17 @@
           ></ng-container>
         </li>
       </ul>
+    </main>
 
+    <ng-container *ngIf="listFooterTemplate; else defaultListFooter">
+      <ng-container
+        *ngTemplateOutlet="listFooterTemplate; context: { $implicit: list }"
+      ></ng-container>
+    </ng-container>
+
+    <ng-template #defaultListFooter>
       <!-- Add card -->
-      <div class="add-card-row mt-10 flex-column align-start">
+      <footer class="add-card-row mt-10 flex-column align-start w-full">
         <button
           *ngIf="!list.isCreatingCard"
           (click)="startCreatingCard({$event, list})"
@@ -85,8 +93,8 @@
             ></button>
           </div>
         </form>
-      </div>
-    </main>
+      </footer>
+    </ng-template>
   </div>
 
   <!-- Add list -->

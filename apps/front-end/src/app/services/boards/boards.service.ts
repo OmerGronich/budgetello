@@ -14,7 +14,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
-import { connectFirestoreEmulator } from '@angular/fire/firestore';
+import { arrayUnion, connectFirestoreEmulator } from '@angular/fire/firestore';
 import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { LIST_OPERATORS } from '../../constants';
@@ -25,7 +25,7 @@ export interface IList extends Partial<DocumentReference> {
   type: LIST_OPERATORS;
   id: string;
   title: string;
-  cards: DocumentReference[];
+  cards: { title: string; amount: string; created?: unknown; id?: string }[];
   created: FieldValue;
 }
 
@@ -133,5 +133,26 @@ export class BoardsService {
       cards: [],
       created: firebase.firestore.FieldValue.serverTimestamp(),
     });
+  }
+
+  createCard({
+    list,
+    amount,
+    title,
+  }: {
+    amount: string;
+    list: IList;
+    title: string;
+  }) {
+    const listDoc = this.afs.doc('lists/' + list.id);
+    listDoc
+      .update({
+        cards: arrayUnion({
+          title,
+          amount,
+          id: this.afs.createId(),
+        }),
+      })
+      .catch(console.error);
   }
 }

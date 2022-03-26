@@ -92,12 +92,20 @@ body {
   align-items: flex-end;
 }
 
+.flex-end {
+  justify-content: flex-end;
+}
+
 .space-between {
   justify-content: space-between;
 }
 
 .pointer-none {
   pointer-events: none;
+}
+
+.cursor-default {
+  cursor: default;
 }
 
 @for $i from 1 through 40 {
