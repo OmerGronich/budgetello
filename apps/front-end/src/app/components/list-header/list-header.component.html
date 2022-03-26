@@ -26,8 +26,8 @@
     type="text"
     [formControl]="listTitleFormControl"
     [budgetelloAsyncAutofocus]="!!(isEditingTitle$ | async)"
-    (keyup.enter)="listTitleChanged.emit({ title: listTitleFormControl.value })"
-    (keyup.esc)="cancelEdit($event)"
+    (keyup.enter)="submitListTitleEdit($event)"
+    (keyup.escape)="cancelEdit($event)"
   />
   <button
     pButton

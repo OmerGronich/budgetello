@@ -35,4 +35,9 @@ export class ListHeaderComponent implements OnInit {
     $event.stopPropagation();
     this.isEditingTitle$.next(true);
   }
+
+  submitListTitleEdit($event: any) {
+    this.listTitleChanged.emit({ title: this.listTitleFormControl.value });
+    this.isEditingTitle$.next(false);
+  }
 }
