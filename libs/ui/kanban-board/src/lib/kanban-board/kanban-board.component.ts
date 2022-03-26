@@ -10,7 +10,6 @@ import {
   OnChanges,
   Output,
   QueryList,
-  Renderer2,
   SimpleChanges,
   TemplateRef,
 } from '@angular/core';
@@ -33,6 +32,7 @@ interface IKanbanBoardList {
   title: string;
   cards: any[];
   isCreatingCard: boolean;
+  id?: string;
 }
 
 @Component({
@@ -44,11 +44,12 @@ interface IKanbanBoardList {
 export class KanbanBoardComponent implements AfterViewInit, OnChanges {
   kanbanBoardLists: IKanbanBoardList[] = [];
   @Input() getListCssClass: (list: any) => string;
-  @Input() lists: IKanbanBoardListDto[] = [];
+  @Input() lists: any[] | null = [];
   @Input() isCreatingList = false;
   @Output() listAdded = new EventEmitter();
   @Output() addListFormHide = new EventEmitter();
   @Output() listCreationFormClosed = new EventEmitter();
+  @Output() listReordered = new EventEmitter();
   @Input() listCssClassMapper = '';
 
   @ContentChildren(KanbanBoardTemplateDirective) templates: QueryList<any>;
@@ -61,7 +62,7 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
   listFooterTemplate: TemplateRef<any>;
   height: number;
 
-  constructor(private cdr: ChangeDetectorRef, private renderer: Renderer2) {}
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['lists']) {
@@ -72,7 +73,7 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
   }
 
   createListsFromDto(listsDto: IKanbanBoardListDto[]): IKanbanBoardList[] {
-    return listsDto.map((listDto) => ({
+    return (listsDto || []).map((listDto) => ({
       ...listDto,
       isCreatingCard: false,
       cssClass: this.getListCssClass(listDto),
@@ -116,6 +117,7 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
       event.previousIndex,
       event.currentIndex
     );
+    this.listReordered.emit(this.kanbanBoardLists);
   }
 
   drop(event: CdkDragDrop<any[]>) {
@@ -154,7 +156,7 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
   }
 
   stopCreatingList($event: Event) {
-    $event.stopImmediatePropagation();
+    $event?.stopImmediatePropagation();
     this.cardTitleFormControl.reset();
     this.listTitleFormControl.reset();
     this.isCreatingList = false;
@@ -228,5 +230,9 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
   stopCreatingCard($event: { $event: MouseEvent; list: IKanbanBoardList }) {
     $event.list.isCreatingCard = false;
     this.cardTitleFormControl.reset();
+  }
+
+  listTrackBy(index: number, list: IKanbanBoardList) {
+    return list.id;
   }
 }

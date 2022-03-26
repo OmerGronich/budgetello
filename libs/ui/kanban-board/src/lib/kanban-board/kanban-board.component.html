@@ -8,7 +8,7 @@
   <div
     (cdkDragStarted)="cdkListDragStarted($event)"
     (clickOutside)="clickOutside({$event, list})"
-    *ngFor="let list of kanbanBoardLists"
+    *ngFor="let list of kanbanBoardLists; trackBy: listTrackBy"
     cdkDrag
     class="list {{ list.cssClass }}"
   >

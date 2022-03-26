@@ -5,7 +5,14 @@ import {
   IList,
 } from '../../services/boards/boards.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  share,
+  shareReplay,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { LIST_OPERATORS_TO_PROPS } from '../../constants';
 import { arrayUnion } from '@angular/fire/firestore';
@@ -17,8 +24,9 @@ import { arrayUnion } from '@angular/fire/firestore';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BoardComponent {
-  private boardDoc: AngularFirestoreDocument<IBoard>;
+  private boardDoc: AngularFirestoreDocument<Partial<IBoard>>;
   board$: Observable<IBoard>;
+  lists$: Observable<IList[]>;
 
   constructor(
     private boardsService: BoardsService,
@@ -27,6 +35,10 @@ export class BoardComponent {
   ) {
     ({ board$: this.board$, boardDoc: this.boardDoc } =
       this.boardsService.getBoard(this.boardId));
+
+    this.lists$ = this.board$.pipe(
+      switchMap((board) => this.boardsService.getLists(board))
+    );
   }
 
   get boardId() {
@@ -87,5 +99,10 @@ export class BoardComponent {
       title: cardTitle,
       amount: amount,
     });
+  }
+
+  reorderLists(lists: IList[]) {
+    const docRefs = lists.map((list) => this.boardsService.getListRef(list.id));
+    this.boardDoc.update({ lists: docRefs as IList[] });
   }
 }

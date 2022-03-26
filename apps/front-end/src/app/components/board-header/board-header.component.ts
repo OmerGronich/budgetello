@@ -1,5 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, Validator, Validators } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { Inplace } from 'primeng/inplace';
 import { ConfirmationService, ConfirmEventType } from 'primeng/api';
 
@@ -8,6 +15,7 @@ import { ConfirmationService, ConfirmEventType } from 'primeng/api';
   templateUrl: './board-header.component.html',
   styleUrls: ['./board-header.component.scss'],
   providers: [ConfirmationService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BoardHeaderComponent implements OnInit {
   @Input() boardTitle: string;

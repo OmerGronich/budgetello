@@ -36,7 +36,7 @@ export class ListFooterComponent {
       amount: new FormControl('', [Validators.required]),
     });
   }
-  stopCreatingCard($event: MouseEvent) {
+  stopCreatingCard($event: Event) {
     this.isCreatingCard = false;
     this.form.reset();
   }

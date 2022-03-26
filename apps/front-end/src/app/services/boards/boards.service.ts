@@ -6,10 +6,12 @@ import {
 } from '@angular/fire/compat/firestore';
 import {
   combineLatest,
+  distinct,
   filter,
   firstValueFrom,
   map,
   Observable,
+  shareReplay,
   startWith,
   switchMap,
   tap,
@@ -92,9 +94,6 @@ export class BoardsService {
   getLists(board: IBoard) {
     return combineLatest(
       board.lists.map((list) => this.getList(<DocumentReference>list))
-    ).pipe(
-      startWith([]),
-      map((lists) => ({ ...board, lists }))
     );
   }
 
@@ -104,7 +103,7 @@ export class BoardsService {
     const boardDoc = this.afs.doc<IBoard>('boards/' + id);
     const board$ = boardDoc
       .valueChanges({ idField: 'id' })
-      .pipe(filter(Boolean), switchMap(this.getLists.bind(this)));
+      .pipe(filter(Boolean));
 
     return {
       boardDoc,
@@ -154,5 +153,9 @@ export class BoardsService {
         }),
       })
       .catch(console.error);
+  }
+
+  getListRef(id: string) {
+    return this.afs.collection('lists').doc(id).ref;
   }
 }

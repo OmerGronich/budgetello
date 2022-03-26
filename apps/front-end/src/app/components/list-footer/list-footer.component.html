@@ -19,6 +19,7 @@
     class="w-full"
     [formGroup]="form"
     *ngIf="isCreatingCard"
+    (keydown.escape)="stopCreatingCard($event)"
     (submit)="submit($event)"
   >
     <div class="flex-column my-10 gap-10">
