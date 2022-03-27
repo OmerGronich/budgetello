@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import firebase from 'firebase/compat';
 import { MenuItem } from 'primeng/api';
@@ -7,6 +7,7 @@ import { MenuItem } from 'primeng/api';
   selector: 'budgetello-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavbarComponent implements OnInit {
   items: MenuItem[];

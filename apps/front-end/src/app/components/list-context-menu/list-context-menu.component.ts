@@ -1,4 +1,9 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { getMenuItems } from '../../utils/getMenuItems';
 
@@ -6,6 +11,7 @@ import { getMenuItems } from '../../utils/getMenuItems';
   selector: 'budgetello-list-context-menu',
   templateUrl: './list-context-menu.component.html',
   styleUrls: ['./list-context-menu.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListContextMenuComponent {
   @Output() editButtonClicked = new EventEmitter();

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { getMenuItems } from '../../utils/getMenuItems';
 
@@ -6,6 +6,7 @@ import { getMenuItems } from '../../utils/getMenuItems';
   selector: 'budgetello-kanban-card',
   templateUrl: './kanban-card.component.html',
   styleUrls: ['./kanban-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KanbanCardComponent {
   @Input() card: { title: string; amount: string };

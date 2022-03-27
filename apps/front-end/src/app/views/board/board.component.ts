@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DoCheck } from '@angular/core';
 import {
   BoardsService,
   IBoard,
@@ -33,7 +33,6 @@ export class BoardComponent {
       switchMap((board) => this.boardsService.getLists(board))
     );
   }
-
   get boardId() {
     return this.route.snapshot.paramMap.get('id') || '';
   }
