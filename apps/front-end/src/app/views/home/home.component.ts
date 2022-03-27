@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BoardsService } from '../../services/boards/boards.service';
-import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { FormControl } from '@angular/forms';
 
@@ -22,7 +21,7 @@ export class HomeComponent {
     this._isCreatingBoard$.next(value);
   }
 
-  constructor(public boardsService: BoardsService, private router: Router) {}
+  constructor(public boardsService: BoardsService) {}
 
   get boards$() {
     return this.boardsService.boards$;

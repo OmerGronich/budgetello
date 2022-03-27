@@ -13,15 +13,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LayoutModule } from './components/layout/layout.module';
-import { LoginModule } from './views/login/login.module';
-import { HomeModule } from './views/home/home.module';
-import { RegisterModule } from './views/register/register.module';
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { BaseReactiveFormDirective } from './directives/base-reactive-form.directive';
 import { MessageService } from 'primeng/api';
-import { BoardModule } from './views/board/board.module';
 
 @NgModule({
   declarations: [AppComponent, BaseReactiveFormDirective],
@@ -30,10 +26,6 @@ import { BoardModule } from './views/board/board.module';
     AppRoutingModule,
     RouterModule,
     LayoutModule,
-    LoginModule,
-    HomeModule,
-    RegisterModule,
-    BoardModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,

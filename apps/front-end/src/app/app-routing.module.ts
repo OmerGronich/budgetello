@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 import { HomeComponent } from './views/home/home.component';
@@ -9,7 +9,6 @@ import {
   redirectUnauthorizedTo,
 } from '@angular/fire/compat/auth-guard';
 import { LayoutComponent } from './components/layout/layout.component';
-import { BoardComponent } from './views/board/board.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 const redirectLoggedInToHome = () => redirectLoggedInTo(['']);
@@ -17,13 +16,15 @@ const redirectLoggedInToHome = () => redirectLoggedInTo(['']);
 const routes: Routes = [
   {
     path: 'login',
-    component: LoginComponent,
+    loadChildren: () =>
+      import('./views/login/login.module').then((m) => m.LoginModule),
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectLoggedInToHome },
   },
   {
     path: 'register',
-    component: RegisterComponent,
+    loadChildren: () =>
+      import('./views/register/register.module').then((m) => m.RegisterModule),
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectLoggedInToHome },
   },
@@ -31,8 +32,18 @@ const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'board/:id', component: BoardComponent, pathMatch: 'full' },
+      {
+        path: '',
+        loadChildren: () =>
+          import('./views/home/home.module').then((m) => m.HomeModule),
+        pathMatch: 'full',
+      },
+      {
+        path: 'board/:id',
+        loadChildren: () =>
+          import('./views/board/board.module').then((m) => m.BoardModule),
+        pathMatch: 'full',
+      },
     ],
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin },
@@ -41,7 +52,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes /*{ preloadingStrategy: PreloadAllModules }*/),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

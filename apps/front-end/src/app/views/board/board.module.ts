@@ -17,10 +17,12 @@ import { AddListFormModule } from '../../components/add-list-form/add-list-form.
 import { ListFooterModule } from '../../components/list-footer/list-footer.module';
 import { CalculateListTotalModule } from '../../pipes/calculate-list-total/calculate-list-total.module';
 import { KanbanCardModule } from '../../components/kanban-card/kanban-card.module';
+import { BoardRoutingModule } from './board-routing.module';
 
 @NgModule({
   declarations: [BoardComponent],
   imports: [
+    BoardRoutingModule,
     CommonModule,
     UiKanbanBoardModule,
     ButtonModule,

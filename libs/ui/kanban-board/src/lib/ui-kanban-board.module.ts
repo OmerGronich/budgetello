@@ -18,7 +18,6 @@ import { UiAsyncAutofocusModule } from '@budgetello/ui/async-autofocus';
     ButtonModule,
     InputTextModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule,
     ClickOutsideModule,
     InputTextareaModule,
     UiAsyncAutofocusModule,

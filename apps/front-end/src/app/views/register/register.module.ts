@@ -15,12 +15,13 @@ import { MessageModule } from 'primeng/message';
 import { RouterModule } from '@angular/router';
 import { TitleModule } from '../../components/title/title.module';
 import { SignInWithGoogleModule } from '../../components/buttons/sign-in-with-google/sign-in-with-google.module';
+import { RegisterRoutingModule } from './register-routing.module';
 
 @NgModule({
   declarations: [RegisterComponent],
   imports: [
+    RegisterRoutingModule,
     CommonModule,
-    BrowserAnimationsModule,
     InputTextModule,
     PasswordModule,
     ReactiveFormsModule,
@@ -36,4 +37,8 @@ import { SignInWithGoogleModule } from '../../components/buttons/sign-in-with-go
     SignInWithGoogleModule,
   ],
 })
-export class RegisterModule {}
+export class RegisterModule {
+  constructor() {
+    console.log('Lazily Loaded : LazyModule');
+  }
+}

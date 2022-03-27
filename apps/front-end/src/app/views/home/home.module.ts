@@ -7,10 +7,12 @@ import { ClickOutsideModule } from 'ng-click-outside';
 import { InputTextModule } from 'primeng/inputtext';
 import { UiAsyncAutofocusModule } from '@budgetello/ui/async-autofocus';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HomeRoutingModule } from './home-routing.module';
 
 @NgModule({
   declarations: [HomeComponent],
   imports: [
+    HomeRoutingModule,
     CommonModule,
     BoardPreviewModule,
     RouterModule,
