@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BoardsService } from '../../services/boards/boards.service';
+import { BoardsService, IBoard } from '../../services/boards/boards.service';
 import { BehaviorSubject } from 'rxjs';
 import { FormControl } from '@angular/forms';
 
@@ -33,5 +33,9 @@ export class HomeComponent {
     this.boardsService.addBoard({
       title: this.boardTitleFormControl.value || 'Untitled Board',
     });
+  }
+
+  trackByFn(index: number, board: IBoard) {
+    return board.id;
   }
 }

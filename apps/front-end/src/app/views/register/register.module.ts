@@ -37,8 +37,4 @@ import { RegisterRoutingModule } from './register-routing.module';
     SignInWithGoogleModule,
   ],
 })
-export class RegisterModule {
-  constructor() {
-    console.log('Lazily Loaded : LazyModule');
-  }
-}
+export class RegisterModule {}

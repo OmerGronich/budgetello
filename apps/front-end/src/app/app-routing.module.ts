@@ -1,14 +1,10 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './views/login/login.component';
-import { RegisterComponent } from './views/register/register.component';
-import { HomeComponent } from './views/home/home.component';
 import {
   AngularFireAuthGuard,
   redirectLoggedInTo,
   redirectUnauthorizedTo,
 } from '@angular/fire/compat/auth-guard';
-import { LayoutComponent } from './components/layout/layout.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 const redirectLoggedInToHome = () => redirectLoggedInTo(['']);
@@ -30,21 +26,8 @@ const routes: Routes = [
   },
   {
     path: '',
-    component: LayoutComponent,
-    children: [
-      {
-        path: '',
-        loadChildren: () =>
-          import('./views/home/home.module').then((m) => m.HomeModule),
-        pathMatch: 'full',
-      },
-      {
-        path: 'board/:id',
-        loadChildren: () =>
-          import('./views/board/board.module').then((m) => m.BoardModule),
-        pathMatch: 'full',
-      },
-    ],
+    loadChildren: () =>
+      import('./views/layout/layout.module').then((m) => m.LayoutModule),
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin },
   },
@@ -53,7 +36,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes /*{ preloadingStrategy: PreloadAllModules }*/),
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
   ],
   exports: [RouterModule],
 })

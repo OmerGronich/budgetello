@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -11,6 +12,7 @@ import { FormControl, Validators } from '@angular/forms';
   selector: 'budgetello-add-list-form',
   templateUrl: './add-list-form.component.html',
   styleUrls: ['./add-list-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddListFormComponent implements OnDestroy {
   @Input() isCreatingList: boolean;

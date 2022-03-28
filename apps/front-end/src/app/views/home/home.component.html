@@ -4,7 +4,7 @@
     <div class="board-previews flex">
       <ng-container *ngIf="boards$ | async as boards">
         <budgetello-board-preview
-          *ngFor="let board of boards"
+          *ngFor="let board of boards; trackBy: trackByFn"
           [boardTitle]="board.title"
           routerLink="board/{{ board.id }}"
         ></budgetello-board-preview>

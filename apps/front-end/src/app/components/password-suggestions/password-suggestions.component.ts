@@ -1,5 +1,5 @@
-import {Component, Input} from '@angular/core';
-import {Observable} from "rxjs";
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Observable } from 'rxjs';
 
 export interface PasswordSuggestion {
   text: string;
@@ -9,10 +9,9 @@ export interface PasswordSuggestion {
 @Component({
   selector: 'budgetello-password-suggestions[suggestions]',
   templateUrl: './password-suggestions.component.html',
-  styleUrls: ['./password-suggestions.component.scss']
+  styleUrls: ['./password-suggestions.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PasswordSuggestionsComponent {
-
   @Input() suggestions: PasswordSuggestion[];
-
 }

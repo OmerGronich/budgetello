@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { LIST_TYPES } from '../../constants';
 import { FormControl } from '@angular/forms';
 
@@ -6,6 +6,7 @@ import { FormControl } from '@angular/forms';
   selector: 'budgetello-list-type-selector',
   templateUrl: './list-type-selector.component.html',
   styleUrls: ['./list-type-selector.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListTypeSelectorComponent {
   @Input() control: FormControl;
