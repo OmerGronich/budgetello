@@ -1,0 +1,46 @@
+<div class="flex-column w-full">
+  <header>
+    <h2 class="mb-20">Edit / delete card</h2>
+  </header>
+  <main class="w-full">
+    <form class="flex-column w-full" [formGroup]="group">
+      <div class="flex-column">
+        <div class="p-float-label p-input-icon-right mb-20 w-full">
+          <input
+            class="w-full"
+            pInputText
+            formControlName="title"
+            id="title"
+            type="text"
+          />
+          <label for="title">Title</label>
+        </div>
+        <div class="p-float-label p-input-icon-right mb-20">
+          <input
+            class="w-full"
+            pInputText
+            formControlName="amount"
+            id="amount"
+            type="number"
+          />
+          <label for="amount">Amount</label>
+        </div>
+      </div>
+    </form>
+  </main>
+  <footer class="flex space-between">
+    <button
+      pButton
+      class="p-button-text"
+      icon="pi pi-check"
+      label="Save"
+      (click)="saveCard()"
+    ></button>
+    <button
+      pButton
+      class="p-button-text p-button-danger"
+      icon="pi pi-trash"
+      (click)="deleteCard()"
+    ></button>
+  </footer>
+</div>

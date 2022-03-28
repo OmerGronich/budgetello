@@ -1,7 +1,6 @@
-<div class="flex space-between pointer" (click)="menu.toggle($event)">
+<div class="flex space-between pointer" (click)="showCardDialog($event)">
   <h4 class="title">{{ card.title }}</h4>
   <p class="amount">
     {{ card.amount | currency: 'USD':'symbol':'1.0' }}
   </p>
 </div>
-<p-menu #menu [popup]="true" [model]="items" appendTo="body"></p-menu>

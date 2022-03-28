@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { KanbanCardComponent } from './kanban-card.component';
-import { MenuModule } from 'primeng/menu';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
 
 @NgModule({
   declarations: [KanbanCardComponent],
   exports: [KanbanCardComponent],
-  imports: [CommonModule, MenuModule],
+  imports: [CommonModule, DynamicDialogModule],
 })
 export class KanbanCardModule {}

@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, DoCheck } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   BoardsService,
   IBoard,
   IList,
 } from '../../services/boards/boards.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest, map, Observable, startWith, switchMap } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
 import { AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { LIST_OPERATORS_TO_PROPS } from '../../constants';
 import { arrayRemove, arrayUnion } from '@angular/fire/firestore';

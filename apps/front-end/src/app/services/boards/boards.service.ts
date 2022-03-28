@@ -10,7 +10,7 @@ import {
   firstValueFrom,
   map,
   Observable,
-  shareReplay,
+  of,
   startWith,
   switchMap,
   tap,
@@ -22,11 +22,18 @@ import { LIST_OPERATORS } from '../../constants';
 import firebase from 'firebase/compat/app';
 import FieldValue = firebase.firestore.FieldValue;
 
+export interface ICard {
+  title: string;
+  amount: string;
+  created?: FieldValue;
+  id?: string;
+}
+
 export interface IList extends Partial<DocumentReference> {
   type: LIST_OPERATORS;
   id: string;
   title: string;
-  cards: { title: string; amount: string; created?: unknown; id?: string }[];
+  cards: ICard[];
   created: FieldValue;
 }
 
@@ -100,12 +107,13 @@ export class BoardsService {
   }
 
   getLists(board: IBoard) {
+    if (!board.lists.length) {
+      return of(board);
+    }
+
     return combineLatest(
       board.lists.map((list) => this.getList(<DocumentReference>list))
-    ).pipe(
-      startWith([]),
-      map((lists) => ({ ...board, lists }))
-    );
+    ).pipe(map((lists) => ({ ...board, lists })));
   }
 
   getBoard(id: string) {
@@ -179,5 +187,25 @@ export class BoardsService {
     this.afs.firestore.runTransaction(() => {
       return Promise.all(updates);
     });
+  }
+
+  updateCard(card: ICard, list: IList) {
+    const newCards = list.cards.map((c) => {
+      if (c.id === card.id) {
+        return card;
+      }
+
+      return c;
+    });
+    return this.afs
+      .doc<Partial<IList>>('lists/' + list.id)
+      .set({ cards: newCards }, { merge: true });
+  }
+
+  deleteCard(card: ICard, list: IList) {
+    const newCards = list.cards.filter((c) => c.id !== card.id);
+    return this.afs
+      .doc<Partial<IList>>('lists/' + list.id)
+      .set({ cards: newCards }, { merge: true });
   }
 }

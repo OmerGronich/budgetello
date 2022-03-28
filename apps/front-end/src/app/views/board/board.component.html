@@ -24,8 +24,11 @@
       </ng-template>
 
       <!-- list card -->
-      <ng-template kanbanTemplate="card" let-card>
-        <budgetello-kanban-card [card]="card"></budgetello-kanban-card>
+      <ng-template kanbanTemplate="card" let-card let-list="list">
+        <budgetello-kanban-card
+          [card]="card"
+          [list]="list"
+        ></budgetello-kanban-card>
       </ng-template>
 
       <!-- list footer -->

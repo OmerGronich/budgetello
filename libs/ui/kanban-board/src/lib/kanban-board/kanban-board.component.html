@@ -38,7 +38,10 @@
           class="card"
         >
           <ng-container
-            *ngTemplateOutlet="cardTemplate; context: { $implicit: card }"
+            *ngTemplateOutlet="
+              cardTemplate;
+              context: { $implicit: card, list: list }
+            "
           ></ng-container>
         </li>
       </ul>
