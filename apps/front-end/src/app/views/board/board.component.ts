@@ -5,7 +5,7 @@ import {
   IList,
 } from '../../services/boards/boards.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, switchMap } from 'rxjs';
+import { combineLatest, map, Observable, startWith, switchMap } from 'rxjs';
 import { AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { LIST_OPERATORS_TO_PROPS } from '../../constants';
 import { arrayRemove, arrayUnion } from '@angular/fire/firestore';
@@ -28,10 +28,6 @@ export class BoardComponent {
   ) {
     ({ board$: this.board$, boardDoc: this.boardDoc } =
       this.boardsService.getBoard(this.boardId));
-
-    this.lists$ = this.board$.pipe(
-      switchMap((board) => this.boardsService.getLists(board))
-    );
   }
   get boardId() {
     return this.route.snapshot.paramMap.get('id') || '';

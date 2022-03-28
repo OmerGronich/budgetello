@@ -11,6 +11,7 @@ import {
   map,
   Observable,
   shareReplay,
+  startWith,
   switchMap,
   tap,
 } from 'rxjs';
@@ -101,6 +102,9 @@ export class BoardsService {
   getLists(board: IBoard) {
     return combineLatest(
       board.lists.map((list) => this.getList(<DocumentReference>list))
+    ).pipe(
+      startWith([]),
+      map((lists) => ({ ...board, lists }))
     );
   }
 
@@ -108,9 +112,10 @@ export class BoardsService {
     if (!id) throw new Error('Board id is required');
 
     const boardDoc = this.afs.doc<IBoard>('boards/' + id);
-    const board$ = boardDoc
-      .valueChanges({ idField: 'id' })
-      .pipe(filter(Boolean));
+    const board$ = boardDoc.valueChanges({ idField: 'id' }).pipe(
+      filter(Boolean),
+      switchMap((board) => this.getLists(board))
+    );
 
     return {
       boardDoc,
