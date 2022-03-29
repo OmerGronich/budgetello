@@ -11,6 +11,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { LIST_OPERATORS, LIST_TYPES } from '../../constants';
 
 @Component({
   selector: 'budgetello-list-footer',
@@ -20,6 +21,7 @@ import {
 })
 export class ListFooterComponent {
   @Input() total: number;
+  @Input() type: LIST_OPERATORS;
 
   isCreatingCard = false;
   @Output() submitNewCard = new EventEmitter<{
@@ -29,6 +31,10 @@ export class ListFooterComponent {
   }>();
 
   form: FormGroup;
+
+  get isSummary() {
+    return this.type === LIST_TYPES.Summary;
+  }
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({

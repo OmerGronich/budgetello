@@ -7,6 +7,7 @@ import {
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { KanbanCardDialogComponent } from '../kanban-card-dialog/kanban-card-dialog.component';
 import { IList } from '../../services/boards/boards.service';
+import { LIST_TYPES } from '../../constants';
 
 @Component({
   selector: 'budgetello-kanban-card',
@@ -24,6 +25,7 @@ export class KanbanCardComponent implements OnDestroy {
   constructor(public dialogService: DialogService) {}
 
   showCardDialog($event?: MouseEvent) {
+    if (this.list.type === LIST_TYPES.Summary) return;
     import('../kanban-card-dialog/kanban-card-dialog.module').then((m) => {
       this.ref = this.dialogService.open(KanbanCardDialogComponent, {
         showHeader: false,

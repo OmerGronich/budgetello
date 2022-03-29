@@ -14,6 +14,7 @@ import {
   TemplateRef,
 } from '@angular/core';
 import {
+  CdkDrag,
   CdkDragDrop,
   CdkDragStart,
   moveItemInArray,
@@ -21,6 +22,7 @@ import {
 } from '@angular/cdk/drag-drop';
 import { KanbanBoardTemplateDirective } from './kanban-board-template.directive';
 import { FormControl } from '@angular/forms';
+import { IList } from '../../../../../../apps/front-end/src/app/services/boards/boards.service';
 
 interface IKanbanBoardListDto {
   title: string;
@@ -33,6 +35,8 @@ interface IKanbanBoardList {
   cards: any[];
   isCreatingCard: boolean;
   id?: string;
+  disableDrag?: boolean;
+  doNotEnter?: boolean;
 }
 
 @Component({
@@ -237,5 +241,9 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
 
   listTrackBy(index: number, list: IKanbanBoardList) {
     return list.id;
+  }
+
+  listEnterPredicate(list: IKanbanBoardList) {
+    return !list.doNotEnter;
   }
 }

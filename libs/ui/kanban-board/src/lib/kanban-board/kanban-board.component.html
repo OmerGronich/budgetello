@@ -9,6 +9,7 @@
     (cdkDragStarted)="cdkListDragStarted($event)"
     (clickOutside)="clickOutside({$event, list})"
     *ngFor="let list of kanbanBoardLists; trackBy: listTrackBy"
+    [cdkDragDisabled]="list.disableDrag"
     cdkDrag
     class="list {{ list.cssClass }}"
   >
@@ -30,12 +31,15 @@
         (cdkDropListDropped)="dropCard($event)"
         [cdkDropListData]="list.cards"
         cdkDropList
+        [cdkDropListEnterPredicate]="listEnterPredicate.bind(this, list)"
       >
         <li
           (cdkDragStarted)="cdkCardDragStarted($event)"
           *ngFor="let card of list.cards"
           cdkDrag
+          cdkDragPreviewClass="list-preview"
           class="card"
+          [cdkDragDisabled]="card.disableDrag"
         >
           <ng-container
             *ngTemplateOutlet="

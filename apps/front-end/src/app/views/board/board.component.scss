@@ -22,6 +22,25 @@
       align-items: center;
     }
 
+    &.lists-empty {
+      .list-summary .cards::before {
+        display: grid;
+        align-content: flex-end;
+        padding: 20px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        text-align: center;
+        content: 'Add cards to start seeing a summary';
+        color: styles.$variables-color-plain;
+        font-size: 14px;
+        font-weight: 500;
+      }
+    }
+
     .list {
       &-income {
         border: 1px solid rgba(styles.$variables-color-income, 0.7);
@@ -31,6 +50,10 @@
       }
       &-split {
         border: 1px solid rgba(styles.$variables-color-split, 0.7);
+      }
+      &-summary {
+        position: relative;
+        border: 1px solid rgba(styles.$variables-color-plain, 0.7);
       }
     }
 

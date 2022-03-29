@@ -11,14 +11,13 @@ import {
   map,
   Observable,
   of,
-  startWith,
   switchMap,
   tap,
 } from 'rxjs';
 import { arrayUnion, connectFirestoreEmulator } from '@angular/fire/firestore';
 import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../authentication/authentication.service';
-import { LIST_OPERATORS } from '../../constants';
+import { LIST_OPERATORS, LIST_TYPES } from '../../constants';
 import firebase from 'firebase/compat/app';
 import FieldValue = firebase.firestore.FieldValue;
 
@@ -27,6 +26,7 @@ export interface ICard {
   amount: string;
   created?: FieldValue;
   id?: string;
+  disableDrag?: boolean;
 }
 
 export interface IList extends Partial<DocumentReference> {
@@ -34,7 +34,9 @@ export interface IList extends Partial<DocumentReference> {
   id: string;
   title: string;
   cards: ICard[];
-  created: FieldValue;
+  created?: FieldValue;
+  disableDrag?: boolean;
+  doNotEnter?: boolean;
 }
 
 export type IBoard = {
@@ -43,6 +45,8 @@ export type IBoard = {
   lists: IList[];
   user: string;
   created: FieldValue;
+  areListsEmpty?: boolean;
+  summaryListIndex?: number;
 };
 
 @Injectable({
@@ -85,15 +89,13 @@ export class BoardsService {
     const id = this.afs.createId();
     const user = await firstValueFrom(this.auth.user$);
     const created = firebase.firestore.FieldValue.serverTimestamp();
-    this.boardsCollection
-      .add({
-        id,
-        user: (<firebase.User>user).uid,
-        title,
-        lists: [],
-        created,
-      })
-      .catch(console.log);
+    this.boardsCollection.add({
+      id,
+      user: (<firebase.User>user).uid,
+      title,
+      lists: [],
+      created,
+    });
   }
 
   getList(ref: DocumentReference) {
@@ -122,7 +124,15 @@ export class BoardsService {
     const boardDoc = this.afs.doc<IBoard>('boards/' + id);
     const board$ = boardDoc.valueChanges({ idField: 'id' }).pipe(
       filter(Boolean),
-      switchMap((board) => this.getLists(board))
+      switchMap((board) => this.getLists(board)),
+      map((board) => ({
+        ...board,
+        areListsEmpty: board.lists.every((list) => !list.cards.length),
+      })),
+      map((board) => ({
+        ...board,
+        lists: this.createSummaryList(board),
+      }))
     );
 
     return {
@@ -180,10 +190,12 @@ export class BoardsService {
   }
 
   setLists(lists: IList[]) {
-    const updates = lists.map((list) => {
-      const doc = this.getListDoc(`lists/${list.id}`);
-      return doc.update({ cards: list.cards });
-    });
+    const updates = lists
+      .filter((list) => list.type !== LIST_TYPES.Summary)
+      .map((list) => {
+        const doc = this.getListDoc(`lists/${list.id}`);
+        return doc.update({ cards: list.cards });
+      });
     this.afs.firestore.runTransaction(() => {
       return Promise.all(updates);
     });
@@ -207,5 +219,55 @@ export class BoardsService {
     return this.afs
       .doc<Partial<IList>>('lists/' + list.id)
       .set({ cards: newCards }, { merge: true });
+  }
+
+  private createSummaryList(board: IBoard): IList[] {
+    const summaryList = {
+      id: 'summary',
+      title: 'Summary',
+      type: LIST_TYPES.Summary,
+      doNotEnter: true,
+      cards: board.areListsEmpty ? [] : [this.createNetIncomeCard(board)],
+    };
+    const lists = [...board.lists];
+    const summaryListIndex = [null, undefined].includes(
+      <any>board.summaryListIndex
+    )
+      ? board.lists.length
+      : (board.summaryListIndex as number);
+    lists.splice(summaryListIndex, 0, summaryList);
+    return lists;
+  }
+  private createNetIncomeCard(board: IBoard): ICard {
+    const amount = board.lists
+      .reduce((acc, list) => {
+        if (list.type === LIST_TYPES.Income) {
+          return (
+            acc +
+            list.cards.reduce((acc, card) => {
+              return acc + parseFloat(card.amount);
+            }, 0)
+          );
+        } else if (list.type === LIST_TYPES.Expense) {
+          return (
+            acc -
+            list.cards.reduce((acc, card) => {
+              return acc + parseFloat(card.amount);
+            }, 0)
+          );
+        } else if (list.type === LIST_TYPES.Split) {
+          throw new Error('Not implemented calculations for split lists');
+        }
+
+        return 0;
+      }, 0)
+      .toFixed(2);
+
+    return {
+      id: 'net-income',
+      title: 'Net Income',
+      amount,
+      disableDrag: true,
+    };
   }
 }

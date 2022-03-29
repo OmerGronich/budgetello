@@ -5,9 +5,9 @@ import {
   IList,
 } from '../../services/boards/boards.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AngularFirestoreDocument } from '@angular/fire/compat/firestore';
-import { LIST_OPERATORS_TO_PROPS } from '../../constants';
+import { LIST_OPERATORS_TO_PROPS, LIST_TYPES } from '../../constants';
 import { arrayRemove, arrayUnion } from '@angular/fire/firestore';
 
 @Component({
@@ -19,7 +19,6 @@ import { arrayRemove, arrayUnion } from '@angular/fire/firestore';
 export class BoardComponent {
   private boardDoc: AngularFirestoreDocument<Partial<IBoard>>;
   board$: Observable<IBoard>;
-  lists$: Observable<IList[]>;
 
   constructor(
     private boardsService: BoardsService,
@@ -90,8 +89,16 @@ export class BoardComponent {
   }
 
   reorderLists(lists: IList[]) {
-    const docRefs = lists.map((list) => this.boardsService.getListRef(list.id));
-    this.boardDoc.update({ lists: docRefs as unknown as IList[] });
+    const summaryListIndex = lists.findIndex(
+      (list) => list.type === LIST_TYPES.Summary
+    );
+    const docRefs = lists
+      .filter((list) => list.type !== LIST_TYPES.Summary)
+      .map((list) => this.boardsService.getListRef(list.id));
+    this.boardDoc.update({
+      lists: docRefs as unknown as IList[],
+      summaryListIndex,
+    });
   }
 
   reorderCards(lists: IList[]) {

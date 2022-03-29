@@ -8,6 +8,7 @@
   <main>
     <budgetello-kanban-board
       class="kanban-board"
+      [class.lists-empty]="board.areListsEmpty"
       [lists]="board.lists"
       (listAdded)="$event.preventDefault()"
       [getListCssClass]="getListCssClass"
@@ -35,6 +36,7 @@
       <ng-template kanbanTemplate="listFooter" let-list>
         <budgetello-list-footer
           [total]="list | calculateListTotal"
+          [type]="list.type"
           class="w-full"
           (submitNewCard)="createCard($event, list)"
         ></budgetello-list-footer>

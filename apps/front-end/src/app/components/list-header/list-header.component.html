@@ -12,6 +12,7 @@
       >{{ list.title }}
     </p>
     <budgetello-list-context-menu
+      *ngIf="list.type !== '='"
       (editButtonClicked)="startEditing()"
       (deleteButtonClicked)="deleteList()"
     ></budgetello-list-context-menu>

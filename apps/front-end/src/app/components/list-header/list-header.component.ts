@@ -9,6 +9,7 @@ import {
 import { IList } from '../../services/boards/boards.service';
 import { FormControl, Validators } from '@angular/forms';
 import { ConfirmationService, ConfirmEventType } from 'primeng/api';
+import { LIST_OPERATORS, LIST_TYPES } from '../../constants';
 
 @Component({
   selector: 'budgetello-list-header',
@@ -19,10 +20,15 @@ import { ConfirmationService, ConfirmEventType } from 'primeng/api';
 })
 export class ListHeaderComponent implements OnInit {
   @Input() list: IList;
+  @Input() type: LIST_OPERATORS;
   isEditingTitle = false;
   listTitleFormControl = new FormControl('', Validators.required);
   @Output() listTitleChanged = new EventEmitter();
   @Output() listDeleted = new EventEmitter();
+
+  get isSummary() {
+    return this.type === LIST_TYPES.Summary;
+  }
 
   constructor(private confirmationService: ConfirmationService) {}
 
