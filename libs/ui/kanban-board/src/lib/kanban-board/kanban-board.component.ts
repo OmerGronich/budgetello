@@ -14,7 +14,6 @@ import {
   TemplateRef,
 } from '@angular/core';
 import {
-  CdkDrag,
   CdkDragDrop,
   CdkDragStart,
   moveItemInArray,
@@ -22,7 +21,6 @@ import {
 } from '@angular/cdk/drag-drop';
 import { KanbanBoardTemplateDirective } from './kanban-board-template.directive';
 import { FormControl } from '@angular/forms';
-import { IList } from '../../../../../../apps/front-end/src/app/services/boards/boards.service';
 
 interface IKanbanBoardListDto {
   title: string;
@@ -37,6 +35,7 @@ interface IKanbanBoardList {
   id?: string;
   disableDrag?: boolean;
   doNotEnter?: boolean;
+  lockAxis?: 'y' | 'x';
 }
 
 @Component({

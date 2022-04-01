@@ -1,0 +1,10 @@
+@use 'assets/styles';
+
+.amount {
+  &-total-income {
+    color: styles.$variables-color-income;
+  }
+  &-total-expenses {
+    color: styles.$variables-color-expense;
+  }
+}

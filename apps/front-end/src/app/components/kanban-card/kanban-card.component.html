@@ -4,7 +4,7 @@
   (click)="showCardDialog($event)"
 >
   <h4 class="title">{{ card.title }}</h4>
-  <p class="amount">
+  <p class="amount amount-{{ card.title | kebabcase }}">
     {{ card.amount | currency: 'USD':'symbol':'1.0' }}
   </p>
 </div>

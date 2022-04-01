@@ -37,6 +37,7 @@ export interface IList extends Partial<DocumentReference> {
   created?: FieldValue;
   disableDrag?: boolean;
   doNotEnter?: boolean;
+  lockAxis?: 'x' | 'y';
 }
 
 export type IBoard = {
@@ -49,6 +50,14 @@ export type IBoard = {
   summaryListIndex?: number;
 };
 
+export type BoardIdToListsTotals = Record<
+  string,
+  {
+    totalIncome: number;
+    totalExpense: number;
+  }
+>;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -58,6 +67,7 @@ export class BoardsService {
   private boardsCollection$: Observable<AngularFirestoreCollection<IBoard>>;
   boards$: Observable<IBoard[]>;
   runTransaction: AngularFirestore['firestore']['runTransaction'];
+  private boardIdToListsTotals: BoardIdToListsTotals;
 
   constructor(
     private afs: AngularFirestore,
@@ -129,6 +139,7 @@ export class BoardsService {
         ...board,
         areListsEmpty: board.lists.every((list) => !list.cards.length),
       })),
+      tap(this.getSummaryListCalculations.bind(this)),
       map((board) => ({
         ...board,
         lists: this.createSummaryList(board),
@@ -227,7 +238,16 @@ export class BoardsService {
       title: 'Summary',
       type: LIST_TYPES.Summary,
       doNotEnter: true,
-      cards: board.areListsEmpty ? [] : [this.createNetIncomeCard(board)],
+      lockAxis: 'y' as const,
+      cards: board.areListsEmpty
+        ? []
+        : [
+            this.createTotalIncomeCard(board),
+            this.createTotalExpenseCard(board),
+            this.createNetIncomeCard(board),
+            this.createSavingsTargetCard(board),
+            this.createDiscretionaryIncomeCard(board),
+          ],
     };
     const lists = [...board.lists];
     const summaryListIndex = [null, undefined].includes(
@@ -238,36 +258,89 @@ export class BoardsService {
     lists.splice(summaryListIndex, 0, summaryList);
     return lists;
   }
+
+  private getNetIncomeAmount(board: IBoard): string {
+    const { totalIncome, totalExpense } =
+      this.boardIdToListsTotals[board.id as string];
+
+    return (totalIncome - totalExpense).toFixed(2);
+  }
+
   private createNetIncomeCard(board: IBoard): ICard {
-    const amount = board.lists
-      .reduce((acc, list) => {
-        if (list.type === LIST_TYPES.Income) {
-          return (
-            acc +
-            list.cards.reduce((acc, card) => {
-              return acc + parseFloat(card.amount);
-            }, 0)
-          );
-        } else if (list.type === LIST_TYPES.Expense) {
-          return (
-            acc -
-            list.cards.reduce((acc, card) => {
-              return acc + parseFloat(card.amount);
-            }, 0)
-          );
-        } else if (list.type === LIST_TYPES.Split) {
-          throw new Error('Not implemented calculations for split lists');
-        }
-
-        return 0;
-      }, 0)
-      .toFixed(2);
-
     return {
       id: 'net-income',
       title: 'Net Income',
-      amount,
-      disableDrag: true,
+      amount: this.getNetIncomeAmount(board),
+      disableDrag: false,
     };
+  }
+
+  private createSavingsTargetCard(board: IBoard): ICard {
+    return {
+      id: 'savings-target',
+      title: 'Savings Target (20%)',
+      amount: !this.boardIdToListsTotals[board.id as string].totalIncome
+        ? '0'
+        : this.getSavingsTarget(board).toFixed(2),
+    };
+  }
+
+  private createDiscretionaryIncomeCard(board: IBoard): ICard {
+    const netIncomeAmount = +this.getNetIncomeAmount(board);
+    const amount = !this.boardIdToListsTotals[board.id as string].totalIncome
+      ? '0'
+      : (netIncomeAmount - +this.getSavingsTarget(board)).toFixed(2);
+    return {
+      id: 'discretionary-income',
+      title: 'Discretionary Income',
+      amount,
+    };
+  }
+
+  private createTotalIncomeCard(board: IBoard): ICard {
+    return {
+      id: 'total-income',
+      title: 'Total Income',
+      amount: this.getTotalIncome(board).toFixed(2),
+    };
+  }
+
+  private createTotalExpenseCard(board: IBoard) {
+    return {
+      id: 'total-expense',
+      title: 'Total Expenses',
+      amount: this.getTotalExpense(board).toFixed(2),
+    };
+  }
+
+  private getSummaryListCalculations(board: IBoard) {
+    this.boardIdToListsTotals = {
+      [board.id as string]: {
+        totalIncome: this.getTotalIncome(board),
+        totalExpense: this.getTotalExpense(board),
+      },
+    };
+  }
+
+  getTotalIncome(board: IBoard) {
+    return this.getListTotalByType({ board, type: LIST_TYPES.Income });
+  }
+
+  private getTotalExpense(board: IBoard) {
+    return this.getListTotalByType({ board, type: LIST_TYPES.Expense });
+  }
+
+  private getSavingsTarget(board: IBoard) {
+    return +this.getNetIncomeAmount(board) * 0.2;
+  }
+
+  getListTotalByType({ type, board }: { type: LIST_OPERATORS; board: IBoard }) {
+    return board.lists
+      .filter((list) => list.type === type)
+      .reduce((acc, list) => acc + this.calculateListTotal(list), 0);
+  }
+
+  calculateListTotal(list: IList) {
+    return list.cards.reduce((acc, card) => acc + parseFloat(card.amount), 0);
   }
 }
