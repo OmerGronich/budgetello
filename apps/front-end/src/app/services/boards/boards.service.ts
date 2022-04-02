@@ -63,7 +63,7 @@ export type BoardIdToListsTotals = Record<
   string,
   {
     totalIncome: number;
-    totalExpense: number;
+    totalExpenses: number;
   }
 >;
 
@@ -281,10 +281,10 @@ export class BoardsService {
   }
 
   private getNetIncomeAmount(board: IBoard): string {
-    const { totalIncome, totalExpense } =
+    const { totalIncome, totalExpenses } =
       this.boardIdToListsTotals[board.id as string];
 
-    return (totalIncome - totalExpense).toFixed(2);
+    return (totalIncome - totalExpenses).toFixed(2);
   }
 
   private createNetIncomeCard(board: IBoard): ICard {
@@ -297,20 +297,27 @@ export class BoardsService {
   }
 
   private createSavingsTargetCard(board: IBoard): ICard {
+    const { totalIncome, totalExpenses } =
+      this.boardIdToListsTotals[board.id as string];
     return {
       id: 'savingsTarget',
       title: 'Savings Target (20%)',
-      amount: !this.boardIdToListsTotals[board.id as string].totalIncome
-        ? '0'
-        : this.getSavingsTarget(board).toFixed(2),
+      amount:
+        totalIncome <= totalExpenses
+          ? '0'
+          : this.getSavingsTarget(board).toFixed(2),
     };
   }
 
   private createDiscretionaryIncomeCard(board: IBoard): ICard {
+    const { totalIncome, totalExpenses } =
+      this.boardIdToListsTotals[board.id as string];
+
     const netIncomeAmount = +this.getNetIncomeAmount(board);
-    const amount = !this.boardIdToListsTotals[board.id as string].totalIncome
-      ? '0'
-      : (netIncomeAmount - +this.getSavingsTarget(board)).toFixed(2);
+    const amount =
+      totalIncome <= totalExpenses
+        ? '0'
+        : (netIncomeAmount - +this.getSavingsTarget(board)).toFixed(2);
     return {
       id: 'discretionaryIncome',
       title: 'Discretionary Income',
@@ -330,7 +337,7 @@ export class BoardsService {
     return {
       id: 'totalExpenses',
       title: 'Total Expenses',
-      amount: this.getTotalExpense(board).toFixed(2),
+      amount: this.getTotalExpenses(board).toFixed(2),
     };
   }
 
@@ -338,7 +345,7 @@ export class BoardsService {
     this.boardIdToListsTotals = {
       [board.id as string]: {
         totalIncome: this.getTotalIncome(board),
-        totalExpense: this.getTotalExpense(board),
+        totalExpenses: this.getTotalExpenses(board),
       },
     };
   }
@@ -347,7 +354,7 @@ export class BoardsService {
     return this.getListTotalByType({ board, type: LIST_TYPES.Income });
   }
 
-  private getTotalExpense(board: IBoard) {
+  private getTotalExpenses(board: IBoard) {
     return this.getListTotalByType({ board, type: LIST_TYPES.Expense });
   }
 
