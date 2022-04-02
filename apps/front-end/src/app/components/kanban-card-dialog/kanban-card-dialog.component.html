@@ -7,6 +7,7 @@
       <div class="flex-column">
         <div class="p-float-label p-input-icon-right mb-20 w-full">
           <input
+            [budgetelloAsyncAutofocus]="true"
             class="w-full"
             pInputText
             formControlName="title"
@@ -26,21 +27,21 @@
           <label for="amount">Amount</label>
         </div>
       </div>
+      <footer class="flex space-between">
+        <button
+          pButton
+          class="p-button-text"
+          icon="pi pi-check"
+          label="Save"
+          (click)="saveCard()"
+        ></button>
+        <button
+          pButton
+          class="p-button-text p-button-danger"
+          icon="pi pi-trash"
+          (click)="deleteCard()"
+        ></button>
+      </footer>
     </form>
   </main>
-  <footer class="flex space-between">
-    <button
-      pButton
-      class="p-button-text"
-      icon="pi pi-check"
-      label="Save"
-      (click)="saveCard()"
-    ></button>
-    <button
-      pButton
-      class="p-button-text p-button-danger"
-      icon="pi pi-trash"
-      (click)="deleteCard()"
-    ></button>
-  </footer>
 </div>

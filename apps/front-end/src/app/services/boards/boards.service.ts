@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
-  AngularFirestoreDocument,
   DocumentReference,
 } from '@angular/fire/compat/firestore';
 import {
@@ -16,7 +15,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
-import { arrayUnion, connectFirestoreEmulator } from '@angular/fire/firestore';
+import { connectFirestoreEmulator } from '@angular/fire/firestore';
 import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { LIST_OPERATORS, LIST_TYPES } from '../../constants';
@@ -77,15 +76,12 @@ export class BoardsService {
   private listsCollection: AngularFirestoreCollection<IList>;
   private boardsCollection$: Observable<AngularFirestoreCollection<IBoard>>;
   boards$: Observable<IBoard[]>;
-  runTransaction: AngularFirestore['firestore']['runTransaction'];
   private boardIdToListsTotals: BoardIdToListsTotals;
 
   constructor(
     private afs: AngularFirestore,
     private auth: AuthenticationService
   ) {
-    this.runTransaction = this.afs.firestore.runTransaction;
-
     if (environment.useEmulators) {
       connectFirestoreEmulator(this.afs.firestore, 'localhost', 8080);
     }
@@ -147,10 +143,7 @@ export class BoardsService {
 
           return combineLatest(docRefs).pipe(
             startWith([]),
-            map((cards) => {
-              console.log({ cards });
-              return { ...list, cards };
-            })
+            map((cards) => ({ ...list, cards }))
           );
         })
       ) as Observable<IList>;
@@ -182,10 +175,16 @@ export class BoardsService {
         areListsEmpty: board.lists.every((list) => !list.cards.length),
       })),
       tap(this.getSummaryListCalculations.bind(this)),
-      map((board) => ({
-        ...board,
-        lists: this.createSummaryList(board),
-      }))
+      map((board) => {
+        const summaryListIndex = this.getSummaryListIndex(board);
+        const lists = [...board.lists];
+        lists.splice(summaryListIndex, 0, this.createSummaryList(board));
+
+        return {
+          ...board,
+          lists,
+        };
+      })
     );
 
     return {
@@ -224,14 +223,13 @@ export class BoardsService {
     list: IList;
     title: string;
   }) {
-    const listDoc = this.afs.doc('lists/' + list.id);
     const cardCollection = this.afs.collection('cards');
     const cardRef = await cardCollection.add({
       title,
       amount,
       created: firebase.firestore.FieldValue.serverTimestamp(),
     });
-    console.log({ cardRef });
+    const listDoc = this.afs.doc('lists/' + list.id);
     listDoc.update({
       cards: firebase.firestore.FieldValue.arrayUnion(cardRef),
     });
@@ -241,40 +239,38 @@ export class BoardsService {
     return this.afs.collection('lists').doc<IList>(id).ref;
   }
 
+  updateCard(card: ICard) {
+    this.getCardRef(<string>card.id).update({
+      ...card,
+    });
+  }
+
   setLists(lists: IList[]) {
     const updates = lists
       .filter((list) => list.type !== LIST_TYPES.Summary)
       .map((list) => {
         const doc = this.getListDoc(`lists/${list.id}`);
-        return doc.update({ cards: list.cards });
+        const cards = list.cards.map((card) =>
+          this.getCardRef(card.id as string)
+        );
+        return doc.update({ cards });
       });
     this.afs.firestore.runTransaction(() => {
       return Promise.all(updates);
     });
   }
 
-  updateCard(card: ICard, list: IList) {
-    const newCards = list.cards.map((c) => {
-      if (c.id === card.id) {
-        return card;
-      }
-
-      return c;
-    });
-    return this.afs
-      .doc<Partial<IList>>('lists/' + list.id)
-      .set({ cards: newCards }, { merge: true });
-  }
-
   deleteCard(card: ICard, list: IList) {
+    this.getCardRef(<string>card.id).delete();
+
     const newCards = list.cards.filter((c) => c.id !== card.id);
     return this.afs
       .doc<Partial<IList>>('lists/' + list.id)
       .set({ cards: newCards }, { merge: true });
   }
 
-  private createSummaryList(board: IBoard): IList[] {
-    const summaryList = {
+  private createSummaryList(board: IBoard): IList {
+    return {
       id: 'summary',
       title: 'Summary',
       type: LIST_TYPES.Summary,
@@ -286,14 +282,12 @@ export class BoardsService {
             this.summaryListCardTypeToCreateFn(cardType)(board)
           ) || [],
     };
-    const lists = [...board.lists];
-    const summaryListIndex = [null, undefined].includes(
-      <any>board.summaryListIndex
-    )
+  }
+
+  private getSummaryListIndex(board: IBoard) {
+    return [null, undefined].includes(<any>board.summaryListIndex)
       ? board.lists.length
       : (board.summaryListIndex as number);
-    lists.splice(summaryListIndex, 0, summaryList);
-    return lists;
   }
 
   private getNetIncomeAmount(board: IBoard): string {
@@ -396,5 +390,15 @@ export class BoardsService {
       savingsTarget: this.createSavingsTargetCard.bind(this),
       discretionaryIncome: this.createDiscretionaryIncomeCard.bind(this),
     }[type];
+  }
+
+  private getCardRef(id: string) {
+    return this.afs.doc('cards/' + id).ref;
+  }
+
+  deleteListCards(list: IList) {
+    list.cards.forEach((card) => {
+      this.getCardRef(<string>card.id).delete();
+    });
   }
 }

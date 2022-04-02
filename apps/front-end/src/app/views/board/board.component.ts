@@ -159,6 +159,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.boardDoc.update({
       lists: arrayRemove(listRef) as unknown as IList[],
     });
+    this.boardsService.deleteListCards(list);
     listRef.delete();
   }
 }

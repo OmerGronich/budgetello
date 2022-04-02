@@ -36,14 +36,11 @@ export class KanbanCardDialogComponent {
   }
 
   saveCard() {
-    this.boardService.updateCard(
-      {
-        ...this.card,
-        title: this.group.get('title')?.value,
-        amount: this.group.get('amount')?.value,
-      },
-      this.list
-    );
+    this.boardService.updateCard({
+      ...this.card,
+      title: this.group.get('title')?.value,
+      amount: this.group.get('amount')?.value,
+    });
   }
 
   deleteCard() {
