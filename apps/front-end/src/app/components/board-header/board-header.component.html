@@ -26,7 +26,12 @@
 
   <div class="flex-1"></div>
 
-  <budgetello-datepicker class="mx-20"></budgetello-datepicker>
+  <budgetello-datepicker
+    *ngIf="boardService.dateRange$ | async as dateRange"
+    class="mx-20"
+    [date]="dateRange"
+    (dateSelected)="onDateSelected($event)"
+  ></budgetello-datepicker>
 
   <button
     pButton

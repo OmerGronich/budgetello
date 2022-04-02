@@ -5,6 +5,7 @@ import {
   DocumentReference,
 } from '@angular/fire/compat/firestore';
 import {
+  BehaviorSubject,
   combineLatest,
   defaultIfEmpty,
   filter,
@@ -20,12 +21,14 @@ import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { LIST_OPERATORS, LIST_TYPES } from '../../constants';
 import firebase from 'firebase/compat/app';
+import dayjs from 'dayjs';
 import FieldValue = firebase.firestore.FieldValue;
+import Timestamp = firebase.firestore.Timestamp;
 
 export interface ICard {
   title: string;
   amount: string;
-  created?: FieldValue;
+  created?: Timestamp;
   id?: string;
   disableDrag?: boolean;
 }
@@ -35,7 +38,7 @@ export interface IList extends Partial<DocumentReference> {
   id?: string;
   title: string;
   cards: ICard[];
-  created?: FieldValue;
+  created?: Timestamp;
   disableDrag?: boolean;
   doNotEnter?: boolean;
   lockAxis?: 'x' | 'y';
@@ -77,6 +80,14 @@ export class BoardsService {
   private boardsCollection$: Observable<AngularFirestoreCollection<IBoard>>;
   boards$: Observable<IBoard[]>;
   private boardIdToListsTotals: BoardIdToListsTotals;
+  private dateRange$$ = new BehaviorSubject([
+    dayjs().startOf('month').toDate(),
+    dayjs().endOf('month').toDate(),
+  ]);
+
+  get dateRange$() {
+    return this.dateRange$$.asObservable();
+  }
 
   constructor(
     private afs: AngularFirestore,
@@ -100,6 +111,10 @@ export class BoardsService {
     this.boards$ = this.boardsCollection$.pipe(
       switchMap((col) => col.valueChanges({ idField: 'id' }))
     );
+  }
+
+  setDateRange$(value: [Date, Date]) {
+    this.dateRange$$.next(value);
   }
 
   async addBoard({ title }: { title: string }) {
@@ -132,14 +147,14 @@ export class BoardsService {
     return boardRef;
   }
 
-  getList(ref: DocumentReference) {
+  getList(ref: DocumentReference<IList>) {
     return this.afs
-      .doc(ref)
+      .doc<IList>(ref)
       .valueChanges({ idField: 'id' })
       .pipe(
         switchMap((list) => {
           const docRefs = (<any>list).cards.map((cardRef: DocumentReference) =>
-            this.afs.doc<ICard>(cardRef).valueChanges({ idField: 'id' })
+            this.afs.doc(cardRef).valueChanges({ idField: 'id' })
           );
 
           return combineLatest(docRefs).pipe(
@@ -160,7 +175,7 @@ export class BoardsService {
     }
 
     return combineLatest(
-      board.lists.map((list) => this.getList(<DocumentReference>list))
+      board.lists.map((list) => this.getList(<any>list))
     ).pipe(map((lists) => ({ ...board, lists })));
   }
 
@@ -214,7 +229,7 @@ export class BoardsService {
       title,
       type,
       cards: [],
-      created: firebase.firestore.FieldValue.serverTimestamp(),
+      created: firebase.firestore.FieldValue.serverTimestamp() as Timestamp,
     });
   }
 

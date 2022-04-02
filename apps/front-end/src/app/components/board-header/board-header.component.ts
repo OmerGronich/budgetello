@@ -9,6 +9,7 @@ import {
 import { FormControl, Validators } from '@angular/forms';
 import { Inplace } from 'primeng/inplace';
 import { ConfirmationService, ConfirmEventType } from 'primeng/api';
+import { BoardsService } from '../../services/boards/boards.service';
 
 @Component({
   selector: 'budgetello-board-header',
@@ -24,7 +25,10 @@ export class BoardHeaderComponent implements OnInit {
 
   boardTitleFormControl = new FormControl('', [Validators.required]);
 
-  constructor(private confirmationService: ConfirmationService) {}
+  constructor(
+    private confirmationService: ConfirmationService,
+    public boardService: BoardsService
+  ) {}
 
   ngOnInit(): void {
     this.boardTitleFormControl.setValue(this.boardTitle);
@@ -65,5 +69,10 @@ export class BoardHeaderComponent implements OnInit {
         }
       },
     });
+  }
+
+  onDateSelected($event: [Date, Date]) {
+    console.log({ $event });
+    this.boardService.setDateRange$($event);
   }
 }

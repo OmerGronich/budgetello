@@ -1,1 +1,5 @@
-<p>datepicker works!</p>
+<p-calendar
+  [formControl]="dateFormCtrl"
+  selectionMode="range"
+  (onSelect)="dateSelected.emit(dateFormCtrl.value)"
+></p-calendar>

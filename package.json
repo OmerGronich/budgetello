@@ -22,6 +22,7 @@
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
     "@nrwl/angular": "13.8.4",
+    "dayjs": "^1.11.0",
     "firebase": "^9.6.9",
     "lodash.kebabcase": "^4.1.1",
     "ng-click-outside": "^9.0.1",
@@ -54,6 +55,7 @@
     "@storybook/builder-webpack5": "~6.4.12",
     "@storybook/manager-webpack5": "~6.4.12",
     "@types/jest": "27.0.2",
+    "@types/lodash.kebabcase": "^4.1.6",
     "@types/node": "16.11.7",
     "@typescript-eslint/eslint-plugin": "~5.10.0",
     "@typescript-eslint/parser": "~5.10.0",
@@ -65,7 +67,6 @@
     "jest-preset-angular": "11.1.1",
     "prettier": "^2.5.1",
     "ts-jest": "27.0.5",
-    "typescript": "~4.5.2",
-    "@types/lodash.kebabcase": "^4.1.6"
+    "typescript": "~4.5.2"
   }
 }
