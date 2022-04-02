@@ -105,11 +105,11 @@ export class BoardsService {
   }
 
   async addBoard({ title }: { title: string }) {
-    const id = this.afs.createId();
+    const boardId = this.afs.createId();
     const user = await firstValueFrom(this.auth.user$);
     const created = firebase.firestore.FieldValue.serverTimestamp();
-    this.boardsCollection.add({
-      id,
+    const boardRef = await this.boardsCollection.add({
+      id: boardId,
       user: (<firebase.User>user).uid,
       title,
       lists: [],
@@ -122,6 +122,15 @@ export class BoardsService {
         'discretionaryIncome',
       ],
     });
+
+    const defaultLists = [
+      { title: 'Income', type: LIST_TYPES.Income },
+      { title: 'Expense', type: LIST_TYPES.Expense },
+    ];
+    const listRefs = await Promise.all(
+      defaultLists.map(this.addList.bind(this))
+    );
+    boardRef.update({ lists: listRefs });
   }
 
   getList(ref: DocumentReference) {
