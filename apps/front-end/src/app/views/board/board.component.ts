@@ -114,7 +114,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   ) {
     submitEvent.preventDefault();
 
-    this.boardsService.createCard({
+    this.boardsService.addCard({
       list,
       title: cardTitle,
       amount: amount,
@@ -127,7 +127,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     );
     const docRefs = lists
       .filter((list) => list.type !== LIST_TYPES.Summary)
-      .map((list) => this.boardsService.getListRef(list.id));
+      .map((list) => this.boardsService.getListRef(list.id as string));
     this.boardDoc.update({
       lists: docRefs as unknown as IList[],
       summaryListIndex,
@@ -155,7 +155,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   deleteList(list: IList) {
-    const listRef = this.boardsService.getListRef(list.id);
+    const listRef = this.boardsService.getListRef(list.id as string);
     this.boardDoc.update({
       lists: arrayRemove(listRef) as unknown as IList[],
     });

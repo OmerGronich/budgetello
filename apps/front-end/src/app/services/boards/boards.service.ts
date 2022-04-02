@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
+  AngularFirestoreDocument,
   DocumentReference,
 } from '@angular/fire/compat/firestore';
 import {
@@ -11,6 +12,7 @@ import {
   map,
   Observable,
   of,
+  startWith,
   switchMap,
   tap,
 } from 'rxjs';
@@ -31,7 +33,7 @@ export interface ICard {
 
 export interface IList extends Partial<DocumentReference> {
   type: LIST_OPERATORS;
-  id: string;
+  id?: string;
   title: string;
   cards: ICard[];
   created?: FieldValue;
@@ -136,7 +138,22 @@ export class BoardsService {
   getList(ref: DocumentReference) {
     return this.afs
       .doc(ref)
-      .valueChanges({ idField: 'id' }) as Observable<IList>;
+      .valueChanges({ idField: 'id' })
+      .pipe(
+        switchMap((list) => {
+          const docRefs = (<any>list).cards.map((cardRef: DocumentReference) =>
+            this.afs.doc<ICard>(cardRef).valueChanges({ idField: 'id' })
+          );
+
+          return combineLatest(docRefs).pipe(
+            startWith([]),
+            map((cards) => {
+              console.log({ cards });
+              return { ...list, cards };
+            })
+          );
+        })
+      ) as Observable<IList>;
   }
 
   getListDoc(ref: DocumentReference | string) {
@@ -190,9 +207,7 @@ export class BoardsService {
   }
 
   addList({ title, type }: { title: string; type: LIST_OPERATORS }) {
-    const id = this.afs.createId();
     return this.listsCollection.add({
-      id,
       title,
       type,
       cards: [],
@@ -200,7 +215,7 @@ export class BoardsService {
     });
   }
 
-  createCard({
+  async addCard({
     list,
     amount,
     title,
@@ -210,15 +225,16 @@ export class BoardsService {
     title: string;
   }) {
     const listDoc = this.afs.doc('lists/' + list.id);
-    listDoc
-      .update({
-        cards: arrayUnion({
-          title,
-          amount,
-          id: this.afs.createId(),
-        }),
-      })
-      .catch(console.error);
+    const cardCollection = this.afs.collection('cards');
+    const cardRef = await cardCollection.add({
+      title,
+      amount,
+      created: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    console.log({ cardRef });
+    listDoc.update({
+      cards: firebase.firestore.FieldValue.arrayUnion(cardRef),
+    });
   }
 
   getListRef(id: string) {
