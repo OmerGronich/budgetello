@@ -26,6 +26,8 @@ export class ListHeaderComponent implements OnInit {
   @Output() listTitleChanged = new EventEmitter();
   @Output() listDeleted = new EventEmitter();
 
+  optimisticListTitle: string;
+
   get isSummary() {
     return this.type === LIST_TYPES.Summary;
   }
@@ -33,6 +35,7 @@ export class ListHeaderComponent implements OnInit {
   constructor(private confirmationService: ConfirmationService) {}
 
   ngOnInit(): void {
+    this.optimisticListTitle = this.list.title;
     this.listTitleFormControl.setValue(this.list.title);
   }
 
@@ -46,6 +49,7 @@ export class ListHeaderComponent implements OnInit {
   }
 
   submitListTitleEdit($event: any) {
+    this.optimisticListTitle = this.listTitleFormControl.value;
     this.listTitleChanged.emit({ title: this.listTitleFormControl.value });
     this.isEditingTitle = false;
   }

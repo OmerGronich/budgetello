@@ -9,7 +9,7 @@
           list.type | mapListOperatorToIcon
         }} mx-6 pi pi-{{ list.type | mapListOperatorToIcon }}"
       ></i
-      >{{ list.title }}
+      >{{ optimisticListTitle }}
     </p>
     <budgetello-list-context-menu
       *ngIf="list.type !== '='"
