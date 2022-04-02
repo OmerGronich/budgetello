@@ -27,6 +27,7 @@
 
     <main class="flex-column w-full mt-7 cards-wrapper">
       <ul
+        *ngIf="!list.lockAxis; else withLockedAxis"
         class="flex-column w-full cards"
         (cdkDropListDropped)="dropCard($event)"
         [cdkDropListData]="list.cards"
@@ -49,6 +50,35 @@
           ></ng-container>
         </li>
       </ul>
+
+      <!--  TODO this code duplication is pretty bad. After all core features are implemented, refactor this part    -->
+      <ng-template #withLockedAxis>
+        <ul
+          *ngIf="list.lockAxis"
+          class="flex-column w-full cards"
+          (cdkDropListDropped)="dropCard($event)"
+          [cdkDropListData]="list.cards"
+          cdkDropList
+          [cdkDropListLockAxis]="list.lockAxis"
+          [cdkDropListEnterPredicate]="listEnterPredicate.bind(this, list)"
+        >
+          <li
+            (cdkDragStarted)="cdkCardDragStarted($event)"
+            *ngFor="let card of list.cards"
+            cdkDrag
+            cdkDragPreviewClass="list-preview"
+            class="card"
+            [cdkDragDisabled]="card.disableDrag"
+          >
+            <ng-container
+              *ngTemplateOutlet="
+                cardTemplate;
+                context: { $implicit: card, list: list }
+              "
+            ></ng-container>
+          </li>
+        </ul>
+      </ng-template>
     </main>
 
     <ng-container *ngIf="listFooterTemplate; else defaultListFooter">
