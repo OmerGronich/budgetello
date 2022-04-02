@@ -14,7 +14,6 @@ import {
   TemplateRef,
 } from '@angular/core';
 import {
-  CdkDrag,
   CdkDragDrop,
   CdkDragStart,
   moveItemInArray,

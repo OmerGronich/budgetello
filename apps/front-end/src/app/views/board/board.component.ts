@@ -1,14 +1,18 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   BoardsService,
   IBoard,
   ICard,
   IList,
   SummaryListCardType,
-  SummaryListCardTypesInOrder,
 } from '../../services/boards/boards.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { LIST_OPERATORS_TO_PROPS, LIST_TYPES } from '../../constants';
 import { arrayRemove, arrayUnion } from '@angular/fire/firestore';
@@ -20,23 +24,48 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
   styleUrls: ['./board.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BoardComponent {
+export class BoardComponent implements OnInit, OnDestroy {
   private boardDoc: AngularFirestoreDocument<Partial<IBoard>>;
-  board$: Observable<IBoard>;
+  boardFromDb$: Observable<IBoard>;
+  subscriptions: Subscription[] = [];
+
+  // todo - this behavior subject is for optimistic updates - need to figure out a better way
+  private board$$ = new BehaviorSubject<IBoard | null>(null);
+
+  get board$() {
+    return this.board$$.asObservable();
+  }
 
   constructor(
     private boardsService: BoardsService,
     private route: ActivatedRoute,
     private router: Router
   ) {
-    ({ board$: this.board$, boardDoc: this.boardDoc } =
+    ({ board$: this.boardFromDb$, boardDoc: this.boardDoc } =
       this.boardsService.getBoard(this.boardId));
   }
+
+  ngOnInit() {
+    this.subscriptions.push(
+      this.boardFromDb$.subscribe((board) => {
+        this.board$$.next(board);
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
+  }
+
   get boardId() {
     return this.route.snapshot.paramMap.get('id') || '';
   }
 
   updateBoardTitle($event: { title: string }) {
+    this.board$$.next({
+      ...(this.board$$.getValue() as IBoard),
+      title: $event.title,
+    });
     this.boardDoc.update($event);
   }
 
