@@ -9,11 +9,9 @@ import {
   defaultIfEmpty,
   filter,
   firstValueFrom,
-  iif,
   map,
   Observable,
   of,
-  startWith,
   switchMap,
   tap,
 } from 'rxjs';
@@ -265,10 +263,10 @@ export class BoardsService {
   deleteCard(card: ICard, list: IList) {
     this.getCardRef(<string>card.id).delete();
 
-    const newCards = list.cards.filter((c) => c.id !== card.id);
+    const cards = list.cards.filter((c) => c.id !== card.id);
     return this.afs
       .doc<Partial<IList>>('lists/' + list.id)
-      .set({ cards: newCards }, { merge: true });
+      .set({ cards }, { merge: true });
   }
 
   private createSummaryList(board: IBoard): IList {
@@ -381,7 +379,7 @@ export class BoardsService {
   }
 
   calculateListTotal(list: IList) {
-    return list.cards.reduce((acc, card) => acc + parseFloat(card.amount), 0);
+    return list.cards.reduce((acc, card) => acc + +(card.amount || 0), 0);
   }
 
   summaryListCardTypeToCreateFn(type: SummaryListCardType) {
