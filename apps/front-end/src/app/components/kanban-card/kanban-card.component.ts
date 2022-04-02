@@ -24,9 +24,9 @@ export class KanbanCardComponent implements OnDestroy {
 
   constructor(public dialogService: DialogService) {}
 
-  showCardDialog($event?: MouseEvent) {
+  showCardDialog(_?: MouseEvent) {
     if (this.list.type === LIST_TYPES.Summary) return;
-    import('../kanban-card-dialog/kanban-card-dialog.module').then((m) => {
+    import('../kanban-card-dialog/kanban-card-dialog.module').then((_) => {
       this.ref = this.dialogService.open(KanbanCardDialogComponent, {
         showHeader: false,
         width: '370px',

@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BoardsService, IBoard } from '../../services/boards/boards.service';
 import { BehaviorSubject } from 'rxjs';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'budgetello-home',
@@ -21,18 +22,20 @@ export class HomeComponent {
     this._isCreatingBoard$.next(value);
   }
 
-  constructor(public boardsService: BoardsService) {}
+  constructor(public boardsService: BoardsService, private router: Router) {}
 
   get boards$() {
     return this.boardsService.boards$;
   }
 
-  onCreateBoard($event: SubmitEvent) {
+  async onCreateBoard($event: SubmitEvent) {
     $event.preventDefault();
 
-    this.boardsService.addBoard({
+    const boardRef = await this.boardsService.addBoard({
       title: this.boardTitleFormControl.value || 'Untitled Board',
     });
+    this.boardTitleFormControl.reset();
+    this.router.navigate(['/board', boardRef.id]);
   }
 
   trackByFn(index: number, board: IBoard) {

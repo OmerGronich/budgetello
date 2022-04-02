@@ -129,6 +129,7 @@ export class BoardsService {
       defaultLists.map(this.addList.bind(this))
     );
     boardRef.update({ lists: listRefs });
+    return boardRef;
   }
 
   getList(ref: DocumentReference) {
@@ -195,6 +196,9 @@ export class BoardsService {
 
   deleteAssociatedLists(board: IBoard) {
     board.lists.forEach((list) => {
+      list.cards.forEach((card) => {
+        this.afs.doc('cards/' + card.id).delete();
+      });
       this.afs.doc('lists/' + list.id).delete();
     });
   }
