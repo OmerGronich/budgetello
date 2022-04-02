@@ -3,7 +3,11 @@
     <h2 class="mb-20">Edit / delete card</h2>
   </header>
   <main class="w-full">
-    <form class="flex-column w-full" [formGroup]="group">
+    <form
+      class="flex-column w-full"
+      [formGroup]="group"
+      (submit)="$event.preventDefault()"
+    >
       <div class="flex-column">
         <div class="p-float-label p-input-icon-right mb-20 w-full">
           <input

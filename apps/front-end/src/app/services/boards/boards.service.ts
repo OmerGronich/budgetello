@@ -6,8 +6,10 @@ import {
 } from '@angular/fire/compat/firestore';
 import {
   combineLatest,
+  defaultIfEmpty,
   filter,
   firstValueFrom,
+  iif,
   map,
   Observable,
   of,
@@ -142,7 +144,7 @@ export class BoardsService {
           );
 
           return combineLatest(docRefs).pipe(
-            startWith([]),
+            defaultIfEmpty([]),
             map((cards) => ({ ...list, cards }))
           );
         })
