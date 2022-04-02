@@ -2,13 +2,17 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   BoardsService,
   IBoard,
+  ICard,
   IList,
+  SummaryListCardType,
+  SummaryListCardTypesInOrder,
 } from '../../services/boards/boards.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { LIST_OPERATORS_TO_PROPS, LIST_TYPES } from '../../constants';
 import { arrayRemove, arrayUnion } from '@angular/fire/firestore';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'budgetello-board',
@@ -101,8 +105,24 @@ export class BoardComponent {
     });
   }
 
-  reorderCards(lists: IList[]) {
-    this.boardsService.setLists(lists);
+  reorderCards(
+    { lists, event }: { lists: any[]; event: CdkDragDrop<any> },
+    board: IBoard
+  ) {
+    const isSummaryList = event.container.data.some((card: ICard) =>
+      board.summaryListCardTypesInOrder?.includes(
+        card.id as SummaryListCardType
+      )
+    );
+    if (isSummaryList) {
+      this.boardDoc.update({
+        summaryListCardTypesInOrder: event.container.data.map(
+          (card: ICard) => card.id
+        ),
+      });
+    } else {
+      this.boardsService.setLists(lists);
+    }
   }
 
   deleteList(list: IList) {

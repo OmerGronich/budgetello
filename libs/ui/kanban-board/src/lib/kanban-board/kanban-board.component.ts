@@ -14,6 +14,7 @@ import {
   TemplateRef,
 } from '@angular/core';
 import {
+  CdkDrag,
   CdkDragDrop,
   CdkDragStart,
   moveItemInArray,
@@ -53,7 +54,10 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
   @Output() addListFormHide = new EventEmitter();
   @Output() listCreationFormClosed = new EventEmitter();
   @Output() listReordered = new EventEmitter();
-  @Output() cardsReordered = new EventEmitter();
+  @Output() cardsReordered = new EventEmitter<{
+    lists: IKanbanBoardList[];
+    event: CdkDragDrop<any[]>;
+  }>();
   @Input() listCssClassMapper = '';
 
   @ContentChildren(KanbanBoardTemplateDirective) templates: QueryList<any>;
@@ -139,8 +143,7 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
         event.currentIndex
       );
     }
-
-    this.cardsReordered.emit(this.kanbanBoardLists);
+    this.cardsReordered.emit({ lists: this.kanbanBoardLists, event });
   }
 
   createList($event: SubmitEvent) {

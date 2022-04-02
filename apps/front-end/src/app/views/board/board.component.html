@@ -13,7 +13,7 @@
       (listAdded)="$event.preventDefault()"
       [getListCssClass]="getListCssClass"
       (listReordered)="reorderLists($event)"
-      (cardsReordered)="reorderCards($event)"
+      (cardsReordered)="reorderCards($event, board)"
     >
       <!-- list header -->
       <ng-template kanbanTemplate="listHeader" let-list>

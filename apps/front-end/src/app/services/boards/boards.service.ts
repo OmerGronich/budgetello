@@ -40,6 +40,14 @@ export interface IList extends Partial<DocumentReference> {
   lockAxis?: 'x' | 'y';
 }
 
+export type SummaryListCardType =
+  | 'totalIncome'
+  | 'totalExpenses'
+  | 'netIncome'
+  | 'savingsTarget'
+  | 'discretionaryIncome';
+export type SummaryListCardTypesInOrder = Array<SummaryListCardType>;
+
 export type IBoard = {
   id?: string;
   title: string;
@@ -48,6 +56,7 @@ export type IBoard = {
   created: FieldValue;
   areListsEmpty?: boolean;
   summaryListIndex?: number;
+  summaryListCardTypesInOrder?: SummaryListCardTypesInOrder;
 };
 
 export type BoardIdToListsTotals = Record<
@@ -105,6 +114,13 @@ export class BoardsService {
       title,
       lists: [],
       created,
+      summaryListCardTypesInOrder: [
+        'totalIncome',
+        'totalExpenses',
+        'netIncome',
+        'savingsTarget',
+        'discretionaryIncome',
+      ],
     });
   }
 
@@ -241,13 +257,9 @@ export class BoardsService {
       lockAxis: 'y' as const,
       cards: board.areListsEmpty
         ? []
-        : [
-            this.createTotalIncomeCard(board),
-            this.createTotalExpenseCard(board),
-            this.createNetIncomeCard(board),
-            this.createSavingsTargetCard(board),
-            this.createDiscretionaryIncomeCard(board),
-          ],
+        : board.summaryListCardTypesInOrder?.map((cardType) =>
+            this.summaryListCardTypeToCreateFn(cardType)(board)
+          ) || [],
     };
     const lists = [...board.lists];
     const summaryListIndex = [null, undefined].includes(
@@ -268,7 +280,7 @@ export class BoardsService {
 
   private createNetIncomeCard(board: IBoard): ICard {
     return {
-      id: 'net-income',
+      id: 'netIncome',
       title: 'Net Income',
       amount: this.getNetIncomeAmount(board),
       disableDrag: false,
@@ -277,7 +289,7 @@ export class BoardsService {
 
   private createSavingsTargetCard(board: IBoard): ICard {
     return {
-      id: 'savings-target',
+      id: 'savingsTarget',
       title: 'Savings Target (20%)',
       amount: !this.boardIdToListsTotals[board.id as string].totalIncome
         ? '0'
@@ -291,7 +303,7 @@ export class BoardsService {
       ? '0'
       : (netIncomeAmount - +this.getSavingsTarget(board)).toFixed(2);
     return {
-      id: 'discretionary-income',
+      id: 'discretionaryIncome',
       title: 'Discretionary Income',
       amount,
     };
@@ -299,15 +311,15 @@ export class BoardsService {
 
   private createTotalIncomeCard(board: IBoard): ICard {
     return {
-      id: 'total-income',
+      id: 'totalIncome',
       title: 'Total Income',
       amount: this.getTotalIncome(board).toFixed(2),
     };
   }
 
-  private createTotalExpenseCard(board: IBoard) {
+  private createTotalExpenseCard(board: IBoard): ICard {
     return {
-      id: 'total-expense',
+      id: 'totalExpenses',
       title: 'Total Expenses',
       amount: this.getTotalExpense(board).toFixed(2),
     };
@@ -342,5 +354,15 @@ export class BoardsService {
 
   calculateListTotal(list: IList) {
     return list.cards.reduce((acc, card) => acc + parseFloat(card.amount), 0);
+  }
+
+  summaryListCardTypeToCreateFn(type: SummaryListCardType) {
+    return {
+      totalIncome: this.createTotalIncomeCard.bind(this),
+      totalExpenses: this.createTotalExpenseCard.bind(this),
+      netIncome: this.createNetIncomeCard.bind(this),
+      savingsTarget: this.createSavingsTargetCard.bind(this),
+      discretionaryIncome: this.createDiscretionaryIncomeCard.bind(this),
+    }[type];
   }
 }
