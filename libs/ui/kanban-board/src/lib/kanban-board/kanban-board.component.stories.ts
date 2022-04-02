@@ -1,4 +1,4 @@
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { KanbanBoardComponent } from './kanban-board.component';
 
 export default {
@@ -7,7 +7,7 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [],
-    })
+    }),
   ],
 } as Meta<KanbanBoardComponent>;
 

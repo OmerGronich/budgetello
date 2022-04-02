@@ -8,9 +8,8 @@ describe('ListTypeSelectorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ListTypeSelectorComponent ]
-    })
-    .compileComponents();
+      declarations: [ListTypeSelectorComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

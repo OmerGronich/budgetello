@@ -6,7 +6,6 @@ import { KanbanBoardTemplateDirective } from './kanban-board/kanban-board-templa
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ReactiveFormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { UiAsyncAutofocusModule } from '@budgetello/ui/async-autofocus';

@@ -12,7 +12,7 @@ import {
   SummaryListCardType,
 } from '../../services/boards/boards.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Observable, ReplaySubject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { LIST_OPERATORS_TO_PROPS, LIST_TYPES } from '../../constants';
 import { arrayRemove, arrayUnion } from '@angular/fire/firestore';

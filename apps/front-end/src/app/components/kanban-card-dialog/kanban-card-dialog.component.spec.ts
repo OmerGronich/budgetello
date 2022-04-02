@@ -8,9 +8,8 @@ describe('KanbanCardDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ KanbanCardDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [KanbanCardDialogComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

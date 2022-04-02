@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ClickOutsideModule } from 'ng-click-outside';
+import { UiDatepickerModule } from '@budgetello/ui/datepicker';
 
 @NgModule({
   declarations: [BoardHeaderComponent],
@@ -20,6 +21,7 @@ import { ClickOutsideModule } from 'ng-click-outside';
     InputTextModule,
     ConfirmDialogModule,
     ClickOutsideModule,
+    UiDatepickerModule,
   ],
   exports: [BoardHeaderComponent],
 })

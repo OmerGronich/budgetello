@@ -8,9 +8,8 @@ describe('KanbanCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ KanbanCardComponent ]
-    })
-    .compileComponents();
+      declarations: [KanbanCardComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

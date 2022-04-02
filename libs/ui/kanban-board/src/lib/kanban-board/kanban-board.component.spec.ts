@@ -8,9 +8,8 @@ describe('KanbanBoardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ KanbanBoardComponent ]
-    })
-    .compileComponents();
+      declarations: [KanbanBoardComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

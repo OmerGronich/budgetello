@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import {
   BoardsService,
