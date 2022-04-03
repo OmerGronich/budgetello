@@ -6,6 +6,7 @@ import {
 } from '@angular/fire/compat/firestore';
 import {
   BehaviorSubject,
+  catchError,
   combineLatest,
   defaultIfEmpty,
   filter,
@@ -158,27 +159,31 @@ export class BoardsService {
   }
 
   private getCards(list: IList) {
-    // todo figure this out
-    // return this.dateRange$.pipe(
-    //   switchMap(([start, end]) =>
-    //     this.afs
-    //       .collection<ICard>('cards', (ref) =>
-    //         ref
-    //           .where(
-    //             firebase.firestore.FieldPath.documentId(),
-    //             'in',
-    //             list?.cards.map((card) => card.id)
-    //           )
-    //           .orderBy('created')
-    //           .startAt(start)
-    //           .endAt(end)
-    //       )
-    //       .valueChanges({ idField: 'id' })
-    //   ),
-    //   defaultIfEmpty([]),
-    //   map((cards) => ({ ...list, cards }))
-    // );
+    return this.dateRange$.pipe(
+      switchMap(([start, end]) => {
+        if (list?.cards.length) {
+          return this.afs
+            .collection<ICard>(
+              'cards',
+              (ref) =>
+                ref.where(
+                  firebase.firestore.FieldPath.documentId(),
+                  'in',
+                  list?.cards.map((card) => card.id)
+                )
+              // todo figure this out
+              // .orderBy('created')
+              // .startAt(start)
+              // .endAt(end)
+            )
+            .valueChanges({ idField: 'id' });
+        }
+        return of([]);
+      }),
+      map((cards) => ({ ...list, cards }))
+    );
 
+    // todo delete once figuring ☝️ out
     const docRefs = (<any>list).cards.map((cardRef: DocumentReference) =>
       this.afs.doc(cardRef).valueChanges({ idField: 'id' })
     );
@@ -272,12 +277,13 @@ export class BoardsService {
     title: string;
   }) {
     const cardCollection = this.afs.collection('cards');
+    const listDoc = this.afs.doc('lists/' + list.id);
     const cardRef = await cardCollection.add({
       title,
       amount,
       created: firebase.firestore.FieldValue.serverTimestamp(),
+      list: listDoc.ref,
     });
-    const listDoc = this.afs.doc('lists/' + list.id);
     listDoc.update({
       cards: firebase.firestore.FieldValue.arrayUnion(cardRef),
     });
