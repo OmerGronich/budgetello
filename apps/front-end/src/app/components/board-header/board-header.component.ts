@@ -72,7 +72,6 @@ export class BoardHeaderComponent implements OnInit {
   }
 
   onDateSelected($event: [Date, Date]) {
-    console.log({ $event });
     this.boardService.setDateRange$($event);
   }
 }

@@ -152,17 +152,40 @@ export class BoardsService {
       .doc<IList>(ref)
       .valueChanges({ idField: 'id' })
       .pipe(
-        switchMap((list) => {
-          const docRefs = (<any>list).cards.map((cardRef: DocumentReference) =>
-            this.afs.doc(cardRef).valueChanges({ idField: 'id' })
-          );
-
-          return combineLatest(docRefs).pipe(
-            defaultIfEmpty([]),
-            map((cards) => ({ ...list, cards }))
-          );
-        })
+        filter(Boolean),
+        switchMap(this.getCards.bind(this))
       ) as Observable<IList>;
+  }
+
+  private getCards(list: IList) {
+    // todo figure this out
+    // return this.dateRange$.pipe(
+    //   switchMap(([start, end]) =>
+    //     this.afs
+    //       .collection<ICard>('cards', (ref) =>
+    //         ref
+    //           .where(
+    //             firebase.firestore.FieldPath.documentId(),
+    //             'in',
+    //             list?.cards.map((card) => card.id)
+    //           )
+    //           .orderBy('created')
+    //           .startAt(start)
+    //           .endAt(end)
+    //       )
+    //       .valueChanges({ idField: 'id' })
+    //   ),
+    //   defaultIfEmpty([]),
+    //   map((cards) => ({ ...list, cards }))
+    // );
+
+    const docRefs = (<any>list).cards.map((cardRef: DocumentReference) =>
+      this.afs.doc(cardRef).valueChanges({ idField: 'id' })
+    );
+    return combineLatest(docRefs).pipe(
+      defaultIfEmpty([]),
+      map((cards) => ({ ...list, cards }))
+    );
   }
 
   getListDoc(ref: DocumentReference | string) {
@@ -186,26 +209,32 @@ export class BoardsService {
     const board$ = boardDoc.valueChanges({ idField: 'id' }).pipe(
       filter(Boolean),
       switchMap((board) => this.getLists(board)),
-      map((board) => ({
-        ...board,
-        areListsEmpty: board.lists.every((list) => !list.cards.length),
-      })),
+      map(this.getBoardWithAreListsEmpty.bind(this)),
       tap(this.getSummaryListCalculations.bind(this)),
-      map((board) => {
-        const summaryListIndex = this.getSummaryListIndex(board);
-        const lists = [...board.lists];
-        lists.splice(summaryListIndex, 0, this.createSummaryList(board));
-
-        return {
-          ...board,
-          lists,
-        };
-      })
+      map(this.getSummaryListByBoard.bind(this))
     );
 
     return {
       boardDoc,
       board$,
+    };
+  }
+
+  private getBoardWithAreListsEmpty(board: IBoard) {
+    return {
+      ...board,
+      areListsEmpty: board.lists.every((list) => !list.cards.length),
+    };
+  }
+
+  private getSummaryListByBoard(board: IBoard) {
+    const summaryListIndex = this.getSummaryListIndex(board);
+    const lists = [...board.lists];
+    lists.splice(summaryListIndex, 0, this.createSummaryList(board));
+
+    return {
+      ...board,
+      lists,
     };
   }
 
