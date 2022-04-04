@@ -6,17 +6,14 @@ import {
 } from '@angular/fire/compat/firestore';
 import {
   BehaviorSubject,
-  catchError,
   combineLatest,
   defaultIfEmpty,
   filter,
   firstValueFrom,
   map,
-  mergeMap,
   Observable,
   of,
   switchMap,
-  switchMapTo,
   tap,
 } from 'rxjs';
 import { connectFirestoreEmulator } from '@angular/fire/firestore';
