@@ -12,9 +12,11 @@ import {
   filter,
   firstValueFrom,
   map,
+  mergeMap,
   Observable,
   of,
   switchMap,
+  switchMapTo,
   tap,
 } from 'rxjs';
 import { connectFirestoreEmulator } from '@angular/fire/firestore';
@@ -159,37 +161,29 @@ export class BoardsService {
   }
 
   private getCards(list: IList) {
-    return this.dateRange$.pipe(
-      switchMap(([start, end]) => {
-        if (list?.cards.length) {
-          return this.afs
-            .collection<ICard>(
-              'cards',
-              (ref) =>
-                ref.where(
-                  firebase.firestore.FieldPath.documentId(),
-                  'in',
-                  list?.cards.map((card) => card.id)
-                )
-              // todo figure this out
-              // .orderBy('created')
-              // .startAt(start)
-              // .endAt(end)
-            )
-            .valueChanges({ idField: 'id' });
-        }
-        return of([]);
-      }),
-      map((cards) => ({ ...list, cards }))
-    );
-
-    // todo delete once figuring ☝️ out
     const docRefs = (<any>list).cards.map((cardRef: DocumentReference) =>
       this.afs.doc(cardRef).valueChanges({ idField: 'id' })
     );
+
     return combineLatest(docRefs).pipe(
-      defaultIfEmpty([]),
-      map((cards) => ({ ...list, cards }))
+      defaultIfEmpty([] as any),
+      switchMap((cards: ICard[]) =>
+        this.dateRange$.pipe(
+          map(([start, end]) => ({
+            ...list,
+            cards: this.filterCardsByDateRange(cards, start, end),
+          }))
+        )
+      )
+    );
+  }
+
+  private filterCardsByDateRange(cards: ICard[], start: Date, end: Date) {
+    return cards.filter(
+      (card) =>
+        card.created &&
+        card.created.toDate().getTime() >= start.getTime() &&
+        card.created.toDate().getTime() <= end.getTime()
     );
   }
 
@@ -282,7 +276,6 @@ export class BoardsService {
       title,
       amount,
       created: firebase.firestore.FieldValue.serverTimestamp(),
-      list: listDoc.ref,
     });
     listDoc.update({
       cards: firebase.firestore.FieldValue.arrayUnion(cardRef),
