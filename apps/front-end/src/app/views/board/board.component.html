@@ -13,13 +13,15 @@
       (listAdded)="$event.preventDefault()"
       [getListCssClass]="getListCssClass"
       (listReordered)="reorderLists($event)"
-      (cardsReordered)="reorderCards($event, board)"
+      (cardsReordered)="reorderCards($event)"
     >
       <!-- list header -->
       <ng-template kanbanTemplate="listHeader" let-list>
         <budgetello-list-header
           [list]="list"
-          (listTitleChanged)="updateList({ title: $event.title, id: list.id })"
+          (listTitleChanged)="
+            updateListTitle({ title: $event.title, id: list.id })
+          "
           (listDeleted)="deleteList(list)"
         ></budgetello-list-header>
       </ng-template>

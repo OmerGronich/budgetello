@@ -3,11 +3,11 @@ import { Store, StoreConfig } from '@datorama/akita';
 import { Board } from './board.model';
 
 export interface BoardState {
-  boards: Board[];
+  board: Board | null;
 }
 
 const initialState: BoardState = {
-  boards: [],
+  board: null,
 };
 
 @Injectable({ providedIn: 'root' })

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
-import { BoardsService } from '../../services/boards/boards.service';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { ICard, List } from '../../views/board/state/types';
+import { Card, List } from '../../views/board/state/types';
+import { BoardService } from '../../views/board/state/board.service';
 
 @Component({
   selector: 'budgetello-kanban-card-dialog',
@@ -11,7 +11,7 @@ import { ICard, List } from '../../views/board/state/types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KanbanCardDialogComponent {
-  get card(): ICard {
+  get card(): Card {
     return this.config.data.card;
   }
 
@@ -24,7 +24,7 @@ export class KanbanCardDialogComponent {
   constructor(
     private fb: FormBuilder,
     private config: DynamicDialogConfig,
-    private boardService: BoardsService
+    private boardService: BoardService
   ) {
     this.group = this.fb.group({
       title: new FormControl(this.card.title),
@@ -33,11 +33,14 @@ export class KanbanCardDialogComponent {
   }
 
   saveCard() {
-    this.boardService.updateCard({
-      ...this.card,
-      title: this.group.get('title')?.value,
-      amount: this.group.get('amount')?.value,
-    });
+    this.boardService.updateCard(
+      {
+        ...this.card,
+        title: this.group.get('title')?.value,
+        amount: this.group.get('amount')?.value,
+      },
+      this.list
+    );
   }
 
   deleteCard() {

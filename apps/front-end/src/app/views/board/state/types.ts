@@ -3,7 +3,7 @@ import { LIST_OPERATORS } from '../../../constants';
 import firebase from 'firebase/compat';
 import Timestamp = firebase.firestore.Timestamp;
 
-export interface ICard {
+export interface Card {
   title: string;
   amount: string;
   created?: Timestamp;
@@ -15,7 +15,7 @@ export interface List extends Partial<DocumentReference> {
   type: LIST_OPERATORS;
   id?: string;
   title: string;
-  cards: ICard[];
+  cards: Card[];
   created?: Timestamp;
   disableDrag?: boolean;
   doNotEnter?: boolean;

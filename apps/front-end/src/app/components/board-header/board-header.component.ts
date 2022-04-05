@@ -9,7 +9,7 @@ import {
 import { FormControl, Validators } from '@angular/forms';
 import { Inplace } from 'primeng/inplace';
 import { ConfirmationService, ConfirmEventType } from 'primeng/api';
-import { BoardsService } from '../../services/boards/boards.service';
+import { BoardService } from '../../views/board/state/board.service';
 
 @Component({
   selector: 'budgetello-board-header',
@@ -27,7 +27,7 @@ export class BoardHeaderComponent implements OnInit {
 
   constructor(
     private confirmationService: ConfirmationService,
-    public boardService: BoardsService
+    public boardService: BoardService
   ) {}
 
   ngOnInit(): void {

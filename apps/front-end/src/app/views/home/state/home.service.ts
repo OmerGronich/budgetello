@@ -20,11 +20,7 @@ export class HomeService {
     private homeStore: HomeStore,
     private afs: AngularFirestore,
     private authenticationService: AuthenticationService
-  ) {
-    if (environment.useEmulators) {
-      connectFirestoreEmulator(this.afs.firestore, 'localhost', 8080);
-    }
-  }
+  ) {}
 
   init() {
     this.subscriptions.push(
