@@ -276,9 +276,11 @@ export class BoardService {
     }
 
     // delete from db
-    board?.lists.forEach((list) => {
-      this.deleteAssociatedCards(list);
-    });
+    board?.lists
+      .filter((list) => list.type !== LIST_TYPES.Summary)
+      .forEach((list) => {
+        this.deleteAssociatedCards(list);
+      });
     this.deleteAssociatedLists(board);
     this.boardDoc.delete();
 
@@ -287,9 +289,11 @@ export class BoardService {
   }
 
   deleteAssociatedLists(board: Board) {
-    board.lists.forEach((list) => {
-      this.afs.doc('lists/' + list.id).delete();
-    });
+    board.lists
+      .filter((list) => list.type !== LIST_TYPES.Summary)
+      .forEach((list) => {
+        this.afs.doc('lists/' + list.id).delete();
+      });
     this.boardDoc.update({ lists: [] });
   }
 
