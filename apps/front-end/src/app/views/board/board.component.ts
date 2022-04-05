@@ -11,6 +11,7 @@ import { List } from './state/types';
 import { BoardService } from './state/board.service';
 import { BoardQuery } from './state/board.query';
 import { Board } from './state/board.model';
+import { RouterStore } from '@datorama/akita-ng-router-store';
 
 @Component({
   selector: 'budgetello-board',
@@ -33,7 +34,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.boardService.init(this.boardId);
+    this.boardService.init();
   }
 
   ngOnDestroy(): void {

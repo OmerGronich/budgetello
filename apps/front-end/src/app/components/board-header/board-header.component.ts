@@ -3,8 +3,10 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Inplace } from 'primeng/inplace';
@@ -18,7 +20,7 @@ import { BoardService } from '../../views/board/state/board.service';
   providers: [ConfirmationService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BoardHeaderComponent implements OnInit {
+export class BoardHeaderComponent implements OnInit, OnChanges {
   @Input() boardTitle: string;
   @Output() boardTitleUpdated = new EventEmitter<{ title: string }>();
   @Output() boardDeleted = new EventEmitter<void>();
@@ -32,6 +34,12 @@ export class BoardHeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.boardTitleFormControl.setValue(this.boardTitle);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['boardTitle']) {
+      this.boardTitleFormControl.setValue(changes['boardTitle']?.currentValue);
+    }
   }
 
   onBoardTitleEdit({ boardNameTemplate }: { boardNameTemplate: Inplace }) {

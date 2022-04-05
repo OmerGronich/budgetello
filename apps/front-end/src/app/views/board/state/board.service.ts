@@ -25,6 +25,8 @@ import { LIST_OPERATORS, LIST_TYPES } from '../../../constants';
 import firebase from 'firebase/compat/app';
 import { Timestamp } from '@angular/fire/firestore';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RouterQuery } from '@datorama/akita-ng-router-store';
 
 export type BoardIdToListsTotals = Record<
   string,
@@ -52,21 +54,30 @@ export class BoardService {
     return this.dateRange$$.asObservable();
   }
 
-  constructor(private boardStore: BoardStore, private afs: AngularFirestore) {
+  constructor(
+    private boardStore: BoardStore,
+    private afs: AngularFirestore,
+    private routerQuery: RouterQuery
+  ) {
     this.boardCollection = this.afs.collection<Board>('boards');
     this.listCollection = this.afs.collection<List>('lists');
     this.cardCollection = this.afs.collection('cards');
   }
 
-  init(id: string) {
-    this.boardDoc = this.afs.doc<Board>('boards/' + id);
-    const board$ = this.boardDoc.valueChanges({ idField: 'id' }).pipe(
-      filter(Boolean),
-      switchMap((board) => this.getLists(board)),
-      map(this.getBoardWithAreListsEmpty.bind(this)),
-      tap(this.getSummaryListCalculations.bind(this)),
-      map(this.getSummaryListByBoard.bind(this))
+  init() {
+    const board$ = this.routerQuery.selectParams('id').pipe(
+      switchMap((id) => {
+        this.boardDoc = this.afs.doc<Board>('boards/' + id);
+        return this.boardDoc.valueChanges({ idField: 'id' }).pipe(
+          filter(Boolean),
+          switchMap((board) => this.getLists(board)),
+          map(this.getBoardWithAreListsEmpty.bind(this)),
+          tap(this.getSummaryListCalculations.bind(this)),
+          map(this.getSummaryListByBoard.bind(this))
+        );
+      })
     );
+
     this.subscriptions.push(
       board$.subscribe((board) => {
         this.boardStore.update((state) => ({ ...state, board }));
