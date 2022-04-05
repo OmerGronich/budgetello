@@ -21,6 +21,9 @@
     "@angular/platform-browser": "~13.2.0",
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
+    "@datorama/akita": "^7.1.1",
+    "@datorama/akita-ng-entity-service": "^7.0.0",
+    "@datorama/akita-ng-router-store": "^7.0.0",
     "@nrwl/angular": "13.8.4",
     "dayjs": "^1.11.0",
     "firebase": "^9.6.9",
@@ -41,6 +44,8 @@
     "@angular/cli": "~13.2.0",
     "@angular/compiler-cli": "~13.2.0",
     "@angular/language-service": "~13.2.0",
+    "@datorama/akita-cli": "^6.1.1",
+    "@datorama/akita-ngdevtools": "^7.0.0",
     "@nrwl/cli": "13.8.4",
     "@nrwl/cypress": "13.8.4",
     "@nrwl/eslint-plugin-nx": "13.8.4",
@@ -68,5 +73,8 @@
     "prettier": "^2.5.1",
     "ts-jest": "27.0.5",
     "typescript": "~4.5.2"
+  },
+  "akitaCli": {
+    "basePath": "./apps/front-end/src/app"
   }
 }

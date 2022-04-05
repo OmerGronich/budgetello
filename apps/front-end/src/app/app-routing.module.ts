@@ -13,14 +13,16 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () =>
-      import('./views/login/login.module').then((m) => m.LoginModule),
+      import('./views/auth/login/login.module').then((m) => m.LoginModule),
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectLoggedInToHome },
   },
   {
     path: 'register',
     loadChildren: () =>
-      import('./views/register/register.module').then((m) => m.RegisterModule),
+      import('./views/auth/register/register.module').then(
+        (m) => m.RegisterModule
+      ),
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectLoggedInToHome },
   },

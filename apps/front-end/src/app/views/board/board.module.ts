@@ -18,6 +18,7 @@ import { ListFooterModule } from '../../components/list-footer/list-footer.modul
 import { CalculateListTotalModule } from '../../pipes/calculate-list-total/calculate-list-total.module';
 import { KanbanCardModule } from '../../components/kanban-card/kanban-card.module';
 import { BoardRoutingModule } from './board-routing.module';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @NgModule({
   declarations: [BoardComponent],

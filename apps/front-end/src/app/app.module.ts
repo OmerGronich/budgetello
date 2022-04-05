@@ -17,6 +17,8 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { BaseReactiveFormDirective } from './directives/base-reactive-form.directive';
 import { MessageService } from 'primeng/api';
+import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
+import { AkitaNgRouterStoreModule } from '@datorama/akita-ng-router-store';
 
 @NgModule({
   declarations: [AppComponent, BaseReactiveFormDirective],
@@ -28,6 +30,8 @@ import { MessageService } from 'primeng/api';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireStorageModule,
+    environment.production ? [] : AkitaNgDevtools.forRoot(),
+    AkitaNgRouterStoreModule,
   ],
   providers: [
     MessageService,
@@ -55,6 +59,10 @@ import { MessageService } from 'primeng/api';
         ? ['http://localhost:5001', 5001]
         : undefined,
     },
+    // {
+    //   provide: NG_ENTITY_SERVICE_CONFIG,
+    //   useValue: { baseUrl: 'https://jsonplaceholder.typicode.com' },
+    // },
   ],
   bootstrap: [AppComponent],
 })

@@ -7,10 +7,10 @@ import {
 } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import { BaseReactiveFormDirective } from '../../directives/base-reactive-form.directive';
+import { BaseReactiveFormDirective } from '../../../directives/base-reactive-form.directive';
 import firebase from 'firebase/compat';
-import { ToastService } from '../../services/toast/toast.service';
-import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { ToastService } from '../../../services/toast/toast.service';
+import { AuthenticationService } from '../../../services/authentication/authentication.service';
 import FirebaseError = firebase.FirebaseError;
 
 @Component({
@@ -35,7 +35,6 @@ export class LoginComponent
 
   constructor(
     private fb: FormBuilder,
-    private auth: AngularFireAuth,
     private toastService: ToastService,
     private router: Router,
     public authenticationService: AuthenticationService

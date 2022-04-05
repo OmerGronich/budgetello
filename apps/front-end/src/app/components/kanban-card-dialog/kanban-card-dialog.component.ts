@@ -1,11 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
-import {
-  BoardsService,
-  ICard,
-  IList,
-} from '../../services/boards/boards.service';
+import { BoardsService } from '../../services/boards/boards.service';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { ICard, List } from '../../views/board/state/types';
 
 @Component({
   selector: 'budgetello-kanban-card-dialog',
@@ -18,7 +15,7 @@ export class KanbanCardDialogComponent {
     return this.config.data.card;
   }
 
-  get list(): IList {
+  get list(): List {
     return this.config.data.list;
   }
 

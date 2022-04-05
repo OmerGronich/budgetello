@@ -6,14 +6,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { map, Observable, shareReplay } from 'rxjs';
-import { mustMatchValidator } from '../../validators/must-match.validator';
-import { PasswordSuggestion } from '../../components/password-suggestions/password-suggestions.component';
+import { mustMatchValidator } from '../../../validators/must-match.validator';
+import { PasswordSuggestion } from '../../../components/password-suggestions/password-suggestions.component';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import { BaseReactiveFormDirective } from '../../directives/base-reactive-form.directive';
-import { ToastService } from '../../services/toast/toast.service';
-import { STRONG_PASSWORD_PATTERN } from '../../constants';
-import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { BaseReactiveFormDirective } from '../../../directives/base-reactive-form.directive';
+import { ToastService } from '../../../services/toast/toast.service';
+import { STRONG_PASSWORD_PATTERN } from '../../../constants';
+import { AuthenticationService } from '../../../services/authentication/authentication.service';
 
 @Component({
   selector: 'budgetello-register',

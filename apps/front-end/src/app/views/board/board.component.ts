@@ -4,19 +4,17 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import {
-  BoardsService,
-  IBoard,
-  ICard,
-  IList,
-  SummaryListCardType,
-} from '../../services/boards/boards.service';
+import { BoardsService } from '../../services/boards/boards.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, switchMap } from 'rxjs';
 import { AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { LIST_OPERATORS_TO_PROPS, LIST_TYPES } from '../../constants';
 import { arrayRemove, arrayUnion } from '@angular/fire/firestore';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { ICard, List, SummaryListCardType } from './state/types';
+import { BoardService } from './state/board.service';
+import { BoardQuery } from './state/board.query';
+import { Board } from './state/board.model';
 
 @Component({
   selector: 'budgetello-board',
@@ -25,12 +23,12 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BoardComponent implements OnInit, OnDestroy {
-  private boardDoc: AngularFirestoreDocument<Partial<IBoard>>;
-  boardFromDb$: Observable<IBoard>;
+  private boardDoc: AngularFirestoreDocument<Partial<Board>>;
+  boardFromDb$: Observable<Board>;
   subscriptions: Subscription[] = [];
 
   // todo - this behavior subject is for optimistic updates - need to figure out a better way
-  private board$$ = new BehaviorSubject<IBoard | null>(null);
+  private board$$ = new BehaviorSubject<Board | null>(null);
 
   get board$() {
     return this.board$$.asObservable();
@@ -63,13 +61,13 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   updateBoardTitle($event: { title: string }) {
     this.board$$.next({
-      ...(this.board$$.getValue() as IBoard),
+      ...(this.board$$.getValue() as Board),
       title: $event.title,
     });
     this.boardDoc.update($event);
   }
 
-  deleteBoard(board: IBoard) {
+  deleteBoard(board: Board) {
     this.boardsService.deleteAssociatedLists(board);
     this.boardDoc.delete();
     this.router.navigate(['/']);
@@ -92,11 +90,11 @@ export class BoardComponent implements OnInit, OnDestroy {
       type,
     });
     this.boardDoc.update({
-      lists: arrayUnion(listRef) as unknown as IList[],
+      lists: arrayUnion(listRef) as unknown as List[],
     });
   }
 
-  getListCssClass(list: IList) {
+  getListCssClass(list: List) {
     return `list-${LIST_OPERATORS_TO_PROPS[list.type]?.toLowerCase()}`;
   }
 
@@ -110,7 +108,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       amount: string;
       submitEvent: SubmitEvent;
     },
-    list: IList
+    list: List
   ) {
     submitEvent.preventDefault();
 
@@ -121,7 +119,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     });
   }
 
-  reorderLists(lists: IList[]) {
+  reorderLists(lists: List[]) {
     const summaryListIndex = lists.findIndex(
       (list) => list.type === LIST_TYPES.Summary
     );
@@ -129,14 +127,14 @@ export class BoardComponent implements OnInit, OnDestroy {
       .filter((list) => list.type !== LIST_TYPES.Summary)
       .map((list) => this.boardsService.getListRef(list.id as string));
     this.boardDoc.update({
-      lists: docRefs as unknown as IList[],
+      lists: docRefs as unknown as List[],
       summaryListIndex,
     });
   }
 
   reorderCards(
     { lists, event }: { lists: any[]; event: CdkDragDrop<any> },
-    board: IBoard
+    board: Board
   ) {
     const isSummaryList = event.container.data.some((card: ICard) =>
       board.summaryListCardTypesInOrder?.includes(
@@ -154,10 +152,10 @@ export class BoardComponent implements OnInit, OnDestroy {
     }
   }
 
-  deleteList(list: IList) {
+  deleteList(list: List) {
     const listRef = this.boardsService.getListRef(list.id as string);
     this.boardDoc.update({
-      lists: arrayRemove(listRef) as unknown as IList[],
+      lists: arrayRemove(listRef) as unknown as List[],
     });
     this.boardsService.deleteListCards(list);
     listRef.delete();

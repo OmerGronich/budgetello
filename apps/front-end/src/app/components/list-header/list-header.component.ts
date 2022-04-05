@@ -6,10 +6,10 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { IList } from '../../services/boards/boards.service';
 import { FormControl, Validators } from '@angular/forms';
 import { ConfirmationService, ConfirmEventType } from 'primeng/api';
 import { LIST_OPERATORS, LIST_TYPES } from '../../constants';
+import { List } from '../../views/board/state/types';
 
 @Component({
   selector: 'budgetello-list-header',
@@ -19,7 +19,7 @@ import { LIST_OPERATORS, LIST_TYPES } from '../../constants';
   providers: [ConfirmationService],
 })
 export class ListHeaderComponent implements OnInit {
-  @Input() list: IList;
+  @Input() list: List;
   @Input() type: LIST_OPERATORS;
   isEditingTitle = false;
   listTitleFormControl = new FormControl('', Validators.required);

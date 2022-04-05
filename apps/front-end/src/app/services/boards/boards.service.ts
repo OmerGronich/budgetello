@@ -22,46 +22,13 @@ import { AuthenticationService } from '../authentication/authentication.service'
 import { LIST_OPERATORS, LIST_TYPES } from '../../constants';
 import firebase from 'firebase/compat/app';
 import dayjs from 'dayjs';
-import FieldValue = firebase.firestore.FieldValue;
+import {
+  ICard,
+  List,
+  SummaryListCardType,
+} from '../../views/board/state/types';
 import Timestamp = firebase.firestore.Timestamp;
-
-export interface ICard {
-  title: string;
-  amount: string;
-  created?: Timestamp;
-  id?: string;
-  disableDrag?: boolean;
-}
-
-export interface IList extends Partial<DocumentReference> {
-  type: LIST_OPERATORS;
-  id?: string;
-  title: string;
-  cards: ICard[];
-  created?: Timestamp;
-  disableDrag?: boolean;
-  doNotEnter?: boolean;
-  lockAxis?: 'x' | 'y';
-}
-
-export type SummaryListCardType =
-  | 'totalIncome'
-  | 'totalExpenses'
-  | 'netIncome'
-  | 'savingsTarget'
-  | 'discretionaryIncome';
-export type SummaryListCardTypesInOrder = Array<SummaryListCardType>;
-
-export type IBoard = {
-  id?: string;
-  title: string;
-  lists: IList[];
-  user: string;
-  created: FieldValue;
-  areListsEmpty?: boolean;
-  summaryListIndex?: number;
-  summaryListCardTypesInOrder?: SummaryListCardTypesInOrder;
-};
+import { Board } from '../../views/board/state/board.model';
 
 export type BoardIdToListsTotals = Record<
   string,
@@ -75,10 +42,10 @@ export type BoardIdToListsTotals = Record<
   providedIn: 'root',
 })
 export class BoardsService {
-  private boardsCollection: AngularFirestoreCollection<IBoard>;
-  private listsCollection: AngularFirestoreCollection<IList>;
-  private boardsCollection$: Observable<AngularFirestoreCollection<IBoard>>;
-  boards$: Observable<IBoard[]>;
+  private boardsCollection: AngularFirestoreCollection<Board>;
+  private listsCollection: AngularFirestoreCollection<List>;
+  private boardsCollection$: Observable<AngularFirestoreCollection<Board>>;
+  boards$: Observable<Board[]>;
   private boardIdToListsTotals: BoardIdToListsTotals;
   private dateRange$$ = new BehaviorSubject([
     dayjs().startOf('month').toDate(),
@@ -93,15 +60,11 @@ export class BoardsService {
     private afs: AngularFirestore,
     private auth: AuthenticationService
   ) {
-    if (environment.useEmulators) {
-      connectFirestoreEmulator(this.afs.firestore, 'localhost', 8080);
-    }
-
-    this.listsCollection = this.afs.collection<IList>('lists');
+    this.listsCollection = this.afs.collection<List>('lists');
 
     this.boardsCollection$ = this.auth.user$.pipe(
       map((user) =>
-        afs.collection<IBoard>('boards', (ref) =>
+        afs.collection<Board>('boards', (ref) =>
           ref.where('user', '==', user?.uid).orderBy('created')
         )
       ),
@@ -117,47 +80,17 @@ export class BoardsService {
     this.dateRange$$.next(value);
   }
 
-  async addBoard({ title }: { title: string }) {
-    const boardId = this.afs.createId();
-    const user = await firstValueFrom(this.auth.user$);
-    const created = firebase.firestore.FieldValue.serverTimestamp();
-    const boardRef = await this.boardsCollection.add({
-      id: boardId,
-      user: (<firebase.User>user).uid,
-      title,
-      lists: [],
-      created,
-      summaryListCardTypesInOrder: [
-        'totalIncome',
-        'totalExpenses',
-        'netIncome',
-        'savingsTarget',
-        'discretionaryIncome',
-      ],
-    });
-
-    const defaultLists = [
-      { title: 'Income', type: LIST_TYPES.Income },
-      { title: 'Expense', type: LIST_TYPES.Expense },
-    ];
-    const listRefs = await Promise.all(
-      defaultLists.map(this.addList.bind(this))
-    );
-    boardRef.update({ lists: listRefs });
-    return boardRef;
-  }
-
-  getList(ref: DocumentReference<IList>) {
+  getList(ref: DocumentReference<List>) {
     return this.afs
-      .doc<IList>(ref)
+      .doc<List>(ref)
       .valueChanges({ idField: 'id' })
       .pipe(
         filter(Boolean),
         switchMap(this.getCards.bind(this))
-      ) as Observable<IList>;
+      ) as Observable<List>;
   }
 
-  private getCards(list: IList) {
+  private getCards(list: List) {
     const docRefs = (<any>list).cards.map((cardRef: DocumentReference) =>
       this.afs.doc(cardRef).valueChanges({ idField: 'id' })
     );
@@ -188,7 +121,7 @@ export class BoardsService {
     return this.afs.doc(<any>ref);
   }
 
-  getLists(board: IBoard) {
+  getLists(board: Board) {
     if (!board.lists.length) {
       return of(board);
     }
@@ -201,7 +134,7 @@ export class BoardsService {
   getBoard(id: string) {
     if (!id) throw new Error('Board id is required');
 
-    const boardDoc = this.afs.doc<IBoard>('boards/' + id);
+    const boardDoc = this.afs.doc<Board>('boards/' + id);
     const board$ = boardDoc.valueChanges({ idField: 'id' }).pipe(
       filter(Boolean),
       switchMap((board) => this.getLists(board)),
@@ -216,14 +149,14 @@ export class BoardsService {
     };
   }
 
-  private getBoardWithAreListsEmpty(board: IBoard) {
+  private getBoardWithAreListsEmpty(board: Board) {
     return {
       ...board,
       areListsEmpty: board.lists.every((list) => !list.cards.length),
     };
   }
 
-  private getSummaryListByBoard(board: IBoard) {
+  private getSummaryListByBoard(board: Board) {
     const summaryListIndex = this.getSummaryListIndex(board);
     const lists = [...board.lists];
     lists.splice(summaryListIndex, 0, this.createSummaryList(board));
@@ -234,7 +167,7 @@ export class BoardsService {
     };
   }
 
-  deleteAssociatedLists(board: IBoard) {
+  deleteAssociatedLists(board: Board) {
     board.lists.forEach((list) => {
       list.cards.forEach((card) => {
         this.afs.doc('cards/' + card.id).delete();
@@ -264,7 +197,7 @@ export class BoardsService {
     title,
   }: {
     amount: string;
-    list: IList;
+    list: List;
     title: string;
   }) {
     const cardCollection = this.afs.collection('cards');
@@ -280,7 +213,7 @@ export class BoardsService {
   }
 
   getListRef(id: string) {
-    return this.afs.collection('lists').doc<IList>(id).ref;
+    return this.afs.collection('lists').doc<List>(id).ref;
   }
 
   updateCard(card: ICard) {
@@ -289,7 +222,7 @@ export class BoardsService {
     });
   }
 
-  setLists(lists: IList[]) {
+  setLists(lists: List[]) {
     const updates = lists
       .filter((list) => list.type !== LIST_TYPES.Summary)
       .map((list) => {
@@ -304,16 +237,16 @@ export class BoardsService {
     });
   }
 
-  deleteCard(card: ICard, list: IList) {
+  deleteCard(card: ICard, list: List) {
     this.getCardRef(<string>card.id).delete();
 
     const cards = list.cards.filter((c) => c.id !== card.id);
     return this.afs
-      .doc<Partial<IList>>('lists/' + list.id)
+      .doc<Partial<List>>('lists/' + list.id)
       .set({ cards }, { merge: true });
   }
 
-  private createSummaryList(board: IBoard): IList {
+  private createSummaryList(board: Board): List {
     return {
       id: 'summary',
       title: 'Summary',
@@ -328,20 +261,20 @@ export class BoardsService {
     };
   }
 
-  private getSummaryListIndex(board: IBoard) {
+  private getSummaryListIndex(board: Board) {
     return [null, undefined].includes(<any>board.summaryListIndex)
       ? board.lists.length
       : (board.summaryListIndex as number);
   }
 
-  private getNetIncomeAmount(board: IBoard): string {
+  private getNetIncomeAmount(board: Board): string {
     const { totalIncome, totalExpenses } =
       this.boardIdToListsTotals[board.id as string];
 
     return (totalIncome - totalExpenses).toFixed(2);
   }
 
-  private createNetIncomeCard(board: IBoard): ICard {
+  private createNetIncomeCard(board: Board): ICard {
     return {
       id: 'netIncome',
       title: 'Net Income',
@@ -350,7 +283,7 @@ export class BoardsService {
     };
   }
 
-  private createSavingsTargetCard(board: IBoard): ICard {
+  private createSavingsTargetCard(board: Board): ICard {
     const { totalIncome, totalExpenses } =
       this.boardIdToListsTotals[board.id as string];
     return {
@@ -363,7 +296,7 @@ export class BoardsService {
     };
   }
 
-  private createDiscretionaryIncomeCard(board: IBoard): ICard {
+  private createDiscretionaryIncomeCard(board: Board): ICard {
     const { totalIncome, totalExpenses } =
       this.boardIdToListsTotals[board.id as string];
 
@@ -379,7 +312,7 @@ export class BoardsService {
     };
   }
 
-  private createTotalIncomeCard(board: IBoard): ICard {
+  private createTotalIncomeCard(board: Board): ICard {
     return {
       id: 'totalIncome',
       title: 'Total Income',
@@ -387,7 +320,7 @@ export class BoardsService {
     };
   }
 
-  private createTotalExpenseCard(board: IBoard): ICard {
+  private createTotalExpenseCard(board: Board): ICard {
     return {
       id: 'totalExpenses',
       title: 'Total Expenses',
@@ -395,7 +328,7 @@ export class BoardsService {
     };
   }
 
-  private getSummaryListCalculations(board: IBoard) {
+  private getSummaryListCalculations(board: Board) {
     this.boardIdToListsTotals = {
       [board.id as string]: {
         totalIncome: this.getTotalIncome(board),
@@ -404,25 +337,25 @@ export class BoardsService {
     };
   }
 
-  getTotalIncome(board: IBoard) {
+  getTotalIncome(board: Board) {
     return this.getListTotalByType({ board, type: LIST_TYPES.Income });
   }
 
-  private getTotalExpenses(board: IBoard) {
+  private getTotalExpenses(board: Board) {
     return this.getListTotalByType({ board, type: LIST_TYPES.Expense });
   }
 
-  private getSavingsTarget(board: IBoard) {
+  private getSavingsTarget(board: Board) {
     return +this.getNetIncomeAmount(board) * 0.2;
   }
 
-  getListTotalByType({ type, board }: { type: LIST_OPERATORS; board: IBoard }) {
+  getListTotalByType({ type, board }: { type: LIST_OPERATORS; board: Board }) {
     return board.lists
       .filter((list) => list.type === type)
       .reduce((acc, list) => acc + this.calculateListTotal(list), 0);
   }
 
-  calculateListTotal(list: IList) {
+  calculateListTotal(list: List) {
     return list.cards.reduce((acc, card) => acc + +(card.amount || 0), 0);
   }
 
@@ -440,7 +373,7 @@ export class BoardsService {
     return this.afs.doc('cards/' + id).ref;
   }
 
-  deleteListCards(list: IList) {
+  deleteListCards(list: List) {
     list.cards.forEach((card) => {
       this.getCardRef(<string>card.id).delete();
     });

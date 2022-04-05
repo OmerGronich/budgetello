@@ -6,8 +6,8 @@ import {
 } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { KanbanCardDialogComponent } from '../kanban-card-dialog/kanban-card-dialog.component';
-import { IList } from '../../services/boards/boards.service';
 import { LIST_TYPES } from '../../constants';
+import { List } from '../../views/board/state/types';
 
 @Component({
   selector: 'budgetello-kanban-card',
@@ -18,7 +18,7 @@ import { LIST_TYPES } from '../../constants';
 })
 export class KanbanCardComponent implements OnDestroy {
   @Input() card: { title: string; amount: string };
-  @Input() list: IList;
+  @Input() list: List;
 
   ref: DynamicDialogRef;
 
