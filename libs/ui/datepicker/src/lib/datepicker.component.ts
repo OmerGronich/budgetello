@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import dayjs from 'dayjs';
 
@@ -6,6 +12,7 @@ import dayjs from 'dayjs';
   selector: 'budgetello-datepicker',
   templateUrl: './datepicker.component.html',
   styleUrls: ['./datepicker.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DatepickerComponent {
   @Input() date: Date[] = [

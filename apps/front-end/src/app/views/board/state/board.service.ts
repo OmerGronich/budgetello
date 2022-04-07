@@ -7,7 +7,6 @@ import {
   filter,
   map,
   Observable,
-  of,
   Subscription,
   switchMap,
   tap,
@@ -25,7 +24,6 @@ import { LIST_OPERATORS, LIST_TYPES } from '../../../constants';
 import firebase from 'firebase/compat/app';
 import { Timestamp } from '@angular/fire/firestore';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { ActivatedRoute, Router } from '@angular/router';
 import { RouterQuery } from '@datorama/akita-ng-router-store';
 
 export type BoardIdToListsTotals = Record<
@@ -80,7 +78,12 @@ export class BoardService {
 
     this.subscriptions.push(
       board$.subscribe((board) => {
-        this.boardStore.update((state) => ({ ...state, board }));
+        if (
+          !this.boardStore.getValue().board?.v ||
+          board.v === this.boardStore.getValue().board?.v
+        ) {
+          this.boardStore.update((state) => ({ ...state, board }));
+        }
       })
     );
   }
@@ -90,10 +93,6 @@ export class BoardService {
   }
 
   getLists(board: Board) {
-    if (!board.lists.length) {
-      return of(board);
-    }
-
     return combineLatest(
       board.lists.map((list) => this.getList(<any>list))
     ).pipe(map((lists) => ({ ...board, lists })));
@@ -286,7 +285,6 @@ export class BoardService {
       throw new Error('Something went wrong while deleting board');
     }
 
-    // delete from db
     board?.lists
       .filter((list) => list.type !== LIST_TYPES.Summary)
       .forEach((list) => {
@@ -294,9 +292,7 @@ export class BoardService {
       });
     this.deleteAssociatedLists(board);
     this.boardDoc.delete();
-
-    //  delete from state (optimistic update)
-    this.boardStore.reset();
+    this.boardStore.update({ board: null });
   }
 
   deleteAssociatedLists(board: Board) {
@@ -316,11 +312,20 @@ export class BoardService {
   }
 
   updateBoardTitle(title: string) {
-    this.boardDoc.update({ title });
-    this.boardStore.update((state) => ({
-      ...state,
-      title,
-    }));
+    const v = Date.now();
+
+    this.boardDoc.update({ title, v });
+    this.boardStore.update(
+      (state) =>
+        ({
+          ...state,
+          board: {
+            ...state.board,
+            v,
+            title,
+          },
+        } as BoardState)
+    );
   }
 
   updateListTitle({ title, id }: { title: string; id: string }) {
@@ -341,6 +346,7 @@ export class BoardService {
   }
 
   async addList({ title, type }: { title: string; type: LIST_OPERATORS }) {
+    const v = Date.now();
     const list = {
       title,
       type,
@@ -349,6 +355,7 @@ export class BoardService {
     };
     const listRef = await this.listCollection.add(list);
     this.boardDoc.update({
+      v,
       lists: firebase.firestore.FieldValue.arrayUnion(
         listRef
       ) as unknown as List[],
@@ -360,6 +367,7 @@ export class BoardService {
         ...state,
         board: {
           ...state.board,
+          v,
           lists,
         },
       } as BoardState;
@@ -375,6 +383,8 @@ export class BoardService {
     list: List;
     title: string;
   }) {
+    const v = Date.now();
+
     const card = {
       title,
       amount,
@@ -387,6 +397,7 @@ export class BoardService {
       ) as unknown as Card[],
     });
 
+    this.boardDoc.update({ v });
     this.boardStore.update((state) => {
       const lists = (state.board as Board).lists.map((l) =>
         l.id === list.id
@@ -401,6 +412,7 @@ export class BoardService {
         ...state,
         board: {
           ...state.board,
+          v,
           lists,
         },
       } as BoardState;
@@ -408,9 +420,12 @@ export class BoardService {
   }
 
   setListsOrder(lists: List[]) {
+    const v = Date.now();
+
     const summaryListIndex = lists.findIndex(
       (list) => list.type === LIST_TYPES.Summary
     );
+
     const listRefs = lists
       .filter((list) => list.type !== LIST_TYPES.Summary)
       .map((list) => {
@@ -424,7 +439,9 @@ export class BoardService {
 
         return listDoc.ref as DocumentReference<List>;
       });
+
     this.boardDoc.update({
+      v,
       lists: listRefs as unknown as List[],
       summaryListIndex,
     });
@@ -435,6 +452,7 @@ export class BoardService {
           ...state,
           board: {
             ...state.board,
+            v,
             lists,
           },
         } as BoardState)
@@ -542,8 +560,6 @@ export class BoardService {
         }
         return l;
       });
-
-      console.log({ lists });
 
       return {
         ...state,

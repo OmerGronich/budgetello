@@ -11,4 +11,5 @@ export type Board = {
   areListsEmpty?: boolean;
   summaryListIndex?: number;
   summaryListCardTypesInOrder?: SummaryListCardTypesInOrder;
+  v?: number;
 };
