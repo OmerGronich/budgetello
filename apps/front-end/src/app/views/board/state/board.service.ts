@@ -25,6 +25,7 @@ import firebase from 'firebase/compat/app';
 import { Timestamp } from '@angular/fire/firestore';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { RouterQuery } from '@datorama/akita-ng-router-store';
+import produce from 'immer';
 
 export type BoardIdToListsTotals = Record<
   string,
@@ -364,17 +365,15 @@ export class BoardService {
       ) as unknown as List[],
     });
 
-    this.boardStore.update((state) => {
-      const lists = [...(state.board as Board).lists, list];
-      return {
-        ...state,
-        board: {
-          ...state.board,
-          v,
-          lists,
-        },
-      } as BoardState;
-    });
+    this.boardStore.update(
+      produce((state) => {
+        if (!state.board) {
+          throw new Error('Something went wrong while adding list');
+        }
+        state.board.lists.push(list);
+        state.board.v = v;
+      })
+    );
   }
 
   async addCard({

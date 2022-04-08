@@ -21,7 +21,7 @@
       [formGroup]="form"
       *ngIf="isCreatingCard"
       (keydown.escape)="stopCreatingCard($event)"
-      (submit)="submit($event)"
+      (submit)="submitCard($event)"
     >
       <div class="flex-column my-10 gap-10">
         <span class="p-input-icon-left">

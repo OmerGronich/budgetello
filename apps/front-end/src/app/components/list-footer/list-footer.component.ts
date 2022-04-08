@@ -47,13 +47,16 @@ export class ListFooterComponent {
     this.form.reset();
   }
 
-  submit($event: SubmitEvent) {
-    this.submitNewCard.emit({
-      submitEvent: $event,
-      cardTitle: this.form.controls['cardTitle'].value,
-      amount: this.form.controls['amount'].value,
-    });
-    this.isCreatingCard = false;
-    this.form.reset();
+  submitCard($event: SubmitEvent) {
+    $event.preventDefault();
+    if (this.form.valid) {
+      this.submitNewCard.emit({
+        submitEvent: $event,
+        cardTitle: this.form.controls['cardTitle'].value,
+        amount: this.form.controls['amount'].value,
+      });
+      this.isCreatingCard = false;
+      this.form.reset();
+    }
   }
 }

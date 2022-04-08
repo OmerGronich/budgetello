@@ -27,6 +27,7 @@
     "@nrwl/angular": "13.8.4",
     "dayjs": "^1.11.0",
     "firebase": "^9.6.9",
+    "immer": "^9.0.12",
     "lodash.kebabcase": "^4.1.1",
     "ng-click-outside": "^9.0.1",
     "primeicons": "^5.0.0",
