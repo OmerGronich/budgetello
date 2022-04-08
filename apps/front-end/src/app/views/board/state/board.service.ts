@@ -400,25 +400,15 @@ export class BoardService {
     });
 
     this.boardDoc.update({ v });
-    this.boardStore.update((state) => {
-      const lists = (state.board as Board).lists.map((l) =>
-        l.id === list.id
-          ? {
-              ...l,
-              cards: [...l.cards, card],
-            }
-          : l
-      );
-
-      return {
-        ...state,
-        board: {
-          ...state.board,
-          v,
-          lists,
-        },
-      } as BoardState;
-    });
+    this.boardStore.update(
+      produce((state) => {
+        const listToEdit = state.board.lists.find(
+          ({ id }: List) => id === list.id
+        );
+        listToEdit.cards.push(card);
+        state.board.v = v;
+      })
+    );
   }
 
   setListsOrder(lists: List[]) {
@@ -449,15 +439,10 @@ export class BoardService {
     });
 
     this.boardStore.update(
-      (state) =>
-        ({
-          ...state,
-          board: {
-            ...state.board,
-            v,
-            lists,
-          },
-        } as BoardState)
+      produce((state) => {
+        state.board.v = v;
+        state.board.lists = lists;
+      })
     );
   }
 
@@ -489,18 +474,6 @@ export class BoardService {
         listDoc.ref
       ) as unknown as List[],
     });
-    this.boardStore.update((state) => {
-      const lists = (state.board as Board).lists.filter(
-        (l) => l.id !== list.id
-      );
-      return {
-        ...state,
-        board: {
-          ...state.board,
-          lists,
-        },
-      } as BoardState;
-    });
   }
 
   setDateRange$($event: [Date, Date]) {
@@ -512,31 +485,17 @@ export class BoardService {
       .doc(card.id)
       .update({ ...card })
       .then(() => {
-        this.boardStore.update((state) => {
-          const lists = state.board?.lists.map((l) => {
-            if (l.id === list.id) {
-              const cards = l.cards.map((c) => {
-                if (c.id === card.id) {
-                  return { ...c, ...card };
-                }
-                return c;
-              });
-              return {
-                ...l,
-                cards,
-              };
-            }
-            return l;
-          });
-
-          return {
-            ...state,
-            board: {
-              ...state.board,
-              lists,
-            },
-          } as BoardState;
-        });
+        this.boardStore.update(
+          produce((state) => {
+            const listToEdit = state.board.lists.find(
+              ({ id }: List) => id === list.id
+            );
+            const cardToEditIndex = listToEdit.cards.findIndex(
+              ({ id }: Card) => id === card.id
+            );
+            listToEdit[cardToEditIndex] = card;
+          })
+        );
       });
   }
 
@@ -551,25 +510,20 @@ export class BoardService {
       cardDoc.delete(),
     ]);
 
-    this.boardStore.update((state) => {
-      const lists = state.board?.lists.map((l) => {
-        if (l.id === list.id) {
-          const cards = l.cards.filter((c) => c.id !== card.id);
-          return {
-            ...l,
-            cards,
-          };
+    this.boardStore.update(
+      produce((state) => {
+        const listToEdit = state.board.lists.find(
+          ({ id }: List) => id === list.id
+        );
+        if (listToEdit) {
+          const cardToDeleteIndex = listToEdit.cards.findIndex(
+            ({ id }: Card) => id === card.id
+          );
+          if (cardToDeleteIndex !== -1) {
+            listToEdit.cards.splice(cardToDeleteIndex, 1);
+          }
         }
-        return l;
-      });
-
-      return {
-        ...state,
-        board: {
-          ...state.board,
-          lists,
-        },
-      } as BoardState;
-    });
+      })
+    );
   }
 }
