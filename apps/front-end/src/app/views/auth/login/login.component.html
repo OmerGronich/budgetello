@@ -1,29 +1,26 @@
 <budgetello-title></budgetello-title>
 <div class="container">
   <form autocomplete="off" [formGroup]="form" (submit)="onSignIn($event)">
-    <!-- EMAIL -->
-    <div class="p-float-label p-input-icon-right mb-20">
-      <input formControlName="email" id="email" pInputText type="email" />
-      <label for="email">Email</label>
-    </div>
-
-    <!-- PASSWORD -->
-    <div class="p-float-label mb-20">
-      <p-password
-        [feedback]="false"
-        [toggleMask]="true"
-        formControlName="password"
-        id="password"
-        styleClass="p-password p-component p-inputwrapper p-input-icon-right"
-        [ngClass]="{
-          error:
-            form.controls['password'].dirty &&
-            form.controls['password'].errors !== null
-        }"
-      ></p-password>
-      <label for="password">Password</label>
-    </div>
-
+    <budgetello-text-input
+      [isFloatingLabel]="true"
+      [formControl]="emailFormControl"
+      class="mb-20 w-full"
+      formControlName="email"
+      id="email"
+      label="Email"
+      type="email"
+    ></budgetello-text-input>
+    <budgetello-password-input
+      [formControl]="passwordFormControl"
+      [feedBack]="false"
+      [isFloatingLabel]="true"
+      [toggleMask]="true"
+      class="mb-20 w-full"
+      formControlName="password"
+      id="password"
+      label="Password"
+    >
+    </budgetello-password-input>
     <p-button
       type="submit"
       label="Sign in"

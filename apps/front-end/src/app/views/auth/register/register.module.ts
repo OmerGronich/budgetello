@@ -15,6 +15,9 @@ import { RouterModule } from '@angular/router';
 import { TitleModule } from '../../../components/title/title.module';
 import { SignInWithGoogleModule } from '../../../components/buttons/sign-in-with-google/sign-in-with-google.module';
 import { RegisterRoutingModule } from './register-routing.module';
+import { UiTextInputModule } from '@budgetello/ui/text-input';
+import { UiPasswordInputModule } from '@budgetello/ui/password-input';
+import { UiKanbanBoardModule } from '@budgetello/ui/kanban-board';
 
 @NgModule({
   declarations: [RegisterComponent],
@@ -34,6 +37,9 @@ import { RegisterRoutingModule } from './register-routing.module';
     RouterModule,
     TitleModule,
     SignInWithGoogleModule,
+    UiTextInputModule,
+    UiPasswordInputModule,
+    UiKanbanBoardModule,
   ],
 })
 export class RegisterModule {}

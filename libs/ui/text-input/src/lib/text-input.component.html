@@ -1,0 +1,13 @@
+<div class="w-full" [class.p-float-label]="isFloatingLabel">
+  <label *ngIf="label && !isFloatingLabel" for="id">{{ label }}</label>
+
+  <input
+    class="w-full"
+    [attr.id]="id"
+    pInputText
+    [attr.type]="type"
+    [formControl]="formControl"
+  />
+
+  <label *ngIf="label && isFloatingLabel" for="id">{{ label }}</label>
+</div>

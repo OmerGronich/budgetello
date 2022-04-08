@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
+  Form,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -54,6 +55,22 @@ export class RegisterComponent
 
   get passwordsDoNotMatchError() {
     return this.form.errors && this.form.errors['passwordsDoNotMatch'];
+  }
+
+  get nameFormControl() {
+    return this.form.get('name') as FormControl;
+  }
+
+  get emailFormControl() {
+    return this.form.get('email') as FormControl;
+  }
+
+  get passwordFormControl() {
+    return this.form.get('password') as FormControl;
+  }
+
+  get verifyPasswordFormControl() {
+    return this.form.get('verify') as FormControl;
   }
 
   get email() {

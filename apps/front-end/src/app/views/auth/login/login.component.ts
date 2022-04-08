@@ -5,7 +5,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { BaseReactiveFormDirective } from '../../../directives/base-reactive-form.directive';
 import firebase from 'firebase/compat';
@@ -26,11 +25,11 @@ export class LoginComponent
   form: FormGroup;
 
   get emailFormControl() {
-    return this.form.get('email');
+    return this.form.get('email') as FormControl;
   }
 
   get passwordFormControl() {
-    return this.form.get('password');
+    return this.form.get('password') as FormControl;
   }
 
   constructor(

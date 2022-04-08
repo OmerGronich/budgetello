@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/ui/text-input",
+  "sourceRoot": "libs/ui/text-input/src",
+  "prefix": "budgetello",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ui/text-input"],
+      "options": {
+        "jestConfig": "libs/ui/text-input/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/ui/text-input/src/**/*.ts",
+          "libs/ui/text-input/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

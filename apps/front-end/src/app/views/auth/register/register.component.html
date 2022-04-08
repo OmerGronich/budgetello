@@ -1,58 +1,55 @@
 <budgetello-title></budgetello-title>
 <div class="container">
   <form autocomplete="off" [formGroup]="form" (submit)="onRegister($event)">
-    <!-- Name -->
-    <div class="p-float-label p-input-icon-right mb-20">
-      <input pInputText formControlName="name" id="name" type="text" />
-      <label for="name">Name</label>
-    </div>
+    <budgetello-text-input
+      [formControl]="nameFormControl"
+      [isFloatingLabel]="true"
+      class="mb-20 w-full"
+      formControlName="name"
+      id="name"
+      label="Name"
+    ></budgetello-text-input>
 
-    <!-- EMAIL -->
-    <div class="p-float-label p-input-icon-right mb-20">
-      <input pInputText formControlName="email" id="email" type="email" />
-      <label for="email">Email</label>
-    </div>
+    <budgetello-text-input
+      [formControl]="emailFormControl"
+      [isFloatingLabel]="true"
+      class="mb-20 w-full"
+      formControlName="email"
+      id="email"
+      label="Email"
+      type="email"
+    ></budgetello-text-input>
 
-    <!-- PASSWORD -->
-    <div class="p-float-label mb-20">
-      <p-password
-        [toggleMask]="true"
-        formControlName="password"
-        id="password"
-        styleClass="p-password p-component p-inputwrapper p-input-icon-right"
-        [ngClass]="{
-          error:
-            form.controls['password'].invalid && form.controls['password'].dirty
-        }"
-      >
-        <ng-template pTemplate="header"></ng-template>
-        <ng-template pTemplate="footer">
-          <p-divider></p-divider>
-          <budgetello-password-suggestions
-            [suggestions]="passwordSuggestions"
-          ></budgetello-password-suggestions>
-        </ng-template>
-      </p-password>
-      <label for="password">Password</label>
-    </div>
+    <budgetello-password-input
+      [formControl]="passwordFormControl"
+      class="mb-20 w-full"
+      [feedBack]="true"
+      [toggleMask]="true"
+      [isFloatingLabel]="true"
+      formControlName="password"
+      id="password"
+      label="Password"
+    >
+      <!--      <ng-template pTemplate="header"></ng-template>-->
+      <!--      <ng-template pTemplate="footer">-->
+      <!--        <p-divider></p-divider>-->
+      <!--        <budgetello-password-suggestions-->
+      <!--          [suggestions]="passwordSuggestions"-->
+      <!--        ></budgetello-password-suggestions>-->
+      <!--      </ng-template>-->
+    </budgetello-password-input>
 
-    <!-- VERIFY PASSWORD -->
-    <div class="p-float-label mb-20">
-      <p-password
-        [feedback]="false"
-        [toggleMask]="true"
-        formControlName="verify"
-        id="verify"
-        styleClass="p-password p-component p-inputwrapper p-input-icon-right"
-        [ngClass]="{
-          error:
-            form.controls['verify'].dirty &&
-            (form.controls['verify'].errors !== null ||
-              passwordsDoNotMatchError)
-        }"
-      ></p-password>
-      <label for="verify">Verify password</label>
-    </div>
+    <budgetello-password-input
+      [formControl]="verifyPasswordFormControl"
+      class="mb-20 w-full"
+      [feedBack]="false"
+      [toggleMask]="true"
+      [isFloatingLabel]="true"
+      formControlName="verify"
+      id="verify"
+      label="Verify password"
+    >
+    </budgetello-password-input>
 
     <p-button
       type="submit"

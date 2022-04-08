@@ -21,8 +21,11 @@
       "@budgetello/ui/async-autofocus": [
         "libs/ui/async-autofocus/src/index.ts"
       ],
+      "@budgetello/ui/base-input": ["libs/ui/base-input/src/index.ts"],
       "@budgetello/ui/datepicker": ["libs/ui/datepicker/src/index.ts"],
-      "@budgetello/ui/kanban-board": ["libs/ui/kanban-board/src/index.ts"]
+      "@budgetello/ui/kanban-board": ["libs/ui/kanban-board/src/index.ts"],
+      "@budgetello/ui/password-input": ["libs/ui/password-input/src/index.ts"],
+      "@budgetello/ui/text-input": ["libs/ui/text-input/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
