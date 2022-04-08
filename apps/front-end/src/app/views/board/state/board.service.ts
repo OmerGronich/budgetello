@@ -95,7 +95,10 @@ export class BoardService {
   getLists(board: Board) {
     return combineLatest(
       board.lists.map((list) => this.getList(<any>list))
-    ).pipe(map((lists) => ({ ...board, lists })));
+    ).pipe(
+      defaultIfEmpty([]),
+      map((lists) => ({ ...board, lists }))
+    );
   }
 
   getList(ref: DocumentReference<List>) {
