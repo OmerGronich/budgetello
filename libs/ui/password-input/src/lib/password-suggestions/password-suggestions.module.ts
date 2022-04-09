@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PasswordSuggestionsComponent } from './password-suggestions.component';
+import { ValidateSuggestionPipe } from './validate-suggestion.pipe';
 
 @NgModule({
-  declarations: [PasswordSuggestionsComponent],
+  declarations: [PasswordSuggestionsComponent, ValidateSuggestionPipe],
+  exports: [PasswordSuggestionsComponent, ValidateSuggestionPipe],
   imports: [CommonModule],
-  exports: [PasswordSuggestionsComponent],
 })
 export class PasswordSuggestionsModule {}

@@ -1,14 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
-  Form,
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { map, Observable, shareReplay } from 'rxjs';
 import { mustMatchValidator } from '../../../validators/must-match.validator';
-import { PasswordSuggestion } from '../../../components/password-suggestions/password-suggestions.component';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { BaseReactiveFormDirective } from '../../../directives/base-reactive-form.directive';
@@ -27,31 +24,6 @@ export class RegisterComponent
   implements OnInit
 {
   form: FormGroup;
-  hasLowerCase$: Observable<boolean>;
-  hasUpperCase$: Observable<boolean>;
-  hasNumber$: Observable<boolean>;
-  hasMinimum$: Observable<boolean>;
-
-  get passwordSuggestions(): PasswordSuggestion[] {
-    return [
-      {
-        text: 'At least one lowercase letter',
-        answersSuggestion$: this.hasLowerCase$,
-      },
-      {
-        text: 'At least one uppercase letter',
-        answersSuggestion$: this.hasUpperCase$,
-      },
-      {
-        text: 'At least one number',
-        answersSuggestion$: this.hasNumber$,
-      },
-      {
-        text: 'At least 8 characters long',
-        answersSuggestion$: this.hasMinimum$,
-      },
-    ];
-  }
 
   get passwordsDoNotMatchError() {
     return this.form.errors && this.form.errors['passwordsDoNotMatch'];
@@ -111,39 +83,8 @@ export class RegisterComponent
       },
       { validators: mustMatchValidator }
     );
-    this.hasLowerCase$ = this.form.valueChanges.pipe(
-      shareReplay(1),
-      map(this.checkLowercase)
-    );
-    this.hasUpperCase$ = this.form.valueChanges.pipe(
-      shareReplay(1),
-      map(this.checkUppercase)
-    );
-    this.hasNumber$ = this.form.valueChanges.pipe(
-      shareReplay(1),
-      map(this.checkNumber)
-    );
-    this.hasMinimum$ = this.form.valueChanges.pipe(
-      shareReplay(1),
-      map(this.hasMinimum(8))
-    );
   }
 
-  private checkLowercase({ password }: { password: string }) {
-    return password.toUpperCase() !== password;
-  }
-
-  private checkUppercase({ password }: { password: string }) {
-    return password.toLowerCase() !== password;
-  }
-
-  private checkNumber({ password }: { password: string }) {
-    return /\d/.test(password);
-  }
-
-  private hasMinimum(minimum: number) {
-    return ({ password }: { password: string }) => password.length >= minimum;
-  }
   async onRegister($event: SubmitEvent) {
     $event.preventDefault();
 

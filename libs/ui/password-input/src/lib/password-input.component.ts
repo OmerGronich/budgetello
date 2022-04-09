@@ -1,16 +1,6 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ContentChildren,
-  forwardRef,
-  Input,
-  QueryList,
-  TemplateRef,
-} from '@angular/core';
+import { Component, forwardRef, Input } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BaseInputDirective } from '@budgetello/ui/base-input';
-import { PrimeTemplate } from 'primeng/api';
 
 @Component({
   selector: 'budgetello-password-input',
@@ -29,32 +19,7 @@ import { PrimeTemplate } from 'primeng/api';
     },
   ],
 })
-export class PasswordInputComponent
-  extends BaseInputDirective
-  implements AfterViewInit
-{
+export class PasswordInputComponent extends BaseInputDirective {
   @Input() feedBack = true;
   @Input() toggleMask = true;
-
-  @ContentChildren(PrimeTemplate) templates: QueryList<any>;
-
-  headerTemplate: TemplateRef<any>;
-  footerTemplate: TemplateRef<any>;
-
-  constructor() {
-    super();
-  }
-
-  ngAfterViewInit() {
-    this.templates.forEach((item) => {
-      switch (item.getType()) {
-        case 'header':
-          this.headerTemplate = item.template;
-          break;
-        case 'footer':
-          this.footerTemplate = item.template;
-          break;
-      }
-    });
-  }
 }

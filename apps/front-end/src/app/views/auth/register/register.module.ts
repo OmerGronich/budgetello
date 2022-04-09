@@ -7,7 +7,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { DividerModule } from 'primeng/divider';
-import { PasswordSuggestionsModule } from '../../../components/password-suggestions/password-suggestions.module';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { ToastModule } from 'primeng/toast';
 import { MessageModule } from 'primeng/message';
@@ -30,7 +29,6 @@ import { UiKanbanBoardModule } from '@budgetello/ui/kanban-board';
     ButtonModule,
     RippleModule,
     DividerModule,
-    PasswordSuggestionsModule,
     AngularFireAuthModule,
     ToastModule,
     MessageModule,
