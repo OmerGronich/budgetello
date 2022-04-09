@@ -3,6 +3,7 @@
   "projects": {
     "front-end": "apps/front-end",
     "front-end-e2e": "apps/front-end-e2e",
+    "stocks-api": "apps/stocks-api",
     "ui-async-autofocus": "libs/ui/async-autofocus",
     "ui-base-input": "libs/ui/base-input",
     "ui-datepicker": "libs/ui/datepicker",

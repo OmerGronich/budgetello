@@ -21,4 +21,5 @@ import { BaseInputDirective } from '@budgetello/ui/base-input';
 })
 export class TextInputComponent extends BaseInputDirective {
   @Input() small = false;
+  @Input() iconLeft: string;
 }

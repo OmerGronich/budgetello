@@ -23,28 +23,44 @@
       (keydown.escape)="stopCreatingCard($event)"
       (submit)="submitCard($event)"
     >
-      <div class="flex-column my-10 gap-10">
-        <span class="p-input-icon-left">
-          <i class="pi pi-book"></i>
-          <input
-            class="w-full p-inputtext-sm"
-            [budgetelloAsyncAutofocus]="isCreatingCard"
+      <div class="flex-column my-10 gap-10 w-full" [ngSwitch]="type">
+        <ng-container *ngSwitchCase="stock">
+          <p-autoComplete
+            class="w-full"
+            appendTo="body"
+            (completeMethod)="searchStock($event)"
+            [formControl]="selectedStock"
+            [dropdown]="true"
+            [itemSize]="34"
+            [suggestions]="stockSuggestions"
+            [virtualScroll]="true"
+            placeholder="Search for symbols or companies..."
+            field="label"
+          >
+          </p-autoComplete>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+          <budgetello-text-input
+            class="w-full"
+            [small]="true"
+            [formControl]="cardTitleFormControl"
             placeholder="Card title..."
-            formControlName="cardTitle"
-            pInputText
-          />
-        </span>
+            [autofocus]="true"
+            iconLeft="pi pi-book"
+          >
+          </budgetello-text-input>
 
-        <span class="p-input-icon-left">
-          <i class="pi pi-dollar"></i>
-          <input
-            class="w-full p-inputtext-sm"
-            type="number"
+          <budgetello-text-input
+            class="w-full"
+            [small]="true"
+            [formControl]="cardAmountFormControl"
             placeholder="Amount..."
-            formControlName="amount"
-            pInputText
-          />
-        </span>
+            [autofocus]="true"
+            type="number"
+            iconLeft="pi pi-dollar"
+          >
+          </budgetello-text-input>
+        </ng-container>
       </div>
 
       <div class="flex w-full">

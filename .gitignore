@@ -45,3 +45,9 @@ Thumbs.db
 *-debug.log
 .runtimeconfig.json
 /firebase-emu-snapshot/
+
+.env
+.env.local
+.env.development
+.env.production
+.env.staging

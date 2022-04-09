@@ -1,4 +1,10 @@
-<div class="w-full" [class.p-float-label]="isFloatingLabel">
+<div
+  class="w-full"
+  [class.p-float-label]="isFloatingLabel"
+  [class.p-input-icon-left]="iconLeft"
+>
+  <i *ngIf="iconLeft" class="{{ iconLeft }}"></i>
+
   <label *ngIf="label && !isFloatingLabel" for="id">{{ label }}</label>
 
   <input

@@ -4,9 +4,10 @@ import { ListFooterComponent } from './list-footer.component';
 import { ButtonModule } from 'primeng/button';
 import { UiAsyncAutofocusModule } from '@budgetello/ui/async-autofocus';
 import { ReactiveFormsModule } from '@angular/forms';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputNumberModule } from 'primeng/inputnumber';
 import { TooltipModule } from 'primeng/tooltip';
+import { UiTextInputModule } from '@budgetello/ui/text-input';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [ListFooterComponent],
@@ -16,9 +17,10 @@ import { TooltipModule } from 'primeng/tooltip';
     ButtonModule,
     UiAsyncAutofocusModule,
     ReactiveFormsModule,
-    InputTextModule,
-    InputNumberModule,
     TooltipModule,
+    UiTextInputModule,
+    AutoCompleteModule,
+    HttpClientModule,
   ],
 })
 export class ListFooterModule {}

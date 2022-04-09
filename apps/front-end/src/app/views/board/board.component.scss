@@ -22,6 +22,9 @@
       &-sync {
         color: styles.$variables-color-split;
       }
+      &-money-bill {
+        color: styles.$variables-color-success;
+      }
     }
 
     .list-title {
@@ -61,6 +64,11 @@
       &-summary {
         position: relative;
         border: 1px solid rgba(styles.$variables-color-plain, 0.7);
+      }
+      &-stock {
+        position: relative;
+        border: 1px solid rgba(styles.$variables-color-success, 0.7);
+        min-width: 400px;
       }
     }
 
