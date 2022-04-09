@@ -1,4 +1,4 @@
-import { Component, forwardRef } from '@angular/core';
+import { Component, forwardRef, Input } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BaseInputDirective } from '@budgetello/ui/base-input';
 
@@ -19,4 +19,6 @@ import { BaseInputDirective } from '@budgetello/ui/base-input';
     },
   ],
 })
-export class TextInputComponent extends BaseInputDirective {}
+export class TextInputComponent extends BaseInputDirective {
+  @Input() small = false;
+}

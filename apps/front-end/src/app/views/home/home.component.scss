@@ -16,7 +16,7 @@
   border: 2px dashed var(--surface-border);
   cursor: pointer;
 
-  input {
+  ::ng-deep .p-inputtext-sm {
     padding: 0;
     border: 0;
     outline: none;

@@ -21,6 +21,8 @@ export class BaseInputDirective
   @Input() isFloatingLabel = false;
   @Input() formControlName: string;
   @Input() formControl: FormControl = new FormControl('');
+  @Input() placeholder: string;
+  @Input() autofocus = false;
 
   destroy$ = new Subject();
 

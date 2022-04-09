@@ -2,11 +2,14 @@
   <label *ngIf="label && !isFloatingLabel" for="id">{{ label }}</label>
 
   <input
-    class="w-full"
+    [class.p-inputtext-sm]="small"
     [attr.id]="id"
-    pInputText
     [attr.type]="type"
+    [budgetelloAsyncAutofocus]="autofocus"
     [formControl]="formControl"
+    [placeholder]="placeholder"
+    class="w-full"
+    pInputText
   />
 
   <label *ngIf="label && isFloatingLabel" for="id">{{ label }}</label>

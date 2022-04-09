@@ -8,6 +8,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { UiAsyncAutofocusModule } from '@budgetello/ui/async-autofocus';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HomeRoutingModule } from './home-routing.module';
+import { UiTextInputModule } from '@budgetello/ui/text-input';
 
 @NgModule({
   declarations: [HomeComponent],
@@ -20,6 +21,7 @@ import { HomeRoutingModule } from './home-routing.module';
     InputTextModule,
     UiAsyncAutofocusModule,
     ReactiveFormsModule,
+    UiTextInputModule,
   ],
 })
 export class HomeModule {}

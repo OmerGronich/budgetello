@@ -18,14 +18,13 @@
         <ng-container *ngIf="(isCreatingBoard$ | async) === false"
           >Create a new board</ng-container
         >
-        <input
-          [formControl]="boardTitleFormControl"
+        <budgetello-text-input
           *ngIf="isCreatingBoard$ | async as isCreatingBoard"
-          [budgetelloAsyncAutofocus]="isCreatingBoard"
-          pInputText
-          class="p-inputtext-sm"
+          [formControl]="boardTitleFormControl"
           placeholder="Board title"
-        />
+          [autofocus]="true"
+          [small]="true"
+        ></budgetello-text-input>
       </form>
     </div>
   </section>
