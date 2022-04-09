@@ -23,8 +23,6 @@ import { UiKanbanBoardModule } from '@budgetello/ui/kanban-board';
   imports: [
     RegisterRoutingModule,
     CommonModule,
-    InputTextModule,
-    PasswordModule,
     ReactiveFormsModule,
     ButtonModule,
     RippleModule,
