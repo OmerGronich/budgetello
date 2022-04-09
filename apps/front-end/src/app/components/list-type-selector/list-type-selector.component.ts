@@ -14,16 +14,20 @@ export class ListTypeSelectorComponent {
   listTypeOptions = [
     {
       value: LIST_TYPES.Income,
-      label: `Income`,
+      label: 'Income',
     },
     {
       value: LIST_TYPES.Expense,
-      label: `Expense`,
+      label: 'Expense',
     },
     {
       value: LIST_TYPES.Split,
-      label: `Split`,
+      label: 'Split',
       disabled: true,
+    },
+    {
+      value: LIST_TYPES.Stock,
+      label: 'Stock',
     },
   ];
 }

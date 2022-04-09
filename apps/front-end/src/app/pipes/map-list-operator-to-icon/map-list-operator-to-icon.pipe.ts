@@ -13,6 +13,7 @@ export class MapListOperatorToIconPipe implements PipeTransform {
         '-': 'danger',
         '%': 'info',
         '=': 'primary',
+        $: 'success',
       }[value];
     }
 
@@ -21,6 +22,7 @@ export class MapListOperatorToIconPipe implements PipeTransform {
       '-': 'minus-circle',
       '%': 'sync',
       '=': 'book',
+      $: 'money-bill',
     };
 
     return dict[value] || '';
