@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { Board } from '../board/state/board.model';
 import { HomeService } from './state/home.service';
 import { HomeQuery } from './state/home.query';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'budgetello-home',
@@ -52,8 +53,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     const boardRef = await this.homeService.addBoard({
       title: this.boardTitleFormControl.value || 'Untitled Board',
     });
-    this.boardTitleFormControl.reset();
     this.router.navigate(['/board', boardRef.id]);
+    this.boardTitleFormControl.reset();
   }
 
   trackByFn(index: number, board: Board) {
