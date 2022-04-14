@@ -2,6 +2,7 @@
 <div class="container">
   <form autocomplete="off" [formGroup]="form" (submit)="onSignIn($event)">
     <budgetello-text-input
+      placeholder=""
       [isFloatingLabel]="true"
       [formControl]="emailFormControl"
       class="mb-20 w-full"

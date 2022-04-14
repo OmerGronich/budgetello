@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 
 import { AppService } from './app.service';
 
@@ -9,5 +9,11 @@ export class AppController {
   @Get()
   getData() {
     return this.appService.getData();
+  }
+
+  @Get('/search-symbols')
+  async searchSymbols(@Query('q') query: string) {
+    const { data } = await this.appService.searchSymbols({ query });
+    return data;
   }
 }
