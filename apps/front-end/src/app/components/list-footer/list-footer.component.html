@@ -12,38 +12,78 @@
         icon="pi pi-plus"
         label="Add a card"
       ></button>
-      <div class="flex flex-1 flex-end align-center" *ngIf="!isCreatingCard">
+      <div
+        class="flex flex-1 flex-end align-center"
+        *ngIf="!isCreatingCard && type !== '$'"
+      >
         <ng-container *ngTemplateOutlet="totalTmpl"></ng-container>
       </div>
     </div>
-    <form
-      class="w-full"
-      [formGroup]="form"
-      *ngIf="isCreatingCard"
-      (keydown.escape)="stopCreatingCard($event)"
-      (submit)="submitCard($event)"
-    >
-      <div class="flex-column my-10 gap-10 w-full" [ngSwitch]="type">
-        <ng-container *ngSwitchCase="stock">
+
+    <ng-container [ngSwitch]="type">
+      <ng-container *ngSwitchCase="stock">
+        <form
+          class="w-full flex-column gap-10"
+          [formGroup]="addStockCardForm"
+          *ngIf="isCreatingCard"
+          (keydown.escape)="stopCreatingCard($event)"
+          (submit)="submitStockCard($event)"
+        >
           <p-autoComplete
             class="w-full"
             appendTo="body"
-            (completeMethod)="searchStock($event)"
+            (click)="searchSymbol({ query: defaultQuery })"
+            (completeMethod)="searchSymbol($event)"
             [formControl]="selectedStock"
-            [dropdown]="true"
             [itemSize]="34"
             [suggestions]="stockSuggestions"
             [virtualScroll]="true"
+            [forceSelection]="true"
             placeholder="Search for symbols or companies..."
-            field="label"
+            field="displayName"
           >
+            <ng-template let-suggestion pTemplate="item">
+              <div class="suggestion-item">
+                <span>{{ suggestion.name }}</span>
+                <span>({{ suggestion.symbol }})</span>
+              </div>
+            </ng-template>
+            <ng-template let-suggestion pTemplate="item">
+              <div class="suggestion-item">
+                <span>{{ suggestion.name }}</span>
+                <span>({{ suggestion.symbol }})</span>
+              </div>
+            </ng-template>
           </p-autoComplete>
-        </ng-container>
-        <ng-container *ngSwitchDefault>
+          <div class="shares">
+            <p-inputNumber
+              class="w-full"
+              placeholder="Shares..."
+              decrementButtonClass="p-button-danger"
+              incrementButtonClass="p-button-secondary"
+              [formControl]="shares"
+              mode="decimal"
+              [showButtons]="true"
+              [min]="0"
+            >
+            </p-inputNumber>
+          </div>
+          <ng-container *ngTemplateOutlet="submitButtons"></ng-container>
+        </form>
+      </ng-container>
+
+      <ng-container *ngSwitchDefault>
+        <form
+          class="w-full flex-column gap-10"
+          [formGroup]="addIncomeExpenseCardForm"
+          *ngIf="isCreatingCard"
+          (keydown.escape)="stopCreatingCard($event)"
+          (submit)="submitIncomeExpenseCard($event)"
+        >
           <budgetello-text-input
             class="w-full"
             [small]="true"
-            [formControl]="cardTitleFormControl"
+            [formControl]="incomeExpenseCardTitleFormControl"
             placeholder="Card title..."
             [autofocus]="true"
             iconLeft="pi pi-book"
@@ -53,34 +93,17 @@
           <budgetello-text-input
             class="w-full"
             [small]="true"
-            [formControl]="cardAmountFormControl"
+            [formControl]="incomeExpenseCardAmountFormControl"
             placeholder="Amount..."
-            [autofocus]="true"
             type="number"
             iconLeft="pi pi-dollar"
           >
           </budgetello-text-input>
-        </ng-container>
-      </div>
 
-      <div class="flex w-full">
-        <button
-          pButton
-          class="p-button-sm p-button-text p-button-plain"
-          label="Add"
-        ></button>
-        <button
-          pButton
-          (click)="stopCreatingCard($event)"
-          class="mx-10 p-button-sm p-button-text p-button-plain"
-          icon="pi pi-times"
-        ></button>
-
-        <div class="flex flex-1 flex-end align-center" *ngIf="isCreatingCard">
-          <ng-container *ngTemplateOutlet="totalTmpl"></ng-container>
-        </div>
-      </div>
-    </form>
+          <ng-container *ngTemplateOutlet="submitButtons"></ng-container>
+        </form>
+      </ng-container>
+    </ng-container>
   </footer>
 
   <ng-template #totalTmpl>
@@ -95,3 +118,19 @@
     </div>
   </ng-template>
 </ng-container>
+
+<ng-template #submitButtons let-type>
+  <div class="flex w-full">
+    <button
+      pButton
+      class="p-button-sm p-button-text p-button-plain"
+      label="Add"
+    ></button>
+    <button
+      pButton
+      (click)="stopCreatingCard($event)"
+      class="mx-10 p-button-sm p-button-text p-button-plain"
+      icon="pi pi-times"
+    ></button>
+  </div>
+</ng-template>

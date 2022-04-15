@@ -7,7 +7,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TooltipModule } from 'primeng/tooltip';
 import { UiTextInputModule } from '@budgetello/ui/text-input';
 import { AutoCompleteModule } from 'primeng/autocomplete';
-import { HttpClientModule } from '@angular/common/http';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
   declarations: [ListFooterComponent],
@@ -20,7 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
     TooltipModule,
     UiTextInputModule,
     AutoCompleteModule,
-    HttpClientModule,
+    InputNumberModule,
+    InputTextModule,
   ],
 })
 export class ListFooterModule {}

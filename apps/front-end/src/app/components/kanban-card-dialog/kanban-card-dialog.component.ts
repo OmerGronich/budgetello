@@ -3,6 +3,7 @@ import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Card, List } from '../../views/board/state/types';
 import { BoardService } from '../../views/board/state/board.service';
+import { LIST_TYPES } from '../../constants';
 
 @Component({
   selector: 'budgetello-kanban-card-dialog',
@@ -19,28 +20,45 @@ export class KanbanCardDialogComponent {
     return this.config.data.list;
   }
 
-  group: FormGroup;
+  incomeExpenseFormGroup: FormGroup;
+  stockFormGroup: FormGroup;
+  listTypes = LIST_TYPES;
 
   constructor(
     private fb: FormBuilder,
     private config: DynamicDialogConfig,
     private boardService: BoardService
   ) {
-    this.group = this.fb.group({
+    this.incomeExpenseFormGroup = this.fb.group({
       title: new FormControl(this.card.title),
       amount: new FormControl(this.card.amount),
+    });
+
+    this.stockFormGroup = this.fb.group({
+      displayName: new FormControl({
+        value: this.card.displayName,
+        disabled: true,
+      }),
+      shares: new FormControl(this.card.shares),
     });
   }
 
   saveCard() {
-    this.boardService.updateCard(
-      {
-        ...this.card,
-        title: this.group.get('title')?.value,
-        amount: this.group.get('amount')?.value,
-      },
-      this.list
-    );
+    if (this.list.type === this.listTypes.Stock) {
+      this.boardService.updateCard(
+        { ...this.card, shares: this.stockFormGroup.value.shares },
+        this.list
+      );
+    } else {
+      this.boardService.updateCard(
+        {
+          ...this.card,
+          title: this.incomeExpenseFormGroup.value.title,
+          amount: this.incomeExpenseFormGroup.value.amount,
+        },
+        this.list
+      );
+    }
   }
 
   deleteCard() {

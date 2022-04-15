@@ -40,7 +40,8 @@
           [total]="list | calculateListTotal"
           [type]="list.type"
           class="w-full"
-          (submitNewCard)="createCard($event, list)"
+          (incomeExpenseCardSubmitted)="createIncomeExpenseCard($event, list)"
+          (stockCardSubmitted)="createStockCard($event, list)"
         ></budgetello-list-footer>
       </ng-template>
 

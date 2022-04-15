@@ -19,10 +19,12 @@ import { BaseReactiveFormDirective } from './directives/base-reactive-form.direc
 import { MessageService } from 'primeng/api';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { AkitaNgRouterStoreModule } from '@datorama/akita-ng-router-store';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent, BaseReactiveFormDirective],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     RouterModule,
