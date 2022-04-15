@@ -16,4 +16,10 @@ export class AppController {
     const { data } = await this.appService.searchSymbols({ query });
     return data;
   }
+
+  @Get('/search-stock')
+  async searchStock(@Query('symbol') symbol: string) {
+    const { data } = await this.appService.searchStock({ symbol });
+    return data;
+  }
 }

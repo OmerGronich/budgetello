@@ -68,7 +68,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     return `list-${LIST_OPERATORS_TO_PROPS[list.type]?.toLowerCase()}`;
   }
 
-  createCard(
+  createIncomeExpenseCard(
     {
       submitEvent,
       cardTitle,
@@ -82,7 +82,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   ) {
     submitEvent.preventDefault();
 
-    this.boardService.addCard({
+    this.boardService.addIncomeExpenseCard({
       list,
       title: cardTitle,
       amount: amount,
@@ -99,5 +99,29 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   deleteList(list: List) {
     this.boardService.deleteList(list);
+  }
+
+  createStockCard(
+    {
+      stockSymbol,
+      shares,
+      name,
+      displayName,
+    }: {
+      submitEvent: SubmitEvent;
+      stockSymbol: string;
+      shares: number;
+      name: string;
+      displayName: string;
+    },
+    list: List
+  ) {
+    this.boardService.addStockCard({
+      list,
+      stockSymbol,
+      shares,
+      displayName,
+      name,
+    });
   }
 }

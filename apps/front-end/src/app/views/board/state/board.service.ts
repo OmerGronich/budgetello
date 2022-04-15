@@ -376,7 +376,7 @@ export class BoardService {
     );
   }
 
-  async addCard({
+  async addIncomeExpenseCard({
     amount,
     list,
     title,
@@ -523,6 +523,47 @@ export class BoardService {
             listToEdit.cards.splice(cardToDeleteIndex, 1);
           }
         }
+      })
+    );
+  }
+
+  async addStockCard({
+    stockSymbol,
+    shares,
+    list,
+    name,
+    displayName,
+  }: {
+    shares: number;
+    name: string;
+    displayName: string;
+    stockSymbol: string;
+    list: List;
+  }) {
+    const v = Date.now();
+
+    const card = {
+      stockSymbol,
+      shares,
+      name,
+      displayName,
+      created: firebase.firestore.FieldValue.serverTimestamp() as Timestamp,
+    };
+    const cardRef = await this.cardCollection.add(card);
+    this.listCollection.doc(list.id).update({
+      cards: firebase.firestore.FieldValue.arrayUnion(
+        cardRef
+      ) as unknown as Card[],
+    });
+
+    this.boardDoc.update({ v });
+    this.boardStore.update(
+      produce((state) => {
+        const listToEdit = state.board.lists.find(
+          ({ id }: List) => id === list.id
+        );
+        listToEdit.cards.push(card);
+        state.board.v = v;
       })
     );
   }

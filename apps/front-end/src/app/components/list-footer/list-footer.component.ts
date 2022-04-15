@@ -4,6 +4,8 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
+  OnInit,
   Output,
 } from '@angular/core';
 import {
@@ -14,19 +16,9 @@ import {
 } from '@angular/forms';
 import { LIST_OPERATORS, LIST_TYPES } from '../../constants';
 import { HttpClient } from '@angular/common/http';
-import {
-  BehaviorSubject,
-  defaultIfEmpty,
-  distinctUntilChanged,
-  map,
-  Observable,
-  of,
-  shareReplay,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { defaultIfEmpty, distinctUntilChanged, map, Subscription } from 'rxjs';
 
-interface StockSuggestion {
+interface Match {
   '1. symbol': string;
   '2. name': string;
   '3. type': string;
@@ -39,7 +31,12 @@ interface StockSuggestion {
 }
 
 interface StockApiResponse {
-  bestMatches: StockSuggestion[];
+  bestMatches: Match[];
+}
+
+interface StockSuggestion {
+  symbol: string;
+  name: string;
 }
 
 @Component({
@@ -48,30 +45,45 @@ interface StockApiResponse {
   styleUrls: ['./list-footer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListFooterComponent {
+export class ListFooterComponent implements OnInit, OnDestroy {
   @Input() total: number;
   @Input() type: LIST_OPERATORS;
-  @Output() submitNewCard = new EventEmitter<{
+  @Output() incomeExpenseCardSubmitted = new EventEmitter<{
     submitEvent: SubmitEvent;
     cardTitle: string;
     amount: string;
   }>();
+  @Output() stockCardSubmitted = new EventEmitter<{
+    submitEvent: SubmitEvent;
+    stockSymbol: string;
+    name: string;
+    displayName: string;
+    shares: number;
+  }>();
 
   stock = LIST_TYPES.Stock;
   isCreatingCard = false;
-  form: FormGroup;
-  stockSuggestions: { label: string; value: StockSuggestion }[] = [];
+  addIncomeExpenseCardForm: FormGroup;
+  addStockCardForm: FormGroup;
+  stockSuggestions: StockSuggestion[] = [];
 
-  get cardTitleFormControl(): FormControl {
-    return this.form.get('cardTitle') as FormControl;
+  subscriptions: Subscription[] = [];
+
+  defaultQuery = 'a';
+
+  get incomeExpenseCardTitleFormControl(): FormControl {
+    return this.addIncomeExpenseCardForm.get('cardTitle') as FormControl;
   }
 
-  get cardAmountFormControl(): FormControl {
-    return this.form.get('amount') as FormControl;
+  get incomeExpenseCardAmountFormControl(): FormControl {
+    return this.addIncomeExpenseCardForm.get('amount') as FormControl;
   }
 
   get selectedStock(): FormControl {
-    return this.form.get('selectedStock') as FormControl;
+    return this.addStockCardForm.get('selectedStock') as FormControl;
+  }
+  get shares(): FormControl {
+    return this.addStockCardForm.get('shares') as FormControl;
   }
 
   get isSummary() {
@@ -83,45 +95,65 @@ export class ListFooterComponent {
     private http: HttpClient,
     private cdr: ChangeDetectorRef
   ) {
-    this.form = this.fb.group({
+    this.addIncomeExpenseCardForm = this.fb.group({
       cardTitle: new FormControl('', [Validators.required]),
       amount: new FormControl('', [Validators.required]),
-      selectedStock: new FormControl(),
+    });
+
+    this.addStockCardForm = this.fb.group({
+      selectedStock: new FormControl(null, [Validators.required]),
+      shares: new FormControl(0, [Validators.required]),
     });
   }
 
-  stopCreatingCard($event: Event) {
-    this.isCreatingCard = false;
-    this.form.reset();
+  ngOnInit(): void {
+    this.subscriptions.push(
+      this.selectedStock.valueChanges.subscribe(() => {
+        if (this.selectedStock.invalid) {
+          this.shares.disable();
+        } else {
+          this.shares.enable();
+        }
+      })
+    );
   }
 
-  submitCard($event: SubmitEvent) {
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
+  }
+
+  stopCreatingCard($event: Event) {
     $event.preventDefault();
-    if (this.form.valid) {
-      this.submitNewCard.emit({
+    this.isCreatingCard = false;
+    this.addIncomeExpenseCardForm.reset();
+    this.addStockCardForm.reset();
+  }
+
+  submitIncomeExpenseCard($event: SubmitEvent) {
+    $event.preventDefault();
+    if (this.addIncomeExpenseCardForm.valid) {
+      this.incomeExpenseCardSubmitted.emit({
         submitEvent: $event,
-        cardTitle: this.form.controls['cardTitle'].value,
-        amount: this.form.controls['amount'].value,
+        cardTitle: this.addIncomeExpenseCardForm.controls['cardTitle'].value,
+        amount: this.addIncomeExpenseCardForm.controls['amount'].value,
       });
       this.isCreatingCard = false;
-      this.form.reset();
+      this.addIncomeExpenseCardForm.reset();
     }
   }
 
-  searchStock({ query }: { query: string; originalEvent: InputEvent }) {
+  searchSymbol({ query: q }: { query: string; originalEvent?: InputEvent }) {
     this.http
-      .get(
-        `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${
-          query || 'apple'
-        }&apikey=`
-      )
+      .get('/api/search-symbols', { params: { q } })
       .pipe(
         distinctUntilChanged(),
         defaultIfEmpty({ bestMatches: [] } as any),
-        map(({ bestMatches }: StockApiResponse) =>
+        map(({ bestMatches = [] }: StockApiResponse) =>
           bestMatches.map((suggestion) => ({
-            label: suggestion['2. name'],
-            value: suggestion,
+            name: suggestion['2. name'],
+            symbol: suggestion['1. symbol'],
+            displayName:
+              suggestion['2. name'] + ' (' + suggestion['1. symbol'] + ')',
           }))
         )
       )
@@ -129,5 +161,18 @@ export class ListFooterComponent {
         this.stockSuggestions = suggestions;
         this.cdr.markForCheck();
       });
+  }
+
+  submitStockCard($event: SubmitEvent) {
+    $event.preventDefault();
+    this.stockCardSubmitted.emit({
+      submitEvent: $event,
+      stockSymbol: this.selectedStock.value.symbol,
+      name: this.selectedStock.value.name,
+      displayName: `${this.selectedStock.value.name} (${this.selectedStock.value.symbol})`,
+      shares: this.shares.value,
+    });
+    this.addStockCardForm.reset();
+    this.isCreatingCard = false;
   }
 }

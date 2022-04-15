@@ -19,5 +19,38 @@
     .p-autocomplete {
       width: 100%;
     }
+
+    .p-inputtext {
+      width: 100%;
+    }
+
+    .shares {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      gap: 10px;
+    }
+  }
+}
+
+::ng-deep {
+  .p-autocomplete-panel {
+    padding: 5px;
+  }
+
+  .suggestion-item {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    gap: 10px;
+  }
+
+  .p-autocomplete-panel .p-autocomplete-items .p-autocomplete-item {
+    flex: 1;
+  }
+
+  .cdk-virtual-scroll-content-wrapper {
+    display: flex;
+    flex-direction: column;
   }
 }

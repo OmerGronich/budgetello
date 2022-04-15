@@ -33,4 +33,16 @@ export class AppService {
       })
     );
   }
+
+  async searchStock({ symbol }: { symbol: string }) {
+    return firstValueFrom(
+      this.httpService.get(`${this.url}/query`, {
+        params: {
+          function: 'GLOBAL_QUOTE',
+          apikey: this.apiKey,
+          symbol,
+        },
+      })
+    );
+  }
 }

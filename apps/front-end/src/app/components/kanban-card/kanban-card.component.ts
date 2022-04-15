@@ -3,11 +3,31 @@ import {
   Component,
   Input,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { KanbanCardDialogComponent } from '../kanban-card-dialog/kanban-card-dialog.component';
 import { LIST_TYPES } from '../../constants';
-import { List } from '../../views/board/state/types';
+import { Card, List } from '../../views/board/state/types';
+import { HttpClient } from '@angular/common/http';
+import { map, Observable } from 'rxjs';
+
+export interface GlobalQuote {
+  '01. symbol': string;
+  '02. open': string;
+  '03. high': string;
+  '04. low': string;
+  '05. price': string;
+  '06. volume': string;
+  '07. latest trading day': string;
+  '08. previous close': string;
+  '09. change': string;
+  '10. change percent': string;
+}
+
+export interface ApiResponse {
+  'Global Quote': GlobalQuote;
+}
 
 @Component({
   selector: 'budgetello-kanban-card',
@@ -16,25 +36,50 @@ import { List } from '../../views/board/state/types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DialogService],
 })
-export class KanbanCardComponent implements OnDestroy {
-  @Input() card: { title: string; amount: string };
+export class KanbanCardComponent implements OnInit, OnDestroy {
+  @Input() card: Card;
   @Input() list: List;
 
   ref: DynamicDialogRef;
+  listTypes = LIST_TYPES;
 
-  constructor(public dialogService: DialogService) {}
+  stockData$: Observable<{ stockPrice: string; total: number }>;
+
+  constructor(public dialogService: DialogService, private http: HttpClient) {}
+
+  ngOnInit(): void {
+    if (this.list.type === this.listTypes.Stock && this.card.stockSymbol) {
+      this.stockData$ = this.http
+        .get<ApiResponse>('/api/search-stock', {
+          params: { symbol: this.card.stockSymbol },
+        })
+        .pipe(
+          map((response: ApiResponse) => {
+            if (!response['Global Quote']) {
+              return { stockPrice: '', total: 0 };
+            }
+            const stockPrice = response['Global Quote']['05. price'];
+            const total = (this.card.shares as number) * +stockPrice;
+
+            return { stockPrice, total };
+          })
+        );
+    }
+  }
 
   showCardDialog(_?: MouseEvent) {
     if (this.list.type === LIST_TYPES.Summary) return;
     import('../kanban-card-dialog/kanban-card-dialog.module').then((_) => {
       this.ref = this.dialogService.open(KanbanCardDialogComponent, {
-        showHeader: false,
+        closable: true,
+        showHeader: true,
+        header: 'Edit / delete card',
         width: '370px',
         styleClass: 'kanban-card-dialog',
         contentStyle: {
           'max-height': '500px',
+          paddingTop: '1rem',
           overflow: 'auto',
-          borderRadius: '4px',
         },
         autoZIndex: true,
         dismissableMask: true,

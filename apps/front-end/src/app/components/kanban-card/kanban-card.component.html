@@ -1,10 +1,52 @@
 <div
-  class="flex space-between"
-  [class.pointer]="list.type !== '='"
-  (click)="showCardDialog($event)"
+  class="flex space-between card"
+  [class.pointer]="list.type !== listTypes.Summary"
+  (dblclick)="showCardDialog($event)"
+  pTooltip="Double click to edit"
+  tooltipPosition="bottom"
+  [tooltipDisabled]="list.type === listTypes.Summary"
+  [life]="1000"
 >
-  <h4 class="title">{{ card.title }}</h4>
-  <p class="amount amount-{{ card.title | kebabcase }}">
-    {{ card.amount | currency: 'USD':'symbol':'1.0' }}
-  </p>
+  <ng-container *ngTemplateOutlet="content"></ng-container>
 </div>
+
+<ng-template #content>
+  <ng-container [ngSwitch]="list.type">
+    <ng-container *ngSwitchCase="listTypes.Stock">
+      <p-panel
+        class="w-full"
+        header="{{ card.displayName }}"
+        [toggleable]="true"
+        [collapsed]="true"
+        expandIcon="pi pi-angle-down"
+        collapseIcon="pi pi-angle-up"
+        (onBeforeToggle)="$event.originalEvent.stopImmediatePropagation()"
+      >
+        <div class="flex-column space-between px-10 gap-10">
+          <div class="shares flex space-between align-center">
+            <div>shares</div>
+            <div>{{ card.shares }}</div>
+          </div>
+          <ng-container *ngIf="stockData$ | async as stockData">
+            <div class="shares flex space-between align-center">
+              <div>stock price</div>
+              <div>
+                {{ stockData.stockPrice | currency: 'USD':'symbol':'1.0' }}
+              </div>
+            </div>
+            <div class="shares flex space-between align-center">
+              <div>total</div>
+              <div>{{ stockData.total | currency: 'USD':'symbol':'1.0' }}</div>
+            </div>
+          </ng-container>
+        </div>
+      </p-panel>
+    </ng-container>
+    <ng-container *ngSwitchDefault>
+      <h4 class="title">{{ card.title }}</h4>
+      <p class="amount amount-{{ card.title || '' | kebabcase }}">
+        {{ card.amount | currency: 'USD':'symbol':'1.0' }}
+      </p>
+    </ng-container>
+  </ng-container>
+</ng-template>
