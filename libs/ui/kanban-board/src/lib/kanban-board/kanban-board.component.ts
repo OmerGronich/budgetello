@@ -25,6 +25,7 @@ import { FormControl } from '@angular/forms';
 interface IKanbanBoardListDto {
   title: string;
   cards: any[];
+  listEnterPredicate?(item?: any): boolean;
 }
 
 interface IKanbanBoardList {
@@ -34,7 +35,7 @@ interface IKanbanBoardList {
   isCreatingCard: boolean;
   id?: string;
   disableDrag?: boolean;
-  doNotEnter?: boolean;
+  listEnterPredicate(item?: any): boolean;
   lockAxis?: 'y' | 'x';
 }
 
@@ -80,11 +81,17 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
   }
 
   createListsFromDto(listsDto: IKanbanBoardListDto[]): IKanbanBoardList[] {
-    return (listsDto || []).map((listDto) => ({
-      ...listDto,
-      isCreatingCard: false,
-      cssClass: this.getListCssClass(listDto),
-    }));
+    return (listsDto || []).map((listDto) => {
+      const listEnterPredicate = listDto.listEnterPredicate
+        ? listDto.listEnterPredicate
+        : (_: any) => true;
+      return {
+        ...listDto,
+        isCreatingCard: false,
+        cssClass: this.getListCssClass(listDto),
+        listEnterPredicate,
+      };
+    });
   }
 
   ngAfterViewInit() {
@@ -156,6 +163,7 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
           cards: [],
           isCreatingCard: false,
           cssClass: '',
+          listEnterPredicate: (_: any) => true,
         });
 
         this.listTitleFormControl.reset();
@@ -242,9 +250,5 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
 
   listTrackBy(index: number, list: IKanbanBoardList) {
     return list.id;
-  }
-
-  listEnterPredicate(list: IKanbanBoardList) {
-    return !list.doNotEnter;
   }
 }

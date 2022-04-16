@@ -76,4 +76,12 @@ export class ToastService {
       detail: 'Wrong password.',
     });
   }
+
+  duplicateStock() {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Duplicate stock.',
+    });
+  }
 }

@@ -32,7 +32,7 @@
         (cdkDropListDropped)="dropCard($event)"
         [cdkDropListData]="list.cards"
         cdkDropList
-        [cdkDropListEnterPredicate]="listEnterPredicate.bind(this, list)"
+        [cdkDropListEnterPredicate]="list.listEnterPredicate"
       >
         <li
           (cdkDragStarted)="cdkCardDragStarted($event)"
@@ -41,6 +41,7 @@
           cdkDragPreviewClass="list-preview"
           class="card"
           [cdkDragDisabled]="card.disableDrag"
+          [cdkDragData]="card"
         >
           <ng-container
             *ngTemplateOutlet="
@@ -60,7 +61,7 @@
           [cdkDropListData]="list.cards"
           cdkDropList
           [cdkDropListLockAxis]="list.lockAxis"
-          [cdkDropListEnterPredicate]="listEnterPredicate.bind(this, list)"
+          [cdkDropListEnterPredicate]="list.listEnterPredicate"
         >
           <li
             (cdkDragStarted)="cdkCardDragStarted($event)"

@@ -22,7 +22,7 @@ export interface List extends Partial<DocumentReference> {
   cards: Card[];
   created?: Timestamp;
   disableDrag?: boolean;
-  doNotEnter?: boolean;
+  listEnterPredicate?(item?: any): boolean;
   lockAxis?: 'x' | 'y';
 }
 

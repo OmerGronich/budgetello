@@ -23,7 +23,7 @@ import dayjs from 'dayjs';
 import { LIST_OPERATORS, LIST_TYPES } from '../../../constants';
 import firebase from 'firebase/compat/app';
 import { Timestamp } from '@angular/fire/firestore';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { RouterQuery } from '@datorama/akita-ng-router-store';
 import produce from 'immer';
 
@@ -108,6 +108,20 @@ export class BoardService {
       .valueChanges({ idField: 'id' })
       .pipe(
         filter(Boolean),
+        map((list) => {
+          let listEnterPredicate: (card: CdkDrag<Card>) => boolean;
+
+          if ([LIST_TYPES.Income, LIST_TYPES.Expense].includes(list.type)) {
+            listEnterPredicate = (card) => {
+              return !!(card.data.amount || card.data.title);
+            };
+          } else {
+            listEnterPredicate = (card) =>
+              !!(card.data.stockSymbol || card.data.shares);
+          }
+
+          return { ...list, listEnterPredicate };
+        }),
         switchMap(this.getCards.bind(this))
       ) as Observable<List>;
   }
@@ -198,7 +212,9 @@ export class BoardService {
       id: 'summary',
       title: 'Summary',
       type: LIST_TYPES.Summary,
-      doNotEnter: true,
+      listEnterPredicate() {
+        return false;
+      },
       lockAxis: 'y' as const,
       cards: board.areListsEmpty
         ? []
