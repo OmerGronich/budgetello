@@ -1,0 +1,63 @@
+{
+  "projectType": "library",
+  "root": "libs/front-end/shared/ui/kanban-board",
+  "sourceRoot": "libs/front-end/shared/ui/kanban-board/src",
+  "prefix": "budgetello",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/front-end/shared/ui/kanban-board"],
+      "options": {
+        "jestConfig": "libs/front-end/shared/ui/kanban-board/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/front-end/shared/ui/kanban-board/src/**/*.ts",
+          "libs/front-end/shared/ui/kanban-board/src/**/*.html"
+        ]
+      }
+    },
+    "storybook": {
+      "executor": "@nrwl/storybook:storybook",
+      "options": {
+        "uiFramework": "@storybook/angular",
+        "port": 4400,
+        "config": {
+          "configFolder": "libs/front-end/shared/ui/kanban-board/.storybook"
+        },
+        "projectBuildConfig": "front-end-shared-ui-kanban-board:build-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@nrwl/storybook:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "uiFramework": "@storybook/angular",
+        "outputPath": "dist/storybook/ui-kanban-board",
+        "config": {
+          "configFolder": "libs/front-end/shared/ui/kanban-board/.storybook"
+        },
+        "projectBuildConfig": "front-end-shared-ui-kanban-board:build-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    }
+  },
+  "tags": [
+    "type:ui",
+    "app-level-domain:front-end",
+    "domain:shared"
+  ]
+}

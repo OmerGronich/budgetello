@@ -1,0 +1,30 @@
+{
+  "projectType": "library",
+  "root": "libs/front-end/shared/ui/text-input",
+  "sourceRoot": "libs/front-end/shared/ui/text-input/src",
+  "prefix": "budgetello",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/front-end/shared/ui/text-input"],
+      "options": {
+        "jestConfig": "libs/front-end/shared/ui/text-input/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/front-end/shared/ui/text-input/src/**/*.ts",
+          "libs/front-end/shared/ui/text-input/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": [
+    "type:ui",
+    "app-level-domain:front-end",
+    "domain:shared"
+  ]
+}

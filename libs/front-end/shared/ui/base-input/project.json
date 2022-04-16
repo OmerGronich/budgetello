@@ -1,0 +1,30 @@
+{
+  "projectType": "library",
+  "root": "libs/front-end/shared/ui/base-input",
+  "sourceRoot": "libs/front-end/shared/ui/base-input/src",
+  "prefix": "budgetello",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/front-end/shared/ui/base-input"],
+      "options": {
+        "jestConfig": "libs/front-end/shared/ui/base-input/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/front-end/shared/ui/base-input/src/**/*.ts",
+          "libs/front-end/shared/ui/base-input/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": [
+    "type:ui",
+    "app-level-domain:front-end",
+    "domain:shared"
+  ]
+}

@@ -7,28 +7,22 @@
       "executor": "@nrwl/cypress:cypress",
       "options": {
         "cypressConfig": "apps/ui-kanban-board-e2e/cypress.json",
-        "devServerTarget": "ui-kanban-board:storybook"
+        "devServerTarget": "front-end-shared-ui-kanban-board:storybook"
       },
       "configurations": {
         "ci": {
-          "devServerTarget": "ui-kanban-board:storybook:ci"
+          "devServerTarget": "front-end-shared-ui-kanban-board:storybook:ci"
         }
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "apps/ui-kanban-board-e2e/**/*.{js,ts}"
-        ]
+        "lintFilePatterns": ["apps/ui-kanban-board-e2e/**/*.{js,ts}"]
       }
     }
   },
   "tags": [],
-  "implicitDependencies": [
-    "ui-kanban-board"
-  ]
+  "implicitDependencies": ["front-end-shared-ui-kanban-board"]
 }

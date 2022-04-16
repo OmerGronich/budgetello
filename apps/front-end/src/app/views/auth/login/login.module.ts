@@ -11,8 +11,8 @@ import { RouterModule } from '@angular/router';
 import { TitleModule } from '../../../components/title/title.module';
 import { SignInWithGoogleModule } from '../../../components/buttons/sign-in-with-google/sign-in-with-google.module';
 import { LoginRoutingModule } from './login-routing.module';
-import { UiTextInputModule } from '@budgetello/ui/text-input';
-import { UiPasswordInputModule } from '@budgetello/ui/password-input';
+import { FrontEndSharedUiTextInputModule } from '@budgetello/front-end-shared-ui-text-input';
+import { FrontEndSharedUiPasswordInputModule } from '@budgetello/front-end-shared-ui-password-input';
 
 @NgModule({
   declarations: [LoginComponent],
@@ -26,8 +26,8 @@ import { UiPasswordInputModule } from '@budgetello/ui/password-input';
     RouterModule,
     TitleModule,
     SignInWithGoogleModule,
-    UiTextInputModule,
-    UiPasswordInputModule,
+    FrontEndSharedUiTextInputModule,
+    FrontEndSharedUiPasswordInputModule,
   ],
 })
 export class LoginModule {}

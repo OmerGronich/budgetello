@@ -14,9 +14,9 @@ import { RouterModule } from '@angular/router';
 import { TitleModule } from '../../../components/title/title.module';
 import { SignInWithGoogleModule } from '../../../components/buttons/sign-in-with-google/sign-in-with-google.module';
 import { RegisterRoutingModule } from './register-routing.module';
-import { UiTextInputModule } from '@budgetello/ui/text-input';
-import { UiPasswordInputModule } from '@budgetello/ui/password-input';
-import { UiKanbanBoardModule } from '@budgetello/ui/kanban-board';
+import { FrontEndSharedUiTextInputModule } from '@budgetello/front-end-shared-ui-text-input';
+import { FrontEndSharedUiPasswordInputModule } from '@budgetello/front-end-shared-ui-password-input';
+import { FrontEndSharedUiKanbanBoardModule } from '@budgetello/front-end-shared-ui-kanban-board';
 
 @NgModule({
   declarations: [RegisterComponent],
@@ -33,9 +33,9 @@ import { UiKanbanBoardModule } from '@budgetello/ui/kanban-board';
     RouterModule,
     TitleModule,
     SignInWithGoogleModule,
-    UiTextInputModule,
-    UiPasswordInputModule,
-    UiKanbanBoardModule,
+    FrontEndSharedUiTextInputModule,
+    FrontEndSharedUiPasswordInputModule,
+    FrontEndSharedUiKanbanBoardModule,
   ],
 })
 export class RegisterModule {}

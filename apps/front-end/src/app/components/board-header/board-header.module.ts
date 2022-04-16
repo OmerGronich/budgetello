@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { BoardHeaderComponent } from './board-header.component';
 import { InplaceModule } from 'primeng/inplace';
 import { SharedModule } from 'primeng/api';
-import { UiAsyncAutofocusModule } from '@budgetello/ui/async-autofocus';
+import { FrontEndSharedUiAsyncAutofocusModule } from '@budgetello/front-end-shared-ui-async-autofocus';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ClickOutsideModule } from 'ng-click-outside';
-import { UiDatepickerModule } from '@budgetello/ui/datepicker';
+import { FrontEndSharedUiDatepickerModule } from '@budgetello/front-end-shared-ui-datepicker';
 
 @NgModule({
   declarations: [BoardHeaderComponent],
@@ -16,12 +16,12 @@ import { UiDatepickerModule } from '@budgetello/ui/datepicker';
     CommonModule,
     InplaceModule,
     SharedModule,
-    UiAsyncAutofocusModule,
+    FrontEndSharedUiAsyncAutofocusModule,
     ReactiveFormsModule,
     InputTextModule,
     ConfirmDialogModule,
     ClickOutsideModule,
-    UiDatepickerModule,
+    FrontEndSharedUiDatepickerModule,
   ],
   exports: [BoardHeaderComponent],
 })

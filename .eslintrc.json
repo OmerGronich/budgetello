@@ -14,18 +14,18 @@
             "depConstraints": [
               {
                 "sourceTag": "type:app",
-                "onlyDependOnLibsWithTags": ["type:feature", "type:ui", "type:state", "type:util", "type:data-access"]
+                "onlyDependOnLibsWithTags": ["type:feature", "type:ui", "type:domain-logic", "type:util", "type:data-access"]
               },
               {
                 "sourceTag": "type:feature",
-                "onlyDependOnLibsWithTags": ["type:ui", "type:state", "type:util"]
+                "onlyDependOnLibsWithTags": ["type:ui", "type:domain-logic", "type:util"]
               },
               {
                 "sourceTag": "type:ui",
                 "onlyDependOnLibsWithTags": ["type:util"]
               },
               {
-                "sourceTag": "type:state",
+                "sourceTag": "type:domain-logic",
                 "onlyDependOnLibsWithTags": ["type:util", "type:data-access"]
               }
             ]

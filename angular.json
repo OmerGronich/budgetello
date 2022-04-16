@@ -3,13 +3,13 @@
   "projects": {
     "front-end": "apps/front-end",
     "front-end-e2e": "apps/front-end-e2e",
+    "front-end-shared-ui-async-autofocus": "libs/front-end/shared/ui/async-autofocus",
+    "front-end-shared-ui-base-input": "libs/front-end/shared/ui/base-input",
+    "front-end-shared-ui-datepicker": "libs/front-end/shared/ui/datepicker",
+    "front-end-shared-ui-kanban-board": "libs/front-end/shared/ui/kanban-board",
+    "front-end-shared-ui-password-input": "libs/front-end/shared/ui/password-input",
+    "front-end-shared-ui-text-input": "libs/front-end/shared/ui/text-input",
     "stocks-api": "apps/stocks-api",
-    "ui-async-autofocus": "libs/ui/async-autofocus",
-    "ui-base-input": "libs/ui/base-input",
-    "ui-datepicker": "libs/ui/datepicker",
-    "ui-kanban-board": "libs/ui/kanban-board",
-    "ui-kanban-board-e2e": "apps/ui-kanban-board-e2e",
-    "ui-password-input": "libs/ui/password-input",
-    "ui-text-input": "libs/ui/text-input"
+    "ui-kanban-board-e2e": "apps/ui-kanban-board-e2e"
   }
 }
