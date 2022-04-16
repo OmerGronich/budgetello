@@ -1,8 +1,8 @@
 <div
   class="flex space-between card"
   [class.pointer]="list.type !== listTypes.Summary"
-  (dblclick)="showCardDialog($event)"
-  pTooltip="Double click to edit"
+  (contextmenu)="showCardDialog($event)"
+  pTooltip="right click to edit"
   tooltipPosition="bottom"
   [tooltipDisabled]="list.type === listTypes.Summary"
   [life]="1000"

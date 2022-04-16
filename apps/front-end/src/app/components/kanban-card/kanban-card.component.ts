@@ -10,7 +10,8 @@ import { KanbanCardDialogComponent } from '../kanban-card-dialog/kanban-card-dia
 import { LIST_TYPES } from '../../constants';
 import { Card, List } from '../../views/board/state/types';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { firstValueFrom, map, Observable } from 'rxjs';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
 
 export interface GlobalQuote {
   '01. symbol': string;
@@ -45,13 +46,23 @@ export class KanbanCardComponent implements OnInit, OnDestroy {
 
   stockData$: Observable<{ stockPrice: string; total: number }>;
 
-  constructor(public dialogService: DialogService, private http: HttpClient) {}
+  constructor(
+    public dialogService: DialogService,
+    private http: HttpClient,
+    private auth: AuthenticationService
+  ) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
     if (this.list.type === this.listTypes.Stock && this.card.stockSymbol) {
+      const user = await firstValueFrom(this.auth.user$);
+      const idToken = await user?.getIdToken(true);
+
       this.stockData$ = this.http
         .get<ApiResponse>('/api/search-stock', {
           params: { symbol: this.card.stockSymbol },
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
         })
         .pipe(
           map((response: ApiResponse) => {
@@ -67,7 +78,8 @@ export class KanbanCardComponent implements OnInit, OnDestroy {
     }
   }
 
-  showCardDialog(_?: MouseEvent) {
+  showCardDialog(ev?: MouseEvent) {
+    ev?.preventDefault();
     if (this.list.type === LIST_TYPES.Summary) return;
     import('../kanban-card-dialog/kanban-card-dialog.module').then((_) => {
       this.ref = this.dialogService.open(KanbanCardDialogComponent, {

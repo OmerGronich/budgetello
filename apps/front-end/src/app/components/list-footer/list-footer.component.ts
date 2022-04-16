@@ -16,7 +16,14 @@ import {
 } from '@angular/forms';
 import { LIST_OPERATORS, LIST_TYPES } from '../../constants';
 import { HttpClient } from '@angular/common/http';
-import { defaultIfEmpty, distinctUntilChanged, map, Subscription } from 'rxjs';
+import {
+  defaultIfEmpty,
+  distinctUntilChanged,
+  firstValueFrom,
+  map,
+  Subscription,
+} from 'rxjs';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
 
 interface Match {
   '1. symbol': string;
@@ -93,7 +100,8 @@ export class ListFooterComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private auth: AuthenticationService
   ) {
     this.addIncomeExpenseCardForm = this.fb.group({
       cardTitle: new FormControl('', [Validators.required]),
@@ -142,9 +150,22 @@ export class ListFooterComponent implements OnInit, OnDestroy {
     }
   }
 
-  searchSymbol({ query: q }: { query: string; originalEvent?: InputEvent }) {
+  async searchSymbol({
+    query: q,
+  }: {
+    query: string;
+    originalEvent?: InputEvent;
+  }) {
+    const user = await firstValueFrom(this.auth.user$);
+    const idToken = await user?.getIdToken(true);
+
     this.http
-      .get('/api/search-symbols', { params: { q } })
+      .get('/api/search-symbols', {
+        params: { q },
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      })
       .pipe(
         distinctUntilChanged(),
         defaultIfEmpty({ bestMatches: [] } as any),
