@@ -110,14 +110,19 @@ export class BoardService {
         filter(Boolean),
         map((list) => {
           let listEnterPredicate: (card: CdkDrag<Card>) => boolean;
-
           if ([LIST_TYPES.Income, LIST_TYPES.Expense].includes(list.type)) {
             listEnterPredicate = (card) => {
-              return !!(card.data.amount || card.data.title);
+              if (!card || !card.data) return false;
+              return !!(card.data?.amount || card.data?.title);
+            };
+          } else if (list.type === LIST_TYPES.Stock) {
+            listEnterPredicate = (card) => {
+              if (!card || !card.data) return false;
+
+              return !!(card.data.stockSymbol || card.data.shares);
             };
           } else {
-            listEnterPredicate = (card) =>
-              !!(card.data.stockSymbol || card.data.shares);
+            listEnterPredicate = (_) => true;
           }
 
           return { ...list, listEnterPredicate };

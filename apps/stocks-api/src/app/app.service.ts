@@ -1,23 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { ServerSettingService } from './server-setting/server-setting.service';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import valvelet from 'valvelet';
+import { environment } from '../environments/environment';
 
 @Injectable()
 export class AppService {
   get url() {
-    return this.serverSettings.environment.apiUrl;
+    return environment.apiUrl;
   }
 
   get apiKey() {
-    return this.serverSettings.environment.apiKey;
+    return environment.apiKey;
   }
 
-  constructor(
-    private serverSettings: ServerSettingService,
-    private httpService: HttpService
-  ) {}
+  constructor(private httpService: HttpService) {}
 
   async searchSymbols({ query: keywords }: { query: string }) {
     const apikey = this.apiKey;
@@ -41,14 +38,21 @@ export class AppService {
   }
 
   async searchStock({ symbol }: { symbol: string }) {
-    return firstValueFrom(
-      this.httpService.get(`${this.url}/query`, {
-        params: {
-          function: 'GLOBAL_QUOTE',
-          apikey: this.apiKey,
-          symbol,
-        },
-      })
+    const get = valvelet(
+      () => {
+        return firstValueFrom(
+          this.httpService.get(`${this.url}/query`, {
+            params: {
+              function: 'GLOBAL_QUOTE',
+              apikey: this.apiKey,
+              symbol,
+            },
+          })
+        );
+      },
+      5,
+      60000
     );
+    return get();
   }
 }

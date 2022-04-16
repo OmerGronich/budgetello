@@ -89,8 +89,8 @@ export class KanbanCardComponent implements OnInit, OnDestroy {
         })
         .pipe(
           shareReplay(1),
-          tap(({ Note }: any) => {
-            if (Note) {
+          tap((params: any) => {
+            if (params.Note) {
               this.apiLimit$.next(true);
             }
           }),
@@ -109,6 +109,7 @@ export class KanbanCardComponent implements OnInit, OnDestroy {
         );
 
       this.viewObj$ = combineLatest([this.stockData$, this.apiLimit$]).pipe(
+        shareReplay(1),
         map(([stockData, apiLimit]) => {
           if (apiLimit) {
             return { apiLimit: true };
