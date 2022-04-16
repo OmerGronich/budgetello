@@ -22,7 +22,7 @@ export class AppService {
     return { message: 'Welcome to stocks-api!' };
   }
 
-  searchSymbols({ query: keywords }: { query: string }) {
+  async searchSymbols({ query: keywords }: { query: string }) {
     return firstValueFrom(
       this.httpService.get(`${this.url}/query`, {
         params: {
