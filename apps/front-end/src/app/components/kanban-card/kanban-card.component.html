@@ -4,6 +4,7 @@
   (contextmenu)="showCardDialog($event)"
   pTooltip="right click to edit"
   tooltipPosition="bottom"
+  [showDelay]="750"
   [tooltipDisabled]="list.type === listTypes.Summary"
   [life]="1000"
 >
@@ -27,16 +28,20 @@
             <div>shares</div>
             <div>{{ card.shares }}</div>
           </div>
-          <ng-container *ngIf="stockData$ | async as stockData">
+          <ng-container
+            *ngIf="(apiLimit$ | async) === false; else apiLimitTmpl"
+          >
             <div class="shares flex space-between align-center">
               <div>stock price</div>
-              <div>
+              <div *ngIf="stockData$ | async as stockData">
                 {{ stockData.stockPrice | currency: 'USD':'symbol':'1.0' }}
               </div>
             </div>
             <div class="shares flex space-between align-center">
               <div>total</div>
-              <div>{{ stockData.total | currency: 'USD':'symbol':'1.0' }}</div>
+              <div *ngIf="stockData$ | async as stockData">
+                {{ stockData.total | currency: 'USD':'symbol':'1.0' }}
+              </div>
             </div>
           </ng-container>
         </div>
@@ -49,4 +54,8 @@
       </p>
     </ng-container>
   </ng-container>
+</ng-template>
+
+<ng-template #apiLimitTmpl>
+  <p-tag severity="danger"> Out of API calls - please try again later </p-tag>
 </ng-template>

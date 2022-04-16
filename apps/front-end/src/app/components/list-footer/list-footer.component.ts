@@ -21,9 +21,12 @@ import {
   distinctUntilChanged,
   firstValueFrom,
   map,
+  shareReplay,
   Subscription,
 } from 'rxjs';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { List } from '../../views/board/state/types';
+import { ToastService } from '../../services/toast/toast.service';
 
 interface Match {
   '1. symbol': string;
@@ -53,6 +56,7 @@ interface StockSuggestion {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListFooterComponent implements OnInit, OnDestroy {
+  @Input() list: List;
   @Input() total: number;
   @Input() type: LIST_OPERATORS;
   @Output() incomeExpenseCardSubmitted = new EventEmitter<{
@@ -101,7 +105,8 @@ export class ListFooterComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
-    private auth: AuthenticationService
+    private auth: AuthenticationService,
+    private toast: ToastService
   ) {
     this.addIncomeExpenseCardForm = this.fb.group({
       cardTitle: new FormControl('', [Validators.required]),
@@ -167,6 +172,7 @@ export class ListFooterComponent implements OnInit, OnDestroy {
         },
       })
       .pipe(
+        shareReplay(1),
         distinctUntilChanged(),
         defaultIfEmpty({ bestMatches: [] } as any),
         map(({ bestMatches = [] }: StockApiResponse) =>
@@ -186,6 +192,21 @@ export class ListFooterComponent implements OnInit, OnDestroy {
 
   submitStockCard($event: SubmitEvent) {
     $event.preventDefault();
+    if (
+      this.list.cards.some(
+        (card) => card.stockSymbol === this.selectedStock.value.symbol
+      )
+    ) {
+      for (const key in this.addStockCardForm.controls) {
+        const control = this.addStockCardForm.controls[key];
+        control.setErrors({
+          duplicateStock: true,
+        });
+      }
+      this.toast.duplicateStock();
+      return;
+    }
+
     this.stockCardSubmitted.emit({
       submitEvent: $event,
       stockSymbol: this.selectedStock.value.symbol,

@@ -37,6 +37,7 @@
       <!-- list footer -->
       <ng-template kanbanTemplate="listFooter" let-list>
         <budgetello-list-footer
+          [list]="list"
           [total]="list | calculateListTotal"
           [type]="list.type"
           class="w-full"

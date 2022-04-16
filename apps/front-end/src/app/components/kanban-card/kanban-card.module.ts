@@ -8,6 +8,7 @@ import { PanelModule } from 'primeng/panel';
 import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
 import { TooltipModule } from 'primeng/tooltip';
+import { TagModule } from 'primeng/tag';
 
 @NgModule({
   declarations: [KanbanCardComponent],
@@ -21,6 +22,7 @@ import { TooltipModule } from 'primeng/tooltip';
     ButtonModule,
     DividerModule,
     TooltipModule,
+    TagModule,
   ],
 })
 export class KanbanCardModule {}

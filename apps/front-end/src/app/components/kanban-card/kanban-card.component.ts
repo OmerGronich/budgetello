@@ -10,7 +10,14 @@ import { KanbanCardDialogComponent } from '../kanban-card-dialog/kanban-card-dia
 import { LIST_TYPES } from '../../constants';
 import { Card, List } from '../../views/board/state/types';
 import { HttpClient } from '@angular/common/http';
-import { firstValueFrom, map, Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  firstValueFrom,
+  map,
+  Observable,
+  shareReplay,
+  tap,
+} from 'rxjs';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 
 export interface GlobalQuote {
@@ -45,6 +52,7 @@ export class KanbanCardComponent implements OnInit, OnDestroy {
   listTypes = LIST_TYPES;
 
   stockData$: Observable<{ stockPrice: string; total: number }>;
+  apiLimit$ = new BehaviorSubject(false);
 
   constructor(
     public dialogService: DialogService,
@@ -65,6 +73,12 @@ export class KanbanCardComponent implements OnInit, OnDestroy {
           },
         })
         .pipe(
+          shareReplay(1),
+          tap(({ Note }: any) => {
+            if (Note) {
+              this.apiLimit$.next(true);
+            }
+          }),
           map((response: ApiResponse) => {
             if (!response['Global Quote']) {
               return { stockPrice: '', total: 0 };
