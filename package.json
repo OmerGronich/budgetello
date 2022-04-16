@@ -34,6 +34,7 @@
     "@nrwl/angular": "13.8.4",
     "dayjs": "^1.11.0",
     "firebase": "^9.6.9",
+    "firebase-admin": "^10.0.2",
     "immer": "^9.0.12",
     "jsonwebtoken": "^8.5.1",
     "lodash.kebabcase": "^4.1.1",
@@ -45,6 +46,7 @@
     "rxjs": "~7.4.0",
     "socket.io-client": "^4.4.1",
     "tslib": "^2.0.0",
+    "valvelet": "^1.1.1",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
@@ -79,6 +81,7 @@
     "@types/lodash.kebabcase": "^4.1.6",
     "@types/node": "16.11.7",
     "@types/socket.io-client": "^3.0.0",
+    "@types/valvelet": "^1.1.0",
     "@typescript-eslint/eslint-plugin": "~5.10.0",
     "@typescript-eslint/parser": "~5.10.0",
     "cypress": "^9.1.0",

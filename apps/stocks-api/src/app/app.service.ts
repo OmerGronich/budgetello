@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ServerSettingService } from './server-setting/server-setting.service';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
+import valvelet from 'valvelet';
 
 @Injectable()
 export class AppService {
@@ -18,20 +19,25 @@ export class AppService {
     private httpService: HttpService
   ) {}
 
-  async getData() {
-    return { message: 'Welcome to stocks-api!' };
-  }
-
   async searchSymbols({ query: keywords }: { query: string }) {
-    return firstValueFrom(
-      this.httpService.get(`${this.url}/query`, {
-        params: {
-          function: 'SYMBOL_SEARCH',
-          apikey: this.apiKey,
-          keywords,
-        },
-      })
+    const apikey = this.apiKey;
+    const url = this.url;
+    const get = valvelet(
+      () => {
+        return firstValueFrom(
+          this.httpService.get(`${url}/query`, {
+            params: {
+              function: 'SYMBOL_SEARCH',
+              apikey,
+              keywords,
+            },
+          })
+        );
+      },
+      5,
+      60000
     );
+    return get();
   }
 
   async searchStock({ symbol }: { symbol: string }) {
