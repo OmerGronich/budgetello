@@ -12,12 +12,16 @@ import { Card, List } from '../../views/board/state/types';
 import { HttpClient } from '@angular/common/http';
 import {
   BehaviorSubject,
+  catchError,
+  combineLatest,
   firstValueFrom,
   map,
   Observable,
+  of,
   shareReplay,
   tap,
 } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 
 export interface GlobalQuote {
@@ -51,8 +55,19 @@ export class KanbanCardComponent implements OnInit, OnDestroy {
   ref: DynamicDialogRef;
   listTypes = LIST_TYPES;
 
-  stockData$: Observable<{ stockPrice: string; total: number }>;
+  stockData$: Observable<{
+    stockPrice?: string;
+    total?: number;
+    error?: string;
+  }>;
   apiLimit$ = new BehaviorSubject(false);
+
+  viewObj$: Observable<{
+    apiLimit?: true;
+    stockPrice?: string;
+    total?: number;
+    error?: string;
+  }>;
 
   constructor(
     public dialogService: DialogService,
@@ -87,8 +102,21 @@ export class KanbanCardComponent implements OnInit, OnDestroy {
             const total = (this.card.shares as number) * +stockPrice;
 
             return { stockPrice, total };
+          }),
+          catchError((e) => {
+            return of({ error: e.error.message });
           })
         );
+
+      this.viewObj$ = combineLatest([this.stockData$, this.apiLimit$]).pipe(
+        map(([stockData, apiLimit]) => {
+          if (apiLimit) {
+            return { apiLimit: true };
+          }
+
+          return stockData;
+        })
+      );
     }
   }
 

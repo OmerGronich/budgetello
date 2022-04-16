@@ -51,3 +51,4 @@ Thumbs.db
 .env.development
 .env.production
 .env.staging
+/apps/stocks-api/src/app/budgetello-firebase-adminsdk-6vw0o-2ca41c54d0.json

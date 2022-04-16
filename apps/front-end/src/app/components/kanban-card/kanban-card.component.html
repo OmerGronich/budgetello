@@ -28,21 +28,30 @@
             <div>shares</div>
             <div>{{ card.shares }}</div>
           </div>
-          <ng-container
-            *ngIf="(apiLimit$ | async) === false; else apiLimitTmpl"
-          >
-            <div class="shares flex space-between align-center">
-              <div>stock price</div>
-              <div *ngIf="stockData$ | async as stockData">
-                {{ stockData.stockPrice | currency: 'USD':'symbol':'1.0' }}
+          <ng-container *ngIf="viewObj$ | async as viewObj">
+            <ng-container *ngIf="viewObj.apiLimit">
+              <p-tag severity="danger">
+                Out of api calls - please try again later
+              </p-tag>
+            </ng-container>
+            <ng-container *ngIf="viewObj.error">
+              <p-tag severity="danger">Something went wrong</p-tag>
+            </ng-container>
+
+            <ng-container *ngIf="viewObj.stockPrice && viewObj.total">
+              <div class="shares flex space-between align-center">
+                <div>stock price</div>
+                <div *ngIf="stockData$ | async as stockData">
+                  {{ stockData.stockPrice | currency: 'USD':'symbol':'1.0' }}
+                </div>
               </div>
-            </div>
-            <div class="shares flex space-between align-center">
-              <div>total</div>
-              <div *ngIf="stockData$ | async as stockData">
-                {{ stockData.total | currency: 'USD':'symbol':'1.0' }}
+              <div class="shares flex space-between align-center">
+                <div>total</div>
+                <div *ngIf="stockData$ | async as stockData">
+                  {{ stockData.total | currency: 'USD':'symbol':'1.0' }}
+                </div>
               </div>
-            </div>
+            </ng-container>
           </ng-container>
         </div>
       </p-panel>
@@ -54,8 +63,4 @@
       </p>
     </ng-container>
   </ng-container>
-</ng-template>
-
-<ng-template #apiLimitTmpl>
-  <p-tag severity="danger"> Out of API calls - please try again later </p-tag>
 </ng-template>
