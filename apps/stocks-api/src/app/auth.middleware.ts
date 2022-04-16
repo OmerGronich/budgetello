@@ -4,18 +4,18 @@ import {
   NestMiddleware,
   UnauthorizedException,
 } from '@nestjs/common';
-import { ServerSettingService } from './server-setting/server-setting.service';
 import firebase from 'firebase-admin';
+import { environment } from '../environments/environment';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
-  constructor(private serverSettings: ServerSettingService) {}
-
-  firebaseApp = firebase.initializeApp(
-    this.serverSettings.environment.firebase
-  );
+  firebaseApp = firebase.initializeApp(environment.firebase);
 
   use(req: any, res: any, next: () => void) {
+    if (!environment.production) {
+      return next();
+    }
+
     const bearerToken = req.headers.authorization;
 
     if (!bearerToken) {
@@ -32,16 +32,5 @@ export class AuthMiddleware implements NestMiddleware {
         console.log({ err });
         throw new UnauthorizedException('Invalid token');
       });
-    //
-    // try {
-    //   console.log({ bearerToken });
-    //   const token = bearerToken.replace('Bearer ', '');
-    //   const fbKey = this.serverSettings.environment.fbKey;
-    //   const verified = jwt.verify(token, fbKey, { algorithms: ['RS256'] });
-    //   console.log({ verified });
-    // } catch (err) {
-    //   console.log({ err });
-    //   throw new UnauthorizedException('Invalid token');
-    // }
   }
 }

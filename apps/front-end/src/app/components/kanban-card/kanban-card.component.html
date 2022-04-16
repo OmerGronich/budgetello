@@ -41,14 +41,14 @@
             <ng-container *ngIf="viewObj.stockPrice && viewObj.total">
               <div class="shares flex space-between align-center">
                 <div>stock price</div>
-                <div *ngIf="stockData$ | async as stockData">
-                  {{ stockData.stockPrice | currency: 'USD':'symbol':'1.0' }}
+                <div>
+                  {{ viewObj.stockPrice | currency: 'USD':'symbol':'1.0' }}
                 </div>
               </div>
               <div class="shares flex space-between align-center">
                 <div>total</div>
-                <div *ngIf="stockData$ | async as stockData">
-                  {{ stockData.total | currency: 'USD':'symbol':'1.0' }}
+                <div>
+                  {{ viewObj.total | currency: 'USD':'symbol':'1.0' }}
                 </div>
               </div>
             </ng-container>
