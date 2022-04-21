@@ -24,9 +24,9 @@ import {
   shareReplay,
   Subscription,
 } from 'rxjs';
-import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { List } from '../../views/board/state/types';
-import { ToastService } from '../../services/toast/toast.service';
+import { AuthService } from '@budgetello/front-end/shared/utils/auth';
+import { ToastService } from '@budgetello/front-end/shared/utils/toast';
 
 interface Match {
   '1. symbol': string;
@@ -105,7 +105,7 @@ export class ListFooterComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
-    private auth: AuthenticationService,
+    private auth: AuthService,
     private toast: ToastService
   ) {
     this.addIncomeExpenseCardForm = this.fb.group({

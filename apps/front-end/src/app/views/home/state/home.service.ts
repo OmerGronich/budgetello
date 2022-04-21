@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HomeStore } from './home.store';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { AuthenticationService } from '../../../services/authentication/authentication.service';
 import { firstValueFrom, Subscription, switchMap } from 'rxjs';
 import { Board } from '../../board/state/board.model';
 import { Timestamp } from '@angular/fire/firestore';
 import { LIST_OPERATORS, LIST_TYPES } from '../../../constants';
 import { List } from '../../board/state/types';
 import firebase from 'firebase/compat/app';
+import { AuthService } from '@budgetello/front-end/shared/utils/auth';
 
 @Injectable({ providedIn: 'root' })
 export class HomeService {
@@ -18,12 +18,12 @@ export class HomeService {
   constructor(
     private homeStore: HomeStore,
     private afs: AngularFirestore,
-    private authenticationService: AuthenticationService
+    private authService: AuthService
   ) {}
 
   init() {
     this.subscriptions.push(
-      this.authenticationService.user$
+      this.authService.user$
         .pipe(
           switchMap((user) =>
             this.afs
@@ -45,7 +45,7 @@ export class HomeService {
 
   async addBoard({ title }: { title: string }) {
     const boardId = this.afs.createId();
-    const user = await firstValueFrom(this.authenticationService.user$);
+    const user = await firstValueFrom(this.authService.user$);
     const created = firebase.firestore.FieldValue.serverTimestamp();
     const newBoard: Board = {
       id: boardId,

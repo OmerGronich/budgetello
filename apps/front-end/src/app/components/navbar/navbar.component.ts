@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../../services/authentication/authentication.service';
 import firebase from 'firebase/compat';
 import { MenuItem } from 'primeng/api';
+import { AuthService } from '@budgetello/front-end/shared/utils/auth';
 
 @Component({
   selector: 'budgetello-navbar',
@@ -12,7 +12,7 @@ import { MenuItem } from 'primeng/api';
 export class NavbarComponent implements OnInit {
   items: MenuItem[];
 
-  constructor(public authService: AuthenticationService) {}
+  constructor(public authService: AuthService) {}
 
   getImageFromUser(user: firebase.User) {
     if (user.photoURL) {

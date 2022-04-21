@@ -21,8 +21,7 @@ import {
   shareReplay,
   tap,
 } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { AuthService } from '@budgetello/front-end/shared/utils/auth';
 
 export interface GlobalQuote {
   '01. symbol': string;
@@ -72,7 +71,7 @@ export class KanbanCardComponent implements OnInit, OnDestroy {
   constructor(
     public dialogService: DialogService,
     private http: HttpClient,
-    private auth: AuthenticationService
+    private auth: AuthService
   ) {}
 
   async ngOnInit() {

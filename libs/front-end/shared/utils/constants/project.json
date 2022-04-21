@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/front-end/shared/utils/constants",
+  "sourceRoot": "libs/front-end/shared/utils/constants/src",
+  "prefix": "budgetello",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/front-end/shared/utils/constants"],
+      "options": {
+        "jestConfig": "libs/front-end/shared/utils/constants/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/front-end/shared/utils/constants/src/**/*.ts",
+          "libs/front-end/shared/utils/constants/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:ui", "app-level-domain:front-end", "domain:shared"]
+}

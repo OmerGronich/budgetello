@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/front-end/auth/features/register",
+  "sourceRoot": "libs/front-end/auth/features/register/src",
+  "prefix": "budgetello",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/front-end/auth/features/register"],
+      "options": {
+        "jestConfig": "libs/front-end/auth/features/register/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/front-end/auth/features/register/src/**/*.ts",
+          "libs/front-end/auth/features/register/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:feature", "app-level-domain:front-end", "domain:auth"]
+}

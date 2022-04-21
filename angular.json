@@ -3,6 +3,7 @@
   "projects": {
     "front-end": "apps/front-end",
     "front-end-auth-features-login": "libs/front-end/auth/features/login",
+    "front-end-auth-features-register": "libs/front-end/auth/features/register",
     "front-end-e2e": "apps/front-end-e2e",
     "front-end-shared-ui-async-autofocus": "libs/front-end/shared/ui/async-autofocus",
     "front-end-shared-ui-base-input": "libs/front-end/shared/ui/base-input",
@@ -14,7 +15,9 @@
     "front-end-shared-ui-text-input": "libs/front-end/shared/ui/text-input",
     "front-end-shared-ui-title": "libs/front-end/shared/ui/title",
     "front-end-shared-utils-auth": "libs/front-end/shared/utils/auth",
+    "front-end-shared-utils-constants": "libs/front-end/shared/utils/constants",
     "front-end-shared-utils-toast": "libs/front-end/shared/utils/toast",
+    "front-end-shared-utils-validators-must-match": "libs/front-end/shared/utils/validators/must-match",
     "stocks-api": "apps/stocks-api",
     "ui-kanban-board-e2e": "apps/ui-kanban-board-e2e"
   }

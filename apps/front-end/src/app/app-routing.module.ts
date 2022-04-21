@@ -22,7 +22,7 @@ const routes: Routes = [
   {
     path: 'register',
     loadChildren: () =>
-      import('./views/auth/register/register.module').then(
+      import('@budgetello/front-end/auth/features/register').then(
         (m) => m.RegisterModule
       ),
     canActivate: [AngularFireAuthGuard],

@@ -1,0 +1,30 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { DividerModule } from 'primeng/divider';
+import { ButtonModule } from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
+
+import { RegisterRoutingModule } from './register-routing.module';
+import { RegisterComponent } from './register.component';
+import { TitleModule } from '@budgetello/front-end/shared/ui/title';
+import { FrontEndSharedUiTextInputModule } from '@budgetello/front-end-shared-ui-text-input';
+import { FrontEndSharedUiPasswordInputModule } from '@budgetello/front-end-shared-ui-password-input';
+import { SignInWithGoogleButtonModule } from '@budgetello/front-end/shared/ui/sign-in-with-google-button';
+
+@NgModule({
+  declarations: [RegisterComponent],
+  imports: [
+    CommonModule,
+    RegisterRoutingModule,
+    TitleModule,
+    FrontEndSharedUiTextInputModule,
+    ReactiveFormsModule,
+    FrontEndSharedUiPasswordInputModule,
+    ButtonModule,
+    DividerModule,
+    ToastModule,
+    SignInWithGoogleButtonModule,
+  ],
+})
+export class RegisterModule {}
