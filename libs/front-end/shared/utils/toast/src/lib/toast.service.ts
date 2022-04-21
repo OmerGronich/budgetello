@@ -3,7 +3,6 @@ import { MessageService } from 'primeng/api';
 import firebase from 'firebase/compat';
 import FirebaseError = firebase.FirebaseError;
 
-// todo delete
 @Injectable({
   providedIn: 'root',
 })

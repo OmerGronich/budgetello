@@ -1,32 +1,26 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { GoogleAuthProvider } from 'firebase/auth';
-import { ToastService } from '../toast/toast.service';
 import { Router } from '@angular/router';
-import { LoggerService } from '../logger/logger.service';
+import { GoogleAuthProvider } from 'firebase/auth';
+
 import firebase from 'firebase/compat';
 import FirebaseError = firebase.FirebaseError;
+import { ToastService } from '@budgetello/front-end/shared/utils/toast';
 
-// todo delete
 @Injectable({
   providedIn: 'root',
 })
-export class AuthenticationService {
+export class AuthServiceService {
   usernamePasswordLoading = false;
 
   get user$() {
     return this.auth.user;
   }
 
-  get authSate$() {
-    return this.auth.authState;
-  }
-
   constructor(
     private auth: AngularFireAuth,
     private toastService: ToastService,
-    private router: Router,
-    private logger: LoggerService
+    private router: Router
   ) {}
 
   async signInWithGoogle() {
@@ -44,7 +38,6 @@ export class AuthenticationService {
       this.usernamePasswordLoading = true;
       await this.auth.signInWithEmailAndPassword(email, password);
     } catch (_error) {
-      this.logger.log({ error: _error });
       error = _error as FirebaseError;
     } finally {
       this.usernamePasswordLoading = false;
@@ -69,7 +62,6 @@ export class AuthenticationService {
         user?.updateProfile({ displayName });
       }
     } catch (_error) {
-      this.logger.log({ error: _error });
       error = _error as FirebaseError;
     } finally {
       this.usernamePasswordLoading = false;

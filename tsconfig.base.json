@@ -36,6 +36,12 @@
       ],
       "@budgetello/front-end-shared-ui-text-input": [
         "libs/front-end/shared/ui/text-input/src/index.ts"
+      ],
+      "@budgetello/front-end/shared/utils/auth": [
+        "libs/front-end/shared/utils/auth/src/index.ts"
+      ],
+      "@budgetello/front-end/shared/utils/toast": [
+        "libs/front-end/shared/utils/toast/src/index.ts"
       ]
     }
   },

@@ -9,6 +9,8 @@
     "front-end-shared-ui-kanban-board": "libs/front-end/shared/ui/kanban-board",
     "front-end-shared-ui-password-input": "libs/front-end/shared/ui/password-input",
     "front-end-shared-ui-text-input": "libs/front-end/shared/ui/text-input",
+    "front-end-shared-utils-auth": "libs/front-end/shared/utils/auth",
+    "front-end-shared-utils-toast": "libs/front-end/shared/utils/toast",
     "stocks-api": "apps/stocks-api",
     "ui-kanban-board-e2e": "apps/ui-kanban-board-e2e"
   }
