@@ -1,7 +1,6 @@
 import { Directive } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-// todo delete
 @Directive({
   selector: '[budgetelloBaseReactiveForm]',
 })

@@ -13,7 +13,9 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () =>
-      import('./views/auth/login/login.module').then((m) => m.LoginModule),
+      import('@budgetello/front-end/auth/features/login').then(
+        (m) => m.LoginModule
+      ),
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectLoggedInToHome },
   },

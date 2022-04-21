@@ -37,6 +37,18 @@
       "@budgetello/front-end-shared-ui-text-input": [
         "libs/front-end/shared/ui/text-input/src/index.ts"
       ],
+      "@budgetello/front-end/auth/features/login": [
+        "libs/front-end/auth/features/login/src/index.ts"
+      ],
+      "@budgetello/front-end/shared/ui/base-reactive-form": [
+        "libs/front-end/shared/ui/base-reactive-form/src/index.ts"
+      ],
+      "@budgetello/front-end/shared/ui/sign-in-with-google-button": [
+        "libs/front-end/shared/ui/sign-in-with-google-button/src/index.ts"
+      ],
+      "@budgetello/front-end/shared/ui/title": [
+        "libs/front-end/shared/ui/title/src/index.ts"
+      ],
       "@budgetello/front-end/shared/utils/auth": [
         "libs/front-end/shared/utils/auth/src/index.ts"
       ],

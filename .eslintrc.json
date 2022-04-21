@@ -6,6 +6,7 @@
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
+        "@angular-eslint/prefer-on-push-component-change-detection": "error",
         "@nrwl/nx/enforce-module-boundaries": [
           "error",
           {

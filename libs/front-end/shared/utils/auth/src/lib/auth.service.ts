@@ -10,7 +10,7 @@ import { ToastService } from '@budgetello/front-end/shared/utils/toast';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthServiceService {
+export class AuthService {
   usernamePasswordLoading = false;
 
   get user$() {
