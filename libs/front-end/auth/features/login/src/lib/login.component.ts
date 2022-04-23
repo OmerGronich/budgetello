@@ -108,14 +108,4 @@ export class LoginComponent
         this.toastService.somethingWentWrongErrorMessage();
     }
   }
-
-  // todo refactor duplicate code
-  async signInWithGoogle() {
-    try {
-      await this.authFacade.signInWithGoogle();
-      this.router.navigateByUrl('/');
-    } catch (error) {
-      this.toastService.somethingWentWrongErrorMessage();
-    }
-  }
 }

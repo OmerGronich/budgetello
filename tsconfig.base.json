@@ -19,6 +19,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@budgetello/front-end-auth-ui": ["libs/front-end/auth/ui/src/index.ts"],
       "@budgetello/front-end-auth-utils-validators": [
         "libs/front-end/auth/utils/validators/src/index.ts"
       ],
@@ -69,9 +70,6 @@
       ],
       "@budgetello/front-end/shared/ui/base-reactive-form": [
         "libs/front-end/shared/ui/base-reactive-form/src/index.ts"
-      ],
-      "@budgetello/front-end/shared/ui/sign-in-with-google-button": [
-        "libs/front-end/shared/ui/sign-in-with-google-button/src/index.ts"
       ],
       "@budgetello/front-end/shared/ui/title": [
         "libs/front-end/shared/ui/title/src/index.ts"

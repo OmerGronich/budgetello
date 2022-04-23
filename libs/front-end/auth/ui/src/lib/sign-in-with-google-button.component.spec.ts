@@ -8,9 +8,8 @@ describe('SignInWithGoogleButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SignInWithGoogleButtonComponent ]
-    })
-    .compileComponents();
+      declarations: [SignInWithGoogleButtonComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

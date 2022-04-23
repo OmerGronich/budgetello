@@ -10,7 +10,7 @@ import { DividerModule } from 'primeng/divider';
 import { ToastModule } from 'primeng/toast';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TitleModule } from '@budgetello/front-end/shared/ui/title';
-import { SignInWithGoogleButtonModule } from '@budgetello/front-end/shared/ui/sign-in-with-google-button';
+import { SignInWithGoogleButtonModule } from '@budgetello/front-end-auth-ui';
 
 @NgModule({
   declarations: [LoginComponent],

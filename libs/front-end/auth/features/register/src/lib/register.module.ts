@@ -10,7 +10,7 @@ import { RegisterComponent } from './register.component';
 import { TitleModule } from '@budgetello/front-end/shared/ui/title';
 import { TextInputModule } from '@budgetello/front-end-shared-ui-text-input';
 import { FrontEndSharedUiPasswordInputModule } from '@budgetello/front-end-shared-ui-password-input';
-import { SignInWithGoogleButtonModule } from '@budgetello/front-end/shared/ui/sign-in-with-google-button';
+import { SignInWithGoogleButtonModule } from '@budgetello/front-end-auth-ui';
 
 @NgModule({
   declarations: [RegisterComponent],
