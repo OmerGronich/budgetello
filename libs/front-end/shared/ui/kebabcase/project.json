@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/front-end/shared/ui/kebabcase",
+  "sourceRoot": "libs/front-end/shared/ui/kebabcase/src",
+  "prefix": "budgetello",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/front-end/shared/ui/kebabcase"],
+      "options": {
+        "jestConfig": "libs/front-end/shared/ui/kebabcase/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/front-end/shared/ui/kebabcase/src/**/*.ts",
+          "libs/front-end/shared/ui/kebabcase/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:ui", "app-level-domain:front-end", "domain:shared"]
+}

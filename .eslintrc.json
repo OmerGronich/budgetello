@@ -15,19 +15,19 @@
             "depConstraints": [
               {
                 "sourceTag": "type:app",
-                "onlyDependOnLibsWithTags": ["type:feature", "type:ui", "type:domain-logic", "type:util", "type:shared"]
+                "onlyDependOnLibsWithTags": ["type:feature", "type:ui", "type:domain-logic", "type:util", "domain:shared"]
               },
               {
                 "sourceTag": "type:feature",
-                "onlyDependOnLibsWithTags": ["type:ui", "type:domain-logic", "type:util", "type:shared"]
+                "onlyDependOnLibsWithTags": ["type:ui", "type:domain-logic", "type:util", "domain:shared"]
               },
               {
                 "sourceTag": "type:ui",
-                "onlyDependOnLibsWithTags": ["type:util", "type:shared", "type:ui"]
+                "onlyDependOnLibsWithTags": ["type:util", "type:ui", "domain:shared"]
               },
               {
                 "sourceTag": "type:domain-logic",
-                "onlyDependOnLibsWithTags": ["type:util", "type:shared"]
+                "onlyDependOnLibsWithTags": ["type:util", "domain:shared"]
               }
             ]
           }

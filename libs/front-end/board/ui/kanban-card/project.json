@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/front-end/board/ui/kanban-card",
+  "sourceRoot": "libs/front-end/board/ui/kanban-card/src",
+  "prefix": "budgetello",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/front-end/board/ui/kanban-card"],
+      "options": {
+        "jestConfig": "libs/front-end/board/ui/kanban-card/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/front-end/board/ui/kanban-card/src/**/*.ts",
+          "libs/front-end/board/ui/kanban-card/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:ui", "app-level-domain:front-end", "domain:board"]
+}

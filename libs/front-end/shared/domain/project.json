@@ -22,10 +22,5 @@
       }
     }
   },
-  "tags": [
-    "type:domain",
-    "type:shared",
-    "app-level-domain:front-end",
-    "domain:shared"
-  ]
+  "tags": ["type:domain-logic", "app-level-domain:front-end", "domain:shared"]
 }

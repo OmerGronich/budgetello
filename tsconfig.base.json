@@ -23,6 +23,9 @@
       "@budgetello/front-end-auth-utils-validators": [
         "libs/front-end/auth/utils/validators/src/index.ts"
       ],
+      "@budgetello/front-end-board-features-kanban-card-dialog": [
+        "libs/front-end/board/features/kanban-card-dialog/src/index.ts"
+      ],
       "@budgetello/front-end-shared-domain": [
         "libs/front-end/shared/domain/src/index.ts"
       ],
@@ -53,6 +56,42 @@
       "@budgetello/front-end/auth/features/register": [
         "libs/front-end/auth/features/register/src/index.ts"
       ],
+      "@budgetello/front-end/board/domain": [
+        "libs/front-end/board/domain/src/index.ts"
+      ],
+      "@budgetello/front-end/board/features/board": [
+        "libs/front-end/board/features/board/src/index.ts"
+      ],
+      "@budgetello/front-end/board/ui/add-list-form": [
+        "libs/front-end/board/ui/add-list-form/src/index.ts"
+      ],
+      "@budgetello/front-end/board/ui/board-header": [
+        "libs/front-end/board/ui/board-header/src/index.ts"
+      ],
+      "@budgetello/front-end/board/ui/calculate-list-total": [
+        "libs/front-end/board/ui/calculate-list-total/src/index.ts"
+      ],
+      "@budgetello/front-end/board/ui/kanban-card": [
+        "libs/front-end/board/ui/kanban-card/src/index.ts"
+      ],
+      "@budgetello/front-end/board/ui/list-context-menu": [
+        "libs/front-end/board/ui/list-context-menu/src/index.ts"
+      ],
+      "@budgetello/front-end/board/ui/list-footer": [
+        "libs/front-end/board/ui/list-footer/src/index.ts"
+      ],
+      "@budgetello/front-end/board/ui/list-header": [
+        "libs/front-end/board/ui/list-header/src/index.ts"
+      ],
+      "@budgetello/front-end/board/ui/list-type-selector": [
+        "libs/front-end/board/ui/list-type-selector/src/index.ts"
+      ],
+      "@budgetello/front-end/board/ui/map-list-operator-to-icon": [
+        "libs/front-end/board/ui/map-list-operator-to-icon/src/index.ts"
+      ],
+      "@budgetello/front-end/board/utils/get-menu-items": [
+        "libs/front-end/board/utils/get-menu-items/src/index.ts"
+      ],
       "@budgetello/front-end/home/domain": [
         "libs/front-end/home/domain/src/index.ts"
       ],
@@ -70,6 +109,9 @@
       ],
       "@budgetello/front-end/shared/ui/base-reactive-form": [
         "libs/front-end/shared/ui/base-reactive-form/src/index.ts"
+      ],
+      "@budgetello/front-end/shared/ui/kebabcase": [
+        "libs/front-end/shared/ui/kebabcase/src/index.ts"
       ],
       "@budgetello/front-end/shared/ui/title": [
         "libs/front-end/shared/ui/title/src/index.ts"

@@ -111,5 +111,5 @@
       }
     }
   },
-  "tags": []
+  "tags": ["type:app", "app-level-domain:front-end"]
 }

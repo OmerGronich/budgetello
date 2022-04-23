@@ -22,5 +22,5 @@
       }
     }
   },
-  "tags": ["type:util", "app-level-domain:front-end", "domain:shared"]
+  "tags": ["type:util", "app-level-domain:front-end", "domain:auth"]
 }

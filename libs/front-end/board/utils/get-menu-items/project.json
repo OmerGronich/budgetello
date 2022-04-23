@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/front-end/board/utils/get-menu-items",
+  "sourceRoot": "libs/front-end/board/utils/get-menu-items/src",
+  "prefix": "budgetello",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/front-end/board/utils/get-menu-items"],
+      "options": {
+        "jestConfig": "libs/front-end/board/utils/get-menu-items/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/front-end/board/utils/get-menu-items/src/**/*.ts",
+          "libs/front-end/board/utils/get-menu-items/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:util", "app-level-domain:front-end", "domain:board"]
+}

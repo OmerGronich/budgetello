@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/front-end/board/ui/list-type-selector",
+  "sourceRoot": "libs/front-end/board/ui/list-type-selector/src",
+  "prefix": "budgetello",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/front-end/board/ui/list-type-selector"],
+      "options": {
+        "jestConfig": "libs/front-end/board/ui/list-type-selector/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/front-end/board/ui/list-type-selector/src/**/*.ts",
+          "libs/front-end/board/ui/list-type-selector/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:ui", "app-level-domain:front-end", "domain:board"]
+}

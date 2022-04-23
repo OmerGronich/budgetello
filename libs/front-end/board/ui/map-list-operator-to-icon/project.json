@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/front-end/board/ui/map-list-operator-to-icon",
+  "sourceRoot": "libs/front-end/board/ui/map-list-operator-to-icon/src",
+  "prefix": "budgetello",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/front-end/board/ui/map-list-operator-to-icon"],
+      "options": {
+        "jestConfig": "libs/front-end/board/ui/map-list-operator-to-icon/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/front-end/board/ui/map-list-operator-to-icon/src/**/*.ts",
+          "libs/front-end/board/ui/map-list-operator-to-icon/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:ui", "app-level-domain:front-end", "domain:board"]
+}

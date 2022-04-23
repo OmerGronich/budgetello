@@ -15,12 +15,14 @@ const routes: Routes = [
           ),
         pathMatch: 'full',
       },
-      //   {
-      //     path: 'board/:id',
-      //     loadChildren: () =>
-      //       import('../board/board.module').then((m) => m.BoardModule),
-      //     pathMatch: 'full',
-      //   },
+      {
+        path: 'board/:id',
+        loadChildren: () =>
+          import('@budgetello/front-end/board/features/board').then(
+            (m) => m.BoardModule
+          ),
+        pathMatch: 'full',
+      },
     ],
   },
 ];
