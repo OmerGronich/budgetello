@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/front-end/auth/utils/validators",
+  "sourceRoot": "libs/front-end/auth/utils/validators/src",
+  "prefix": "budgetello",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/front-end/auth/utils/validators"],
+      "options": {
+        "jestConfig": "libs/front-end/auth/utils/validators/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/front-end/auth/utils/validators/src/**/*.ts",
+          "libs/front-end/auth/utils/validators/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:util", "app-level-domain:front-end", "domain:shared"]
+}

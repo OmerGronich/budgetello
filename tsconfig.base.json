@@ -19,6 +19,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@budgetello/front-end-auth-utils-validators": [
+        "libs/front-end/auth/utils/validators/src/index.ts"
+      ],
       "@budgetello/front-end-shared-domain": [
         "libs/front-end/shared/domain/src/index.ts"
       ],
@@ -72,9 +75,6 @@
       ],
       "@budgetello/front-end/shared/ui/title": [
         "libs/front-end/shared/ui/title/src/index.ts"
-      ],
-      "@budgetello/front-end/shared/utils/validators/must-match": [
-        "libs/front-end/shared/utils/validators/must-match/src/index.ts"
       ]
     }
   },

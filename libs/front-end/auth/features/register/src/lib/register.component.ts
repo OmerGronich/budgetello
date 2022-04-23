@@ -18,7 +18,7 @@ import {
   AuthFacade,
   STRONG_PASSWORD_PATTERN,
 } from '@budgetello/front-end-shared-domain';
-import { mustMatchValidator } from '@budgetello/front-end/shared/utils/validators/must-match';
+import { mustMatchValidator } from '@budgetello/front-end-auth-utils-validators';
 
 @Component({
   selector: 'budgetello-register',

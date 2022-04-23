@@ -1,6 +1,6 @@
 module.exports = {
-  displayName: 'front-end-shared-utils-validators-must-match',
-  preset: '../../../../../../jest.preset.js',
+  displayName: 'front-end-auth-utils-validators',
+  preset: '../../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
@@ -9,7 +9,7 @@ module.exports = {
     },
   },
   coverageDirectory:
-    '../../../../../../coverage/libs/front-end/shared/utils/validators/must-match',
+    '../../../../../coverage/libs/front-end/auth/utils/validators',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
