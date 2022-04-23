@@ -25,7 +25,7 @@
     <p-button
       type="submit"
       label="Sign in"
-      [loading]="authService.usernamePasswordLoading"
+      [loading]="usernamePasswordLoading"
     ></p-button>
   </form>
 
@@ -36,7 +36,7 @@
   <div class="authentication-providers">
     <div class="google">
       <budgetello-sign-in-with-google-button
-        (clicked)="authService.signInWithGoogle()"
+        (clicked)="signInWithGoogle()"
       ></budgetello-sign-in-with-google-button>
     </div>
   </div>

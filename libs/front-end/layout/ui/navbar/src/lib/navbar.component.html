@@ -1,7 +1,7 @@
 <header>
   <budgetello-title link="/" class="fs-14"></budgetello-title>
   <p-avatar
-    *ngIf="authService.user$ | async as user"
+    *ngIf="authFacade.user$ | async as user"
     [image]="getImageFromUser(user)"
     [icon]="!user.displayName && !user.photoURL ? 'pi pi-user' : ''"
     styleClass="avatar"

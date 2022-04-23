@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/front-end/home/ui/board-preview",
+  "sourceRoot": "libs/front-end/home/ui/board-preview/src",
+  "prefix": "budgetello",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/front-end/home/ui/board-preview"],
+      "options": {
+        "jestConfig": "libs/front-end/home/ui/board-preview/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/front-end/home/ui/board-preview/src/**/*.ts",
+          "libs/front-end/home/ui/board-preview/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:ui", "app-level-domain:front-end", "domain:home"]
+}

@@ -11,21 +11,26 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
-import { Board } from './board.model';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
   AngularFirestoreDocument,
   DocumentReference,
 } from '@angular/fire/compat/firestore';
-import { Card, List, SummaryListCardType } from './types';
 import dayjs from 'dayjs';
-import { LIST_OPERATORS, LIST_TYPES } from '../../../constants';
 import firebase from 'firebase/compat/app';
 import { Timestamp } from '@angular/fire/firestore';
 import { CdkDrag, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { RouterQuery } from '@datorama/akita-ng-router-store';
 import produce from 'immer';
+import {
+  Board,
+  Card,
+  List,
+  LIST_OPERATORS,
+  LIST_TYPES,
+  SummaryListCardType,
+} from '@budgetello/front-end-shared-domain';
 
 export type BoardIdToListsTotals = Record<
   string,
@@ -311,8 +316,8 @@ export class BoardService {
     }
 
     board?.lists
-      .filter((list) => list.type !== LIST_TYPES.Summary)
-      .forEach((list) => {
+      .filter((list: any) => list.type !== LIST_TYPES.Summary)
+      .forEach((list: any) => {
         this.deleteAssociatedCards(list);
       });
     this.deleteAssociatedLists(board);

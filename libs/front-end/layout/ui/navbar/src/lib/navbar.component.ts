@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { AuthService } from '@budgetello/front-end/shared/utils/auth';
+import { AuthFacade } from '@budgetello/front-end-shared-domain';
 import firebase from 'firebase/compat';
 
 @Component({
@@ -12,7 +12,7 @@ import firebase from 'firebase/compat';
 export class NavbarComponent implements OnInit {
   items: MenuItem[];
 
-  constructor(public authService: AuthService) {}
+  constructor(public authFacade: AuthFacade) {}
 
   getImageFromUser(user: firebase.User) {
     if (user.photoURL) {
@@ -30,7 +30,7 @@ export class NavbarComponent implements OnInit {
         label: 'Sign out',
         icon: 'pi pi-sign-out',
         command: () => {
-          this.authService.signOut();
+          this.authFacade.signOut();
 
           // todo refactor this ugly line some day
           window.location.reload();

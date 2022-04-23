@@ -14,9 +14,11 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { BaseReactiveFormDirective } from '@budgetello/front-end/shared/ui/base-reactive-form';
 import { ToastService } from '@budgetello/front-end-shared-ui-toast';
-import { AuthService } from '@budgetello/front-end/shared/utils/auth';
+import {
+  AuthFacade,
+  STRONG_PASSWORD_PATTERN,
+} from '@budgetello/front-end-shared-domain';
 import { mustMatchValidator } from '@budgetello/front-end/shared/utils/validators/must-match';
-import { STRONG_PASSWORD_PATTERN } from '@budgetello/front-end/shared/utils/constants';
 
 @Component({
   selector: 'budgetello-register',
@@ -31,6 +33,10 @@ export class RegisterComponent
   @HostBinding('class') class = 'login-register-pages';
 
   form: FormGroup;
+
+  get usernamePasswordLoading(): boolean {
+    return this.authFacade.usernamePasswordLoading;
+  }
 
   get passwordsDoNotMatchError() {
     return this.form.errors && this.form.errors['passwordsDoNotMatch'];
@@ -72,7 +78,7 @@ export class RegisterComponent
     private auth: AngularFireAuth,
     private toastService: ToastService,
     private router: Router,
-    public authenticationService: AuthService
+    private authFacade: AuthFacade
   ) {
     super();
   }
@@ -104,12 +110,11 @@ export class RegisterComponent
       return;
     }
 
-    const { error } =
-      await this.authenticationService.createUserWithEmailAndPassword(
-        this.email,
-        this.password,
-        { displayName: this.form.get('name')?.value || '' }
-      );
+    const { error } = await this.authFacade.createUserWithEmailAndPassword(
+      this.email,
+      this.password,
+      { displayName: this.form.get('name')?.value || '' }
+    );
 
     if (error) {
       this.form.controls['email'].setErrors({
@@ -131,6 +136,16 @@ export class RegisterComponent
   handlePasswordsDoNotMatchError() {
     if (this.passwordsDoNotMatchError) {
       this.toastService.passwordsDoNotMatchMessage();
+    }
+  }
+
+  // todo refactor duplicate code
+  async signInWithGoogle() {
+    try {
+      await this.authFacade.signInWithGoogle();
+      this.router.navigateByUrl('/');
+    } catch (error) {
+      this.toastService.somethingWentWrongErrorMessage();
     }
   }
 }

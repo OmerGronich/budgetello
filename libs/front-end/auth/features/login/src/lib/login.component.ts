@@ -13,7 +13,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastService } from '@budgetello/front-end-shared-ui-toast';
-import { AuthService } from '@budgetello/front-end/shared/utils/auth';
+import { AuthFacade } from '@budgetello/front-end-shared-domain';
 import firebase from 'firebase/compat';
 import FirebaseError = firebase.FirebaseError;
 
@@ -31,6 +31,10 @@ export class LoginComponent
 
   form: FormGroup;
 
+  get usernamePasswordLoading(): boolean {
+    return this.authFacade.usernamePasswordLoading;
+  }
+
   get emailFormControl() {
     return this.form.get('email') as FormControl;
   }
@@ -43,7 +47,7 @@ export class LoginComponent
     private fb: FormBuilder,
     private toastService: ToastService,
     private router: Router,
-    public authService: AuthService
+    private authFacade: AuthFacade
   ) {
     super();
   }
@@ -78,7 +82,7 @@ export class LoginComponent
       return;
     }
 
-    const { error } = await this.authService.signInWithEmailAndPassword(
+    const { error } = await this.authFacade.signInWithEmailAndPassword(
       this.emailFormControl?.value,
       this.passwordFormControl?.value
     );
@@ -102,6 +106,16 @@ export class LoginComponent
         break;
       default:
         this.toastService.somethingWentWrongErrorMessage();
+    }
+  }
+
+  // todo refactor duplicate code
+  async signInWithGoogle() {
+    try {
+      await this.authFacade.signInWithGoogle();
+      this.router.navigateByUrl('/');
+    } catch (error) {
+      this.toastService.somethingWentWrongErrorMessage();
     }
   }
 }

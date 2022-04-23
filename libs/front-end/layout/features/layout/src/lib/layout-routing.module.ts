@@ -6,20 +6,22 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    // children: [
-    //   {
-    //     path: '',
-    //     loadChildren: () =>
-    //       import('../home/home.module').then((m) => m.HomeModule),
-    //     pathMatch: 'full',
-    //   },
-    //   {
-    //     path: 'board/:id',
-    //     loadChildren: () =>
-    //       import('../board/board.module').then((m) => m.BoardModule),
-    //     pathMatch: 'full',
-    //   },
-    // ],
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('@budgetello/front-end/home/features/home').then(
+            (m) => m.HomeModule
+          ),
+        pathMatch: 'full',
+      },
+      //   {
+      //     path: 'board/:id',
+      //     loadChildren: () =>
+      //       import('../board/board.module').then((m) => m.BoardModule),
+      //     pathMatch: 'full',
+      //   },
+    ],
   },
 ];
 

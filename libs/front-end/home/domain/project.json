@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/front-end/home/domain",
+  "sourceRoot": "libs/front-end/home/domain/src",
+  "prefix": "budgetello",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/front-end/home/domain"],
+      "options": {
+        "jestConfig": "libs/front-end/home/domain/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/front-end/home/domain/src/**/*.ts",
+          "libs/front-end/home/domain/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:domain-logic", "app-level-domain:front-end", "domain:home"]
+}

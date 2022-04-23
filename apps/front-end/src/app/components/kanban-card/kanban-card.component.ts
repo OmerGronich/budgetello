@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { KanbanCardDialogComponent } from '../kanban-card-dialog/kanban-card-dialog.component';
-import { LIST_TYPES } from '../../constants';
 import { Card, List } from '../../views/board/state/types';
 import { HttpClient } from '@angular/common/http';
 import {
@@ -21,7 +20,7 @@ import {
   shareReplay,
   tap,
 } from 'rxjs';
-import { AuthService } from '@budgetello/front-end/shared/utils/auth';
+import { AuthFacade, LIST_TYPES } from '@budgetello/front-end-shared-domain';
 
 export interface GlobalQuote {
   '01. symbol': string;
@@ -71,12 +70,12 @@ export class KanbanCardComponent implements OnInit, OnDestroy {
   constructor(
     public dialogService: DialogService,
     private http: HttpClient,
-    private auth: AuthService
+    private authFacade: AuthFacade
   ) {}
 
   async ngOnInit() {
     if (this.list.type === this.listTypes.Stock && this.card.stockSymbol) {
-      const user = await firstValueFrom(this.auth.user$);
+      const user = await firstValueFrom(this.authFacade.user$);
       const idToken = await user?.getIdToken(true);
 
       this.stockData$ = this.http

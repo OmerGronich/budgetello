@@ -14,7 +14,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { LIST_OPERATORS, LIST_TYPES } from '../../constants';
 import { HttpClient } from '@angular/common/http';
 import {
   defaultIfEmpty,
@@ -24,8 +23,12 @@ import {
   shareReplay,
   Subscription,
 } from 'rxjs';
-import { List } from '../../views/board/state/types';
-import { AuthService } from '@budgetello/front-end/shared/utils/auth';
+import {
+  AuthFacade,
+  List,
+  LIST_OPERATORS,
+  LIST_TYPES,
+} from '@budgetello/front-end-shared-domain';
 import { ToastService } from '@budgetello/front-end-shared-ui-toast';
 
 interface Match {
@@ -105,7 +108,7 @@ export class ListFooterComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
-    private auth: AuthService,
+    private auth: AuthFacade,
     private toast: ToastService
   ) {
     this.addIncomeExpenseCardForm = this.fb.group({
