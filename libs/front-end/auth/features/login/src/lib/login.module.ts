@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login.component';
-import { FrontEndSharedUiTextInputModule } from '@budgetello/front-end-shared-ui-text-input';
+import { TextInputModule } from '@budgetello/front-end-shared-ui-text-input';
 import { FrontEndSharedUiPasswordInputModule } from '@budgetello/front-end-shared-ui-password-input';
 import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
@@ -17,7 +17,7 @@ import { SignInWithGoogleButtonModule } from '@budgetello/front-end/shared/ui/si
   imports: [
     CommonModule,
     LoginRoutingModule,
-    FrontEndSharedUiTextInputModule,
+    TextInputModule,
     FrontEndSharedUiPasswordInputModule,
     ButtonModule,
     DividerModule,

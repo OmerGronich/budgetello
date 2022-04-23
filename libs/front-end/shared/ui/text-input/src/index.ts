@@ -1,1 +1,1 @@
-export * from './lib/front-end-shared-ui-text-input.module';
+export * from './lib/text-input.module';

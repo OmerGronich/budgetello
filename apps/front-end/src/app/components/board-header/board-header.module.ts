@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BoardHeaderComponent } from './board-header.component';
 import { InplaceModule } from 'primeng/inplace';
 import { SharedModule } from 'primeng/api';
-import { FrontEndSharedUiAsyncAutofocusModule } from '@budgetello/front-end-shared-ui-async-autofocus';
+import { AsyncAutofocusModule } from '@budgetello/front-end-shared-ui-async-autofocus';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -16,7 +16,7 @@ import { FrontEndSharedUiDatepickerModule } from '@budgetello/front-end-shared-u
     CommonModule,
     InplaceModule,
     SharedModule,
-    FrontEndSharedUiAsyncAutofocusModule,
+    AsyncAutofocusModule,
     ReactiveFormsModule,
     InputTextModule,
     ConfirmDialogModule,

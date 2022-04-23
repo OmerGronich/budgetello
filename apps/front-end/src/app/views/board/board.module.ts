@@ -8,7 +8,7 @@ import { SharedModule } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ClickOutsideModule } from 'ng-click-outside';
-import { FrontEndSharedUiAsyncAutofocusModule } from '@budgetello/front-end-shared-ui-async-autofocus';
+import { AsyncAutofocusModule } from '@budgetello/front-end-shared-ui-async-autofocus';
 import { BoardHeaderModule } from '../../components/board-header/board-header.module';
 import { ListHeaderModule } from '../../components/list-header/list-header.module';
 import { DropdownModule } from 'primeng/dropdown';
@@ -32,7 +32,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
     InputTextModule,
     ReactiveFormsModule,
     ClickOutsideModule,
-    FrontEndSharedUiAsyncAutofocusModule,
+    AsyncAutofocusModule,
     BoardHeaderModule,
     ListHeaderModule,
     DropdownModule,

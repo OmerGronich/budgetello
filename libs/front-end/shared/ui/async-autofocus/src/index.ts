@@ -1,1 +1,1 @@
-export * from './lib/front-end-shared-ui-async-autofocus.module';
+export * from './lib/async-autofocus.module';

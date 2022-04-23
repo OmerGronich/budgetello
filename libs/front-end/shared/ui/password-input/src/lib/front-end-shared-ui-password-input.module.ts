@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PasswordModule } from 'primeng/password';
 import { DividerModule } from 'primeng/divider';
 import { PasswordSuggestionsModule } from './password-suggestions/password-suggestions.module';
-import { FrontEndSharedUiAsyncAutofocusModule } from '@budgetello/front-end-shared-ui-async-autofocus';
+import { AsyncAutofocusModule } from '@budgetello/front-end-shared-ui-async-autofocus';
 
 @NgModule({
   imports: [
@@ -14,7 +14,7 @@ import { FrontEndSharedUiAsyncAutofocusModule } from '@budgetello/front-end-shar
     PasswordModule,
     DividerModule,
     PasswordSuggestionsModule,
-    FrontEndSharedUiAsyncAutofocusModule,
+    AsyncAutofocusModule,
   ],
   declarations: [PasswordInputComponent],
   exports: [PasswordInputComponent],

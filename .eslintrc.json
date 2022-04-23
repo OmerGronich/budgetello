@@ -23,7 +23,7 @@
               },
               {
                 "sourceTag": "type:ui",
-                "onlyDependOnLibsWithTags": ["type:util", "type:shared"]
+                "onlyDependOnLibsWithTags": ["type:util", "type:shared", "type:ui"]
               },
               {
                 "sourceTag": "type:domain-logic",

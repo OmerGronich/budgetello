@@ -8,7 +8,7 @@ import { ToastModule } from 'primeng/toast';
 import { RegisterRoutingModule } from './register-routing.module';
 import { RegisterComponent } from './register.component';
 import { TitleModule } from '@budgetello/front-end/shared/ui/title';
-import { FrontEndSharedUiTextInputModule } from '@budgetello/front-end-shared-ui-text-input';
+import { TextInputModule } from '@budgetello/front-end-shared-ui-text-input';
 import { FrontEndSharedUiPasswordInputModule } from '@budgetello/front-end-shared-ui-password-input';
 import { SignInWithGoogleButtonModule } from '@budgetello/front-end/shared/ui/sign-in-with-google-button';
 
@@ -18,7 +18,7 @@ import { SignInWithGoogleButtonModule } from '@budgetello/front-end/shared/ui/si
     CommonModule,
     RegisterRoutingModule,
     TitleModule,
-    FrontEndSharedUiTextInputModule,
+    TextInputModule,
     ReactiveFormsModule,
     FrontEndSharedUiPasswordInputModule,
     ButtonModule,

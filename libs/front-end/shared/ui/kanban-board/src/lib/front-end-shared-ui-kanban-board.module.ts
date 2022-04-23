@@ -8,7 +8,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { FrontEndSharedUiAsyncAutofocusModule } from '@budgetello/front-end-shared-ui-async-autofocus';
+import { AsyncAutofocusModule } from '@budgetello/front-end-shared-ui-async-autofocus';
 
 @NgModule({
   imports: [
@@ -19,7 +19,7 @@ import { FrontEndSharedUiAsyncAutofocusModule } from '@budgetello/front-end-shar
     ReactiveFormsModule,
     ClickOutsideModule,
     InputTextareaModule,
-    FrontEndSharedUiAsyncAutofocusModule,
+    AsyncAutofocusModule,
   ],
   declarations: [KanbanBoardComponent, KanbanBoardTemplateDirective],
   exports: [KanbanBoardComponent, KanbanBoardTemplateDirective],

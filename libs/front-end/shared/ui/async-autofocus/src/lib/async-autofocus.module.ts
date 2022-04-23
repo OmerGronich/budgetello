@@ -7,4 +7,4 @@ import { AsyncAutofocusDirective } from './async-autofocus.directive';
   declarations: [AsyncAutofocusDirective],
   exports: [AsyncAutofocusDirective],
 })
-export class FrontEndSharedUiAsyncAutofocusModule {}
+export class AsyncAutofocusModule {}

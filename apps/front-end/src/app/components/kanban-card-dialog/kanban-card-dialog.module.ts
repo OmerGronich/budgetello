@@ -4,7 +4,7 @@ import { KanbanCardDialogComponent } from './kanban-card-dialog.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InplaceModule } from 'primeng/inplace';
 import { SharedModule } from 'primeng/api';
-import { FrontEndSharedUiAsyncAutofocusModule } from '@budgetello/front-end-shared-ui-async-autofocus';
+import { AsyncAutofocusModule } from '@budgetello/front-end-shared-ui-async-autofocus';
 import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
@@ -14,7 +14,7 @@ import { InputTextModule } from 'primeng/inputtext';
     ReactiveFormsModule,
     InplaceModule,
     SharedModule,
-    FrontEndSharedUiAsyncAutofocusModule,
+    AsyncAutofocusModule,
     InputTextModule,
   ],
 })
