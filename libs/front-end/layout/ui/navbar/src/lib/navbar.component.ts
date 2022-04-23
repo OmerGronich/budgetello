@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import firebase from 'firebase/compat';
 import { MenuItem } from 'primeng/api';
 import { AuthService } from '@budgetello/front-end/shared/utils/auth';
+import firebase from 'firebase/compat';
 
 @Component({
   selector: 'budgetello-navbar',

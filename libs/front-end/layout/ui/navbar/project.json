@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/front-end/layout/ui/navbar",
+  "sourceRoot": "libs/front-end/layout/ui/navbar/src",
+  "prefix": "budgetello",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/front-end/layout/ui/navbar"],
+      "options": {
+        "jestConfig": "libs/front-end/layout/ui/navbar/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/front-end/layout/ui/navbar/src/**/*.ts",
+          "libs/front-end/layout/ui/navbar/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:ui", "app-level-domain:front-end", "domain:layout"]
+}

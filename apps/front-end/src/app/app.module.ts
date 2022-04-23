@@ -15,14 +15,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
-import { BaseReactiveFormDirective } from './directives/base-reactive-form.directive';
 import { MessageService } from 'primeng/api';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { AkitaNgRouterStoreModule } from '@datorama/akita-ng-router-store';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [AppComponent, BaseReactiveFormDirective],
+  declarations: [AppComponent],
   imports: [
     HttpClientModule,
     BrowserModule,

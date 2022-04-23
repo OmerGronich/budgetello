@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './navbar.component';
+import { TitleModule } from '@budgetello/front-end/shared/ui/title';
 import { AvatarModule } from 'primeng/avatar';
 import { MenuModule } from 'primeng/menu';
-import { TitleModule } from '@budgetello/front-end/shared/ui/title';
 
 @NgModule({
+  imports: [CommonModule, TitleModule, AvatarModule, MenuModule],
   declarations: [NavbarComponent],
   exports: [NavbarComponent],
-  imports: [CommonModule, TitleModule, AvatarModule, MenuModule],
 })
 export class NavbarModule {}

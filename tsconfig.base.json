@@ -46,6 +46,12 @@
       "@budgetello/front-end/auth/features/register": [
         "libs/front-end/auth/features/register/src/index.ts"
       ],
+      "@budgetello/front-end/layout/features/layout": [
+        "libs/front-end/layout/features/layout/src/index.ts"
+      ],
+      "@budgetello/front-end/layout/ui/navbar": [
+        "libs/front-end/layout/ui/navbar/src/index.ts"
+      ],
       "@budgetello/front-end/shared/ui/base-reactive-form": [
         "libs/front-end/shared/ui/base-reactive-form/src/index.ts"
       ],

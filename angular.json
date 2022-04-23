@@ -5,6 +5,8 @@
     "front-end-auth-features-login": "libs/front-end/auth/features/login",
     "front-end-auth-features-register": "libs/front-end/auth/features/register",
     "front-end-e2e": "apps/front-end-e2e",
+    "front-end-layout-features-layout": "libs/front-end/layout/features/layout",
+    "front-end-layout-ui-navbar": "libs/front-end/layout/ui/navbar",
     "front-end-shared-ui-async-autofocus": "libs/front-end/shared/ui/async-autofocus",
     "front-end-shared-ui-base-input": "libs/front-end/shared/ui/base-input",
     "front-end-shared-ui-base-reactive-form": "libs/front-end/shared/ui/base-reactive-form",

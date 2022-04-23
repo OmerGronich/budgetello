@@ -31,7 +31,9 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
-      import('./views/layout/layout.module').then((m) => m.LayoutModule),
+      import('@budgetello/front-end/layout/features/layout').then(
+        (m) => m.LayoutModule
+      ),
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin },
   },

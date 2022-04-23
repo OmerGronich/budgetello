@@ -8,6 +8,8 @@
     "start": "nx serve",
     "start:all": "nx run-many --target=serve --all",
     "start:stocks": "nx serve --project=stocks-api",
+    "start:fb-emulators": "firebase emulators:start --only=auth,firestore",
+    "kill:fb-ports": "npx kill-port 9099 8080",
     "build": "nx build",
     "test": "nx test"
   },
