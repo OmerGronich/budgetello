@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'front-end-shared-utils-toast',
+  displayName: 'front-end-shared-ui-toast',
   preset: '../../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -8,8 +8,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory:
-    '../../../../../coverage/libs/front-end/shared/utils/toast',
+  coverageDirectory: '../../../../../coverage/libs/front-end/shared/ui/toast',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

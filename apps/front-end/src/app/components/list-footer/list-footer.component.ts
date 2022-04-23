@@ -26,7 +26,7 @@ import {
 } from 'rxjs';
 import { List } from '../../views/board/state/types';
 import { AuthService } from '@budgetello/front-end/shared/utils/auth';
-import { ToastService } from '@budgetello/front-end/shared/utils/toast';
+import { ToastService } from '@budgetello/front-end-shared-ui-toast';
 
 interface Match {
   '1. symbol': string;

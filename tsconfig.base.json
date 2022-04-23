@@ -37,6 +37,9 @@
       "@budgetello/front-end-shared-ui-text-input": [
         "libs/front-end/shared/ui/text-input/src/index.ts"
       ],
+      "@budgetello/front-end-shared-ui-toast": [
+        "libs/front-end/shared/ui/toast/src/index.ts"
+      ],
       "@budgetello/front-end/auth/features/login": [
         "libs/front-end/auth/features/login/src/index.ts"
       ],
@@ -57,9 +60,6 @@
       ],
       "@budgetello/front-end/shared/utils/constants": [
         "libs/front-end/shared/utils/constants/src/index.ts"
-      ],
-      "@budgetello/front-end/shared/utils/toast": [
-        "libs/front-end/shared/utils/toast/src/index.ts"
       ],
       "@budgetello/front-end/shared/utils/validators/must-match": [
         "libs/front-end/shared/utils/validators/must-match/src/index.ts"

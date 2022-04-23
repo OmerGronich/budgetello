@@ -5,7 +5,7 @@ import { GoogleAuthProvider } from 'firebase/auth';
 
 import firebase from 'firebase/compat';
 import FirebaseError = firebase.FirebaseError;
-import { ToastService } from '@budgetello/front-end/shared/utils/toast';
+import { ToastService } from '@budgetello/front-end-shared-ui-toast';
 
 @Injectable({
   providedIn: 'root',

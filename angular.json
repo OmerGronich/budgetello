@@ -14,9 +14,9 @@
     "front-end-shared-ui-sign-in-with-google-button": "libs/front-end/shared/ui/sign-in-with-google-button",
     "front-end-shared-ui-text-input": "libs/front-end/shared/ui/text-input",
     "front-end-shared-ui-title": "libs/front-end/shared/ui/title",
+    "front-end-shared-ui-toast": "libs/front-end/shared/ui/toast",
     "front-end-shared-utils-auth": "libs/front-end/shared/utils/auth",
     "front-end-shared-utils-constants": "libs/front-end/shared/utils/constants",
-    "front-end-shared-utils-toast": "libs/front-end/shared/utils/toast",
     "front-end-shared-utils-validators-must-match": "libs/front-end/shared/utils/validators/must-match",
     "stocks-api": "apps/stocks-api",
     "ui-kanban-board-e2e": "apps/ui-kanban-board-e2e"

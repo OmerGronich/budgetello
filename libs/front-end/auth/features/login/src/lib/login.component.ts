@@ -12,7 +12,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastService } from '@budgetello/front-end/shared/utils/toast';
+import { ToastService } from '@budgetello/front-end-shared-ui-toast';
 import { AuthService } from '@budgetello/front-end/shared/utils/auth';
 import firebase from 'firebase/compat';
 import FirebaseError = firebase.FirebaseError;

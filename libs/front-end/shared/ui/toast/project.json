@@ -1,14 +1,14 @@
 {
   "projectType": "library",
-  "root": "libs/front-end/shared/utils/toast",
-  "sourceRoot": "libs/front-end/shared/utils/toast/src",
+  "root": "libs/front-end/shared/ui/toast",
+  "sourceRoot": "libs/front-end/shared/ui/toast/src",
   "prefix": "budgetello",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/front-end/shared/utils/toast"],
+      "outputs": ["coverage/libs/front-end/shared/ui/toast"],
       "options": {
-        "jestConfig": "libs/front-end/shared/utils/toast/jest.config.js",
+        "jestConfig": "libs/front-end/shared/ui/toast/jest.config.js",
         "passWithNoTests": true
       }
     },
@@ -16,8 +16,8 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/front-end/shared/utils/toast/src/**/*.ts",
-          "libs/front-end/shared/utils/toast/src/**/*.html"
+          "libs/front-end/shared/ui/toast/src/**/*.ts",
+          "libs/front-end/shared/ui/toast/src/**/*.html"
         ]
       }
     }

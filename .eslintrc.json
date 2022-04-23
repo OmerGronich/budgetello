@@ -15,7 +15,7 @@
             "depConstraints": [
               {
                 "sourceTag": "type:app",
-                "onlyDependOnLibsWithTags": ["type:feature", "type:ui", "type:domain-logic", "type:util", "type:data-access"]
+                "onlyDependOnLibsWithTags": ["type:feature", "type:ui", "type:domain-logic", "type:util"]
               },
               {
                 "sourceTag": "type:feature",
@@ -27,7 +27,7 @@
               },
               {
                 "sourceTag": "type:domain-logic",
-                "onlyDependOnLibsWithTags": ["type:util", "type:data-access"]
+                "onlyDependOnLibsWithTags": ["type:util"]
               }
             ]
           }
