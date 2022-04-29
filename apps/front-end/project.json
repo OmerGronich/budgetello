@@ -101,14 +101,9 @@
       }
     },
     "deploy": {
-      "executor": "@angular/fire:deploy",
+      "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "npx firebase deploy --token \"${{secrets.FIREBASE_TOKEN}}\"",
-        "prerender": false,
-        "ssr": false,
-        "browserTarget": "front-end:build:production",
-        "firebaseProject": "budgetello",
-        "firebaseHostingSite": "budgetello"
+        "command": "npm i -g firebase-tools &&  firebase deploy --token \"${{secrets.FIREBASE_TOKEN}}\""
       }
     }
   },
