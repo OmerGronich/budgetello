@@ -22,5 +22,5 @@
       }
     }
   },
-  "tags": ["type:feature", "app-level-domain:front-end", "domain:layout"]
+  "tags": ["type:layout", "app-level-domain:front-end", "domain:layout"]
 }

@@ -1,4 +1,9 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  forwardRef,
+  Input,
+} from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BaseInputDirective } from '@budgetello/front-end-shared-ui-base-input';
 
@@ -18,6 +23,7 @@ import { BaseInputDirective } from '@budgetello/front-end-shared-ui-base-input';
       multi: true,
     },
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TextInputComponent extends BaseInputDirective {
   @Input() small = false;

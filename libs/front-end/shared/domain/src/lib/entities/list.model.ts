@@ -1,8 +1,9 @@
 import { DocumentReference } from '@angular/fire/compat/firestore';
 import firebase from 'firebase/compat';
 import Timestamp = firebase.firestore.Timestamp;
-import { LIST_OPERATORS } from '@budgetello/front-end-shared-domain';
+
 import { Card } from './card.model';
+import { LIST_OPERATORS } from '../constants';
 
 export interface List extends Partial<DocumentReference> {
   type: LIST_OPERATORS;

@@ -15,7 +15,12 @@
             "depConstraints": [
               {
                 "sourceTag": "type:app",
-                "onlyDependOnLibsWithTags": ["type:feature", "type:ui", "type:domain-logic", "type:util", "domain:shared"]
+                "onlyDependOnLibsWithTags": ["type:feature", "type:layout"]
+              },
+              {
+                // type:layout is a special type of feature (it can depend on other features)
+                "sourceTag": "type:layout",
+                "onlyDependOnLibsWithTags": ["type:feature", "type:ui"]
               },
               {
                 "sourceTag": "type:feature",
