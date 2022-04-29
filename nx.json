@@ -21,6 +21,7 @@
         "cacheableOperations": [
           "build",
           "lint",
+          "deploy",
           "test",
           "e2e",
           "build-storybook"
