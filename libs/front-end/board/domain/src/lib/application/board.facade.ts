@@ -468,7 +468,13 @@ export class BoardFacade {
     );
   }
 
-  setCardsOrder({ lists, event }: { lists: List[]; event: CdkDragDrop<any> }) {
+  setCardsOrder({
+    lists,
+    event,
+  }: {
+    lists: List[];
+    event: CdkDragDrop<Card[]>;
+  }) {
     const isSummaryList = event.container.data.some((card: Card) =>
       this.boardStore
         .getValue()
@@ -479,7 +485,7 @@ export class BoardFacade {
     if (isSummaryList) {
       const summaryListCardTypesInOrder = event.container.data.map(
         (card: Card) => card.id
-      );
+      ) as SummaryListCardType[];
       this.boardDoc.update({
         summaryListCardTypesInOrder,
       });
