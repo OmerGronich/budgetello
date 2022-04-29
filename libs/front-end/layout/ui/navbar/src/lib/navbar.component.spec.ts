@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NavbarComponent } from './navbar.component';
+import { AuthFacade } from '@budgetello/front-end-shared-domain';
+
+class AuthFacadeMock {}
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
@@ -8,9 +11,14 @@ describe('NavbarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NavbarComponent ]
-    })
-    .compileComponents();
+      providers: [
+        {
+          provide: AuthFacade,
+          useClass: AuthFacadeMock,
+        },
+      ],
+      declarations: [NavbarComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

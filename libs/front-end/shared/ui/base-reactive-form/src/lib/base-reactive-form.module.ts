@@ -4,8 +4,6 @@ import { BaseReactiveFormDirective } from './base-reactive-form.directive';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [
-    BaseReactiveFormDirective
-  ],
+  declarations: [BaseReactiveFormDirective],
 })
 export class BaseReactiveFormModule {}

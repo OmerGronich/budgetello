@@ -24,15 +24,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   board$ = this.boardFacade.board$;
   dateRange$: Observable<Date[]> = this.boardFacade.dateRange$;
 
-  get boardId() {
-    return this.route.snapshot.paramMap.get('id') || '';
-  }
-
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private boardFacade: BoardFacade
-  ) {}
+  constructor(private router: Router, private boardFacade: BoardFacade) {}
 
   ngOnInit() {
     this.boardFacade.init();
