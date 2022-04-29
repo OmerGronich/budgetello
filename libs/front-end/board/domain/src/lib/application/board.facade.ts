@@ -114,7 +114,9 @@ export class BoardFacade {
 
   getLists(board: Board) {
     return combineLatest(
-      board.lists.map((list) => this.getList(<any>list))
+      board.lists.map((list: List) =>
+        this.getList(list as unknown as DocumentReference<List>)
+      )
     ).pipe(
       defaultIfEmpty([]),
       map((lists) => ({ ...board, lists }))
