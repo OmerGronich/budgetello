@@ -103,7 +103,7 @@
     "deploy": {
       "executor": "@angular/fire:deploy",
       "options": {
-        "command": "ng deploy --token \"${{secrets.FIREBASE_TOKEN}}\"",
+        "command": "npx firebase deploy --token \"${{secrets.FIREBASE_TOKEN}}\"",
         "prerender": false,
         "ssr": false,
         "browserTarget": "front-end:build:production",
