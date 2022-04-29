@@ -143,7 +143,7 @@ export class BoardFacade {
               return !!(card.data.stockSymbol || card.data.shares);
             };
           } else {
-            listEnterPredicate = (_) => true;
+            listEnterPredicate = () => true;
           }
 
           return { ...list, listEnterPredicate };
