@@ -23,6 +23,5 @@ jobs:
       - run: npm ci
       - run: npx nx-cloud start-ci-run
       - run: npx nx affected --target=build --parallel --max-parallel=3
-      - run: npm install -g firebase
-      - run: firebase deploy --token "${{ secrets.FIREBASE_TOKEN }}"
+      - run: npx firebase deploy --token "${{ secrets.FIREBASE_TOKEN }}"
       - run: npx nx-cloud stop-all-agents
