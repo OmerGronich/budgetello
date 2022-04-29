@@ -103,7 +103,7 @@
     "deploy": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "npm i -g firebase-tools &&  firebase deploy --token \"${{secrets.FIREBASE_TOKEN}}\""
+        "command": "npm i -g firebase-tools &&  firebase deploy --token \"$FIREBASE_TOKEN\""
       }
     }
   },
