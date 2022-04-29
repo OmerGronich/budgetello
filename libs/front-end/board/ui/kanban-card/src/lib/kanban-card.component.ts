@@ -24,6 +24,8 @@ import {
   List,
   LIST_TYPES,
 } from '@budgetello/front-end-shared-domain';
+// todo - refactor dialog to dumb component and make change tag to UI
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { KanbanCardDialogComponent } from '@budgetello/front-end-board-features-kanban-card-dialog';
 
 export interface GlobalQuote {
@@ -126,6 +128,8 @@ export class KanbanCardComponent implements OnInit, OnDestroy {
   showCardDialog(ev?: MouseEvent) {
     ev?.preventDefault();
     if (this.list.type === LIST_TYPES.Summary) return;
+    // todo - refactor dialog to dumb component and make change tag to UI
+    // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
     import('@budgetello/front-end-board-features-kanban-card-dialog').then(
       (_) => {
         this.ref = this.dialogService.open(KanbanCardDialogComponent, {
