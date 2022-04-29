@@ -21,6 +21,7 @@ import {
 } from '@angular/cdk/drag-drop';
 import { KanbanBoardTemplateDirective } from './kanban-board-template.directive';
 import { FormControl } from '@angular/forms';
+import cloneDeep from 'lodash.clonedeep';
 
 interface IKanbanBoardListDto {
   title: string;
@@ -74,8 +75,8 @@ export class KanbanBoardComponent implements AfterViewInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['lists']) {
-      this.kanbanBoardLists = this.createListsFromDto(
-        changes['lists'].currentValue
+      this.kanbanBoardLists = cloneDeep(
+        this.createListsFromDto(changes['lists'].currentValue)
       );
     }
   }

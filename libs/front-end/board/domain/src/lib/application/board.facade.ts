@@ -4,11 +4,17 @@ import {
   BehaviorSubject,
   combineLatest,
   defaultIfEmpty,
+  distinctUntilChanged,
   filter,
+  first,
   map,
   Observable,
+  shareReplay,
+  startWith,
+  Subject,
   Subscription,
   switchMap,
+  takeUntil,
   tap,
 } from 'rxjs';
 import {
@@ -49,7 +55,11 @@ export class BoardFacade {
   listCollection: AngularFirestoreCollection<List>;
   cardCollection: AngularFirestoreCollection<Card>;
   private boardIdToListsTotals: BoardIdToListsTotals;
-  board$: Observable<Board | null> = this.boardQuery.selectBoard$;
+  board$: Observable<Board> = this.boardQuery.selectBoard$.pipe(
+    filter(Boolean),
+    tap(this.getSummaryListCalculations.bind(this)),
+    map(this.getSummaryListByBoard.bind(this))
+  );
 
   private dateRange$$ = new BehaviorSubject([
     dayjs().startOf('month').toDate(),
@@ -59,6 +69,8 @@ export class BoardFacade {
   get dateRange$() {
     return this.dateRange$$.asObservable();
   }
+
+  private resubscribe = new Subject();
 
   constructor(
     private boardQuery: BoardQuery,
@@ -78,22 +90,23 @@ export class BoardFacade {
         return this.boardDoc.valueChanges({ idField: 'id' }).pipe(
           filter(Boolean),
           switchMap((board) => this.getLists(board)),
-          map(this.getBoardWithAreListsEmpty.bind(this)),
-          tap(this.getSummaryListCalculations.bind(this)),
-          map(this.getSummaryListByBoard.bind(this))
+          map(this.getBoardWithAreListsEmpty.bind(this))
         );
-      })
+      }),
+      takeUntil(this.resubscribe)
     );
 
     this.subscriptions.push(
-      board$.subscribe((board) => {
-        if (
-          !this.boardStore.getValue().board?.v ||
-          board.v === this.boardStore.getValue().board?.v
-        ) {
+      this.resubscribe
+        .pipe(
+          filter(Boolean),
+          startWith(true),
+          switchMap(() => board$)
+        )
+        .subscribe((board) => {
           this.boardStore.update((state) => ({ ...state, board }));
-        }
-      })
+          this.resubscribe.next(false);
+        })
     );
   }
 
@@ -205,7 +218,9 @@ export class BoardFacade {
 
   private getSummaryListByBoard(board: Board) {
     const summaryListIndex = this.getSummaryListIndex(board);
-    const lists = [...board.lists];
+    const lists = [...board.lists].filter(
+      (list) => list.type !== LIST_TYPES.Summary
+    );
     lists.splice(summaryListIndex, 0, this.createSummaryList(board));
 
     return {
@@ -506,6 +521,7 @@ export class BoardFacade {
   }
 
   setDateRange$($event: Date[]) {
+    this.resubscribe.next(true);
     this.dateRange$$.next($event);
   }
 
