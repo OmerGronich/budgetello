@@ -334,8 +334,8 @@ export class BoardFacade {
     }
 
     board?.lists
-      .filter((list: any) => list.type !== LIST_TYPES.Summary)
-      .forEach((list: any) => {
+      .filter((list) => list.type !== LIST_TYPES.Summary)
+      .forEach((list) => {
         this.deleteAssociatedCards(list);
       });
     this.deleteAssociatedLists(board);
