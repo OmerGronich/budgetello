@@ -20,7 +20,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 16
-      - run: npm install
+      - run: npm install -g firebase
+      - run: npm ci
       - run: npx nx-cloud start-ci-run
       - run: npx nx affected --target=build --parallel --max-parallel=3
       - run: npx firebase deploy --token "${{ secrets.FIREBASE_TOKEN }}"
