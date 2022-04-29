@@ -44,11 +44,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   async onCreateBoard($event: SubmitEvent) {
     $event.preventDefault();
 
+    const value = this.boardTitleFormControl.value;
+    this.boardTitleFormControl.reset();
     const boardRef = await this.homeFacade.addBoard({
-      title: this.boardTitleFormControl.value || 'Untitled Board',
+      title: value || 'Untitled Board',
     });
     this.router.navigate(['/board', boardRef.id]);
-    this.boardTitleFormControl.reset();
   }
 
   trackByFn(index: number, board: Board) {

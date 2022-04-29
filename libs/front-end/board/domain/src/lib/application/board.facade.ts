@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BoardState, BoardStore } from '../infrastructure/state/board.store';
+import { BoardStore } from '../infrastructure/state/board.store';
 import {
   BehaviorSubject,
   combineLatest,
   defaultIfEmpty,
-  distinctUntilChanged,
   filter,
-  first,
   map,
   Observable,
-  shareReplay,
   startWith,
   Subject,
   Subscription,
@@ -55,6 +52,7 @@ export class BoardFacade {
   listCollection: AngularFirestoreCollection<List>;
   cardCollection: AngularFirestoreCollection<Card>;
   private boardIdToListsTotals: BoardIdToListsTotals;
+
   board$: Observable<Board> = this.boardQuery.selectBoard$.pipe(
     filter(Boolean),
     tap(this.getSummaryListCalculations.bind(this)),
@@ -230,9 +228,11 @@ export class BoardFacade {
   }
 
   private getSummaryListIndex(board: Board) {
-    return [null, undefined].includes(<any>board.summaryListIndex)
-      ? board.lists.length
-      : (board.summaryListIndex as number);
+    return (
+      this.boardStore.getValue().board?.summaryListIndex ??
+      board.summaryListIndex ??
+      board.lists.length
+    );
   }
 
   private createSummaryList(board: Board): List {
@@ -360,41 +360,25 @@ export class BoardFacade {
   }
 
   updateBoardTitle(title: string) {
-    const v = Date.now();
-
-    this.boardDoc.update({ title, v });
+    this.boardDoc.update({ title });
     this.boardStore.update(
-      (state) =>
-        ({
-          ...state,
-          board: {
-            ...state.board,
-            v,
-            title,
-          },
-        } as BoardState)
+      produce((state) => {
+        state.board.title = title;
+      })
     );
   }
 
   updateListTitle({ title, id }: { title: string; id: string }) {
     this.listCollection.doc(id).update({ title });
-    this.boardStore.update((state) => {
-      const lists = (state.board as Board).lists.map((list) =>
-        list.id === id ? { ...list, title } : list
-      );
-
-      return {
-        ...state,
-        board: {
-          ...state.board,
-          lists,
-        },
-      } as BoardState;
-    });
+    this.boardStore.update(
+      produce((state) => {
+        const list = state.board.lists.find((list: List) => list.id === id);
+        list.title = title;
+      })
+    );
   }
 
   async addList({ title, type }: { title: string; type: LIST_OPERATORS }) {
-    const v = Date.now();
     const list = {
       title,
       type,
@@ -403,7 +387,6 @@ export class BoardFacade {
     };
     const listRef = await this.listCollection.add(list);
     this.boardDoc.update({
-      v,
       lists: firebase.firestore.FieldValue.arrayUnion(
         listRef
       ) as unknown as List[],
@@ -415,9 +398,9 @@ export class BoardFacade {
           throw new Error('Something went wrong while adding list');
         }
         state.board.lists.push(list);
-        state.board.v = v;
       })
     );
+    this.resubscribe.next(true);
   }
 
   async addIncomeExpenseCard({
@@ -429,8 +412,6 @@ export class BoardFacade {
     list: List;
     title: string;
   }) {
-    const v = Date.now();
-
     const card = {
       title,
       amount,
@@ -443,21 +424,18 @@ export class BoardFacade {
       ) as unknown as Card[],
     });
 
-    this.boardDoc.update({ v });
     this.boardStore.update(
       produce((state) => {
         const listToEdit = state.board.lists.find(
           ({ id }: List) => id === list.id
         );
         listToEdit.cards.push(card);
-        state.board.v = v;
       })
     );
+    this.resubscribe.next(true);
   }
 
   setListsOrder(lists: List[]) {
-    const v = Date.now();
-
     const summaryListIndex = lists.findIndex(
       (list) => list.type === LIST_TYPES.Summary
     );
@@ -477,14 +455,14 @@ export class BoardFacade {
       });
 
     this.boardDoc.update({
-      v,
       lists: listRefs as unknown as List[],
       summaryListIndex,
     });
-
     this.boardStore.update(
       produce((state) => {
-        state.board.v = v;
+        state.board.summaryListIndex = lists.findIndex(
+          (list) => list.type === LIST_TYPES.Summary
+        );
         state.board.lists = lists;
       })
     );
@@ -499,11 +477,17 @@ export class BoardFacade {
         )
     );
     if (isSummaryList) {
+      const summaryListCardTypesInOrder = event.container.data.map(
+        (card: Card) => card.id
+      );
       this.boardDoc.update({
-        summaryListCardTypesInOrder: event.container.data.map(
-          (card: Card) => card.id
-        ),
+        summaryListCardTypesInOrder,
       });
+      this.boardStore.update(
+        produce((state) => {
+          state.board.summaryListCardTypesInOrder = summaryListCardTypesInOrder;
+        })
+      );
     } else {
       this.setListsOrder(lists);
     }
@@ -518,6 +502,13 @@ export class BoardFacade {
         listDoc.ref
       ) as unknown as List[],
     });
+    this.boardStore.update(
+      produce((state) => {
+        state.board.lists = state.board.lists.filter(
+          ({ id }: List) => id !== list.id
+        );
+      })
+    );
   }
 
   setDateRange$($event: Date[]) {
@@ -541,6 +532,7 @@ export class BoardFacade {
             listToEdit[cardToEditIndex] = card;
           })
         );
+        this.resubscribe.next(true);
       });
   }
 
@@ -601,7 +593,6 @@ export class BoardFacade {
       ) as unknown as Card[],
     });
 
-    this.boardDoc.update({ v });
     this.boardStore.update(
       produce((state) => {
         const listToEdit = state.board.lists.find(

@@ -76,13 +76,12 @@ export class HomeFacade {
     const listRefs = await Promise.all(
       defaultLists.map(this.createEmptyList.bind(this))
     );
-    boardRef.update({ lists: listRefs });
-
     this.homeStore.update((state) => ({
       ...state,
       boards: [...state.boards, newBoard],
     }));
 
+    await boardRef.update({ lists: listRefs });
     return boardRef;
   }
 
