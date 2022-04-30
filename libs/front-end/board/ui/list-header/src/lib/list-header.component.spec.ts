@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ListHeaderComponent } from './list-header.component';
 import { ConfirmationService } from 'primeng/api';
-import { ListHeaderModule } from '@budgetello/front-end/board/ui/list-header';
+import { ListHeaderModule } from './list-header.module';
 import { LIST_TYPES } from '@budgetello/front-end-shared-domain';
 
 describe('ListHeaderComponent', () => {

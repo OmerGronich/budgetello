@@ -5,7 +5,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import { AuthFacade, LIST_TYPES } from '@budgetello/front-end-shared-domain';
-import { KanbanCardModule } from '@budgetello/front-end/board/ui/kanban-card';
+import { KanbanCardModule } from './kanban-card.module';
 
 class AuthFacadeMock {
   user$ = of({});
