@@ -14,11 +14,7 @@ describe('AppController', () => {
   });
 
   describe('getData', () => {
-    it('should return "Welcome to stocks-api!"', () => {
-      const appController = app.get<AppController>(AppController);
-      expect(appController.getData()).toEqual({
-        message: 'Welcome to stocks-api!',
-      });
-    });
+    it.todo('should search for symbols');
+    it.todo('should search for stocks by symbol');
   });
 });

@@ -14,8 +14,7 @@ describe('AppService', () => {
   });
 
   describe('getData', () => {
-    it('should return "Welcome to stocks-api!"', () => {
-      expect(service.getData()).toEqual({ message: 'Welcome to stocks-api!' });
-    });
+    it.todo('should search for symbols');
+    it.todo('should search for stocks by symbol');
   });
 });
