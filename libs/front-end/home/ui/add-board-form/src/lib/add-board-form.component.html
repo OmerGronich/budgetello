@@ -1,0 +1,21 @@
+<form
+  data-test="add-board-form"
+  (submit)="onSubmit($event)"
+  (click)="setIsCreatingBoard('active')"
+  (clickOutside)="setIsCreatingBoard('inactive')"
+  class="add-board-form"
+  *ngIf="isCreatingBoard$ | async as isCreatingBoard"
+>
+  <budgetello-text-input
+    *ngIf="isCreatingBoard === 'active'; else initialText"
+    data-test="board-name-input"
+    [formControl]="boardTitleFormControl"
+    placeholder="Board title"
+    [autofocus]="true"
+    [small]="true"
+  ></budgetello-text-input>
+
+  <ng-template #initialText>
+    <span data-test="initial-text">Create a new board</span>
+  </ng-template>
+</form>

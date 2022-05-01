@@ -9,23 +9,9 @@
           routerLink="board/{{ board.id }}"
         ></budgetello-board-preview>
       </ng-container>
-      <form
-        (submit)="onCreateBoard($event)"
-        (click)="setIsCreatingBoard(true)"
-        (clickOutside)="setIsCreatingBoard(false)"
-        class="add-board-form"
-      >
-        <ng-container *ngIf="(isCreatingBoard$ | async) === false"
-          >Create a new board</ng-container
-        >
-        <budgetello-text-input
-          *ngIf="isCreatingBoard$ | async as isCreatingBoard"
-          [formControl]="boardTitleFormControl"
-          placeholder="Board title"
-          [autofocus]="true"
-          [small]="true"
-        ></budgetello-text-input>
-      </form>
+      <budgetello-add-board-form
+        (addBoardFormSubmitted)="onCreateBoard($event)"
+      ></budgetello-add-board-form>
     </div>
   </section>
 </div>

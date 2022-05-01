@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/front-end/home/ui/add-board-form",
+  "sourceRoot": "libs/front-end/home/ui/add-board-form/src",
+  "prefix": "budgetello",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/front-end/home/ui/add-board-form"],
+      "options": {
+        "jestConfig": "libs/front-end/home/ui/add-board-form/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/front-end/home/ui/add-board-form/src/**/*.ts",
+          "libs/front-end/home/ui/add-board-form/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:ui", "domain:home", "app-level-domain:front-end"]
+}
