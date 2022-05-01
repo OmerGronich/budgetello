@@ -8,6 +8,8 @@ import {
 import { FormControl } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 
+type IsCreatingBoard = 'active' | 'inactive';
+
 @Component({
   selector: 'budgetello-add-board-form',
   templateUrl: './add-board-form.component.html',
@@ -17,13 +19,13 @@ import { BehaviorSubject } from 'rxjs';
 export class AddBoardFormComponent implements OnDestroy {
   @Output() addBoardFormSubmitted = new EventEmitter<{ title: string }>();
   boardTitleFormControl = new FormControl('');
-  private _isCreatingBoard$ = new BehaviorSubject(false);
+  private _isCreatingBoard$ = new BehaviorSubject<IsCreatingBoard>('inactive');
 
   get isCreatingBoard$() {
     return this._isCreatingBoard$.asObservable();
   }
 
-  setIsCreatingBoard(value: boolean) {
+  setIsCreatingBoard(value: IsCreatingBoard) {
     this._isCreatingBoard$.next(value);
   }
 
