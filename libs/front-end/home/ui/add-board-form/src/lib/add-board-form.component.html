@@ -1,0 +1,17 @@
+<form
+  (submit)="onSubmit($event)"
+  (click)="setIsCreatingBoard(true)"
+  (clickOutside)="setIsCreatingBoard(false)"
+  class="add-board-form"
+>
+  <ng-container *ngIf="(isCreatingBoard$ | async) === false"
+    >Create a new board</ng-container
+  >
+  <budgetello-text-input
+    *ngIf="isCreatingBoard$ | async"
+    [formControl]="boardTitleFormControl"
+    placeholder="Board title"
+    [autofocus]="true"
+    [small]="true"
+  ></budgetello-text-input>
+</form>

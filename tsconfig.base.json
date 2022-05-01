@@ -98,6 +98,9 @@
       "@budgetello/front-end/home/features/home": [
         "libs/front-end/home/features/home/src/index.ts"
       ],
+      "@budgetello/front-end/home/ui/add-board-form": [
+        "libs/front-end/home/ui/add-board-form/src/index.ts"
+      ],
       "@budgetello/front-end/home/ui/board-preview": [
         "libs/front-end/home/ui/board-preview/src/index.ts"
       ],

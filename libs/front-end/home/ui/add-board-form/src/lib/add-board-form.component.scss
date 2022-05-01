@@ -1,0 +1,19 @@
+:host {
+  display: flex;
+  .add-board-form {
+    min-width: 220px;
+    padding: 20px;
+    background: var(--surface-card);
+    border-radius: 4px;
+    opacity: 0.6;
+    border: 2px dashed var(--surface-border);
+    cursor: pointer;
+
+    ::ng-deep .p-inputtext-sm {
+      padding: 0;
+      border: 0;
+      outline: none;
+      box-shadow: none;
+    }
+  }
+}

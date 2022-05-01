@@ -4,8 +4,6 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { HomeFacade } from '@budgetello/front-end/home/domain';
 import { Board } from '@budgetello/front-end-shared-domain';
@@ -17,13 +15,6 @@ import { Board } from '@budgetello/front-end-shared-domain';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  boardTitleFormControl = new FormControl('');
-  private _isCreatingBoard$ = new BehaviorSubject(false);
-
-  get isCreatingBoard$() {
-    return this._isCreatingBoard$.asObservable();
-  }
-
   boards$ = this.homeFacade.boards$;
 
   constructor(private router: Router, private homeFacade: HomeFacade) {}
@@ -33,23 +24,22 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.boardTitleFormControl.reset();
     this.homeFacade.destroy();
   }
 
-  setIsCreatingBoard(value: boolean) {
-    this._isCreatingBoard$.next(value);
-  }
-
-  async onCreateBoard($event: SubmitEvent) {
-    $event.preventDefault();
-
-    const value = this.boardTitleFormControl.value;
-    this.boardTitleFormControl.reset();
-    const boardRef = await this.homeFacade.addBoard({
-      title: value || 'Untitled Board',
-    });
-    this.router.navigate(['/board', boardRef.id]);
+  async onCreateBoard({
+    title = 'Untitled Board',
+  }: {
+    title: string;
+  }): Promise<boolean> {
+    try {
+      const boardRef = await this.homeFacade.addBoard({
+        title,
+      });
+      return this.router.navigate(['/board', boardRef.id]);
+    } catch (e) {
+      return false;
+    }
   }
 
   trackByFn(index: number, board: Board) {

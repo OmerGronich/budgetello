@@ -22,6 +22,7 @@
     "front-end-e2e": "apps/front-end-e2e",
     "front-end-home-domain": "libs/front-end/home/domain",
     "front-end-home-features-home": "libs/front-end/home/features/home",
+    "front-end-home-ui-add-board-form": "libs/front-end/home/ui/add-board-form",
     "front-end-home-ui-board-preview": "libs/front-end/home/ui/board-preview",
     "front-end-layout-features-layout": "libs/front-end/layout/features/layout",
     "front-end-layout-ui-navbar": "libs/front-end/layout/ui/navbar",
