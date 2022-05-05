@@ -1,0 +1,30 @@
+{
+  "root": "apps/front-end-home-ui-add-board-form-e2e",
+  "sourceRoot": "apps/front-end-home-ui-add-board-form-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/front-end-home-ui-add-board-form-e2e/cypress.json",
+        "devServerTarget": "front-end-home-ui-add-board-form:storybook"
+      },
+      "configurations": {
+        "ci": {
+          "devServerTarget": "front-end-home-ui-add-board-form:storybook:ci"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "apps/front-end-home-ui-add-board-form-e2e/**/*.{js,ts}"
+        ]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["front-end-home-ui-add-board-form"]
+}

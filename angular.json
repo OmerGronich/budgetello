@@ -23,6 +23,7 @@
     "front-end-home-domain": "libs/front-end/home/domain",
     "front-end-home-features-home": "libs/front-end/home/features/home",
     "front-end-home-ui-add-board-form": "libs/front-end/home/ui/add-board-form",
+    "front-end-home-ui-add-board-form-e2e": "apps/front-end-home-ui-add-board-form-e2e",
     "front-end-home-ui-board-preview": "libs/front-end/home/ui/board-preview",
     "front-end-layout-features-layout": "libs/front-end/layout/features/layout",
     "front-end-layout-ui-navbar": "libs/front-end/layout/ui/navbar",
@@ -37,6 +38,8 @@
     "front-end-shared-ui-text-input": "libs/front-end/shared/ui/text-input",
     "front-end-shared-ui-title": "libs/front-end/shared/ui/title",
     "front-end-shared-ui-toast": "libs/front-end/shared/ui/toast",
+    "front-end-storybook": "libs/front-end/storybook",
+    "front-end-storybook-e2e": "apps/front-end-storybook-e2e",
     "stocks-api": "apps/stocks-api",
     "ui-kanban-board-e2e": "apps/ui-kanban-board-e2e"
   }

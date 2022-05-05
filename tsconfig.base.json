@@ -118,6 +118,9 @@
       ],
       "@budgetello/front-end/shared/ui/title": [
         "libs/front-end/shared/ui/title/src/index.ts"
+      ],
+      "@budgetello/front-end/storybook": [
+        "libs/front-end/storybook/src/index.ts"
       ]
     }
   },

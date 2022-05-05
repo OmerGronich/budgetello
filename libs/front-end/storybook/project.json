@@ -1,14 +1,14 @@
 {
   "projectType": "library",
-  "root": "libs/front-end/home/ui/board-preview",
-  "sourceRoot": "libs/front-end/home/ui/board-preview/src",
+  "root": "libs/front-end/storybook",
+  "sourceRoot": "libs/front-end/storybook/src",
   "prefix": "budgetello",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/front-end/home/ui/board-preview"],
+      "outputs": ["coverage/libs/front-end/storybook"],
       "options": {
-        "jestConfig": "libs/front-end/home/ui/board-preview/jest.config.js",
+        "jestConfig": "libs/front-end/storybook/jest.config.js",
         "passWithNoTests": true
       }
     },
@@ -16,8 +16,8 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/front-end/home/ui/board-preview/src/**/*.ts",
-          "libs/front-end/home/ui/board-preview/src/**/*.html"
+          "libs/front-end/storybook/src/**/*.ts",
+          "libs/front-end/storybook/src/**/*.html"
         ]
       }
     },
@@ -27,9 +27,9 @@
         "uiFramework": "@storybook/angular",
         "port": 4400,
         "config": {
-          "configFolder": "libs/front-end/home/ui/board-preview/.storybook"
+          "configFolder": "libs/front-end/storybook/.storybook"
         },
-        "projectBuildConfig": "front-end-home-ui-board-preview:build-storybook"
+        "projectBuildConfig": "front-end-storybook:build-storybook"
       },
       "configurations": {
         "ci": {
@@ -48,11 +48,11 @@
           "apps/front-end/src/styles.scss"
         ],
         "uiFramework": "@storybook/angular",
-        "outputPath": "dist/storybook/front-end-home-ui-board-preview",
+        "outputPath": "dist/storybook/front-end-storybook",
         "config": {
-          "configFolder": "libs/front-end/home/ui/board-preview/.storybook"
+          "configFolder": "libs/front-end/storybook/.storybook"
         },
-        "projectBuildConfig": "front-end-home-ui-board-preview:build-storybook"
+        "projectBuildConfig": "front-end-storybook:build-storybook"
       },
       "configurations": {
         "ci": {
@@ -61,5 +61,5 @@
       }
     }
   },
-  "tags": ["type:ui", "app-level-domain:front-end", "domain:home"]
+  "tags": []
 }
